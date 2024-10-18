@@ -85,6 +85,7 @@
             font-size: 24px;
             cursor: pointer;
         }
+
         /* Registration Pop-up */
         #registration-popup {
             display: none;
@@ -101,7 +102,7 @@
             background-color: #1c1c1c;
             padding: 20px;
             border-radius: 10px;
-            max-width: 400px;
+            max-width: 450px; /* Increased size */
             width: 90%;
             text-align: center;
             position: relative;
@@ -116,6 +117,22 @@
         .popup-content h2 {
             margin-bottom: 20px;
             font-size: 22px;
+        }
+
+        /* First and Last Name in Same Row */
+        .name-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+        }
+        .name-row input {
+            width: 48%; /* Ensure both take equal space */
+            padding: 10px;
+            background-color: #333;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 14px;
         }
         .popup-content input {
             display: block;
@@ -172,8 +189,13 @@
     <div class="popup-content">
         <div class="popup-close-btn" onclick="closeRegistrationPopup()">&times;</div>
         <h2>Create your account</h2>
-        <input type="text" class="input-field" placeholder="First name">
-        <input type="text" class="input-field" placeholder="Last name">
+
+        <!-- First and Last Name in the same row -->
+        <div class="name-row">
+            <input type="text" placeholder="First name">
+            <input type="text" placeholder="Last name">
+        </div>
+
         <input type="email" class="input-field" placeholder="Email">
         <button class="submit-btn" onclick="alert('Check your email for verification!')">Submit</button>
     </div>
