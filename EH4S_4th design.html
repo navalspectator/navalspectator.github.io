@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EH4S Platform - Interactive One-Page Design</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+        header {
+            background: #0056b3;
+            color: #fff;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        header h1 {
+            font-size: 2.5em;
+            margin: 0;
+        }
+        header p {
+            font-size: 1.2em;
+            margin-top: 10px;
+        }
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+            border-bottom: 2px solid #ddd;
+        }
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #0056b3;
+        }
+        .tab.active {
+            border-bottom: 3px solid #0056b3;
+            color: #333;
+        }
+        .content {
+            display: none;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        .content.active {
+            display: block;
+        }
+        .content h3 {
+            color: #0056b3;
+        }
+        .content p {
+            font-size: 0.95em;
+            color: #666;
+        }
+        footer {
+            background: #0056b3;
+            color: #fff;
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 40px;
+        }
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+        }
+    </style>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const tabs = document.querySelectorAll(".tab");
+            const contents = document.querySelectorAll(".content");
+
+            tabs.forEach((tab, index) => {
+                tab.addEventListener("click", () => {
+                    tabs.forEach(t => t.classList.remove("active"));
+                    contents.forEach(c => c.classList.remove("active"));
+                    tab.classList.add("active");
+                    contents[index].classList.add("active");
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>EH4S Platform</h1>
+            <p>Discover and engage with our key features for research and collaboration.</p>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="tabs">
+            <div class="tab active">Communication Tools</div>
+            <div class="tab">Expert Enquiry Tool</div>
+            <div class="tab">Online Dynamic Library</div>
+            <div class="tab">Joint Marketplace</div>
+        </div>
+
+        <div class="content active">
+            <h3>Communication Tools</h3>
+            <p>Engage in real-time discussions using our live chat feature, designed specifically for academics and researchers. The messaging tool facilitates seamless communication, eliminating the need for traditional email exchanges.</p>
+        </div>
+        <div class="content">
+            <h3>Expert Enquiry Tool (EET)</h3>
+            <p>Quickly identify and connect with experts across disciplines. The EET leverages the extensive EH4S network, enabling efficient collaboration and the advancement of research projects.</p>
+        </div>
+        <div class="content">
+            <h3>Online Dynamic Library</h3>
+            <p>Access a centralized repository of research papers, articles, datasets, and official documents. The library saves you time and provides a cross-disciplinary approach to research, encouraging innovation.</p>
+        </div>
+        <div class="content">
+            <h3>Joint Marketplace</h3>
+            <p>Explore collaboration opportunities, post announcements, and find partners for research or business projects. The Joint Marketplace facilitates meaningful connections within the EuroHub4Sino network.</p>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 EH4S Platform. All Rights Reserved.</p>
+    </footer>
+</body>
+</html>
