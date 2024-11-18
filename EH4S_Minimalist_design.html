@@ -3,105 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EH4S Landing Page</title>
+    <title>EH4S Platform</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            line-height: 1.6;
             margin: 0;
             padding: 0;
             background-color: #f4f4f4;
             color: #333;
         }
         .container {
-            width: 90%;
+            width: 80%;
             margin: auto;
             overflow: hidden;
-            padding-top: 20px;
+            padding: 20px 0;
         }
-        .header {
+        .hero {
+            background: #0056b3;
+            color: white;
+            padding: 50px 0;
             text-align: center;
-            margin-bottom: 30px;
         }
-        .header h1 {
+        .hero h1 {
             margin: 0;
+            font-size: 2.5em;
         }
-        .feature-section {
-            display: flex;
-            justify-content: space-between;
-            gap: 20px;
-            flex-wrap: nowrap;
+        .hero p {
+            font-size: 1.2em;
+            margin-top: 10px;
         }
-        .feature-card {
+        .cta-buttons {
+            margin-top: 20px;
+        }
+        .cta-buttons a {
+            display: inline-block;
             background: #fff;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            width: 23%;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            box-sizing: border-box;
+            color: #0056b3;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 0 10px;
+            font-weight: bold;
         }
-        .feature-card h3 {
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 40px;
+        }
+        .feature {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .feature h3 {
+            color: #0056b3;
             margin-top: 0;
         }
-        .feature-card p {
-            font-size: 0.9em;
-            line-height: 1.5;
+        .feature p {
+            font-size: 0.95em;
+            color: #666;
         }
-        .learn-more {
-            display: block;
-            text-align: center;
-            margin-top: 20px;
-            text-decoration: none;
+        footer {
+            background: #0056b3;
             color: white;
-            background-color: #007BFF;
-            padding: 10px 15px;
-            border-radius: 4px;
-            font-size: 0.9em;
-        }
-        .notes {
-            margin-top: 30px;
-            font-style: italic;
-            font-size: 0.9em;
             text-align: center;
+            padding: 10px 0;
+            margin-top: 40px;
+        }
+        @media (max-width: 768px) {
+            .features {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
+    <header class="hero">
+        <div class="container">
+            <h1>Welcome to the EH4S Platform</h1>
+            <p>Your go-to resource for research, collaboration, and communication among European China experts.</p>
+            <div class="cta-buttons">
+                <a href="#sign-in">Sign In</a>
+                <a href="#learn-more">Learn More</a>
+            </div>
+        </div>
+    </header>
+
     <div class="container">
-        <div class="header">
-            <h1>EH4S Platform</h1>
-            <p>EH4S Platform is developed for EuroHub4Sino Network Members. <a href="#">Click to learn more about the members</a></p>
-            <p>Already a member? <a href="#">Sign-in</a> | Not a member yet? Learn more on this page or apply by clicking the Sign-in button.</p>
-        </div>
-
-        <h2 style="text-align: center;">Discover EH4S Platform Exclusive Features for its Members:</h2>
-
-        <div class="feature-section">
-            <div class="feature-card">
+        <h2>Exclusive Features</h2>
+        <div class="features">
+            <div class="feature">
                 <h3>Communication Tools</h3>
-                <p>The EH4S platform offers a live chat feature designed for academics & researchers, along with a message tool for efficient communication.</p>
-                <a href="#" class="learn-more">Learn More</a>
+                <p>Live chat for researchers and messaging tools for all members, facilitating seamless communication.</p>
+                <a href="#communication-tools">Learn More</a>
             </div>
-            <div class="feature-card">
-                <h3>Expert Enquiry Tool (EET)</h3>
-                <p>This tool helps in identifying relevant experts within the network for future collaboration.</p>
-                <a href="#" class="learn-more">Learn More</a>
+            <div class="feature">
+                <h3>Expert Enquiry Tool</h3>
+                <p>Identify and connect with experts across disciplines for efficient and impactful collaborations.</p>
+                <a href="#expert-enquiry">Learn More</a>
             </div>
-            <div class="feature-card">
-                <h3>Online Dynamic Library (ODL)</h3>
-                <p>Designed to facilitate research for network academics, this library includes access to articles, papers, datasets, and more.</p>
-                <a href="#" class="learn-more">Learn More</a>
+            <div class="feature">
+                <h3>Online Dynamic Library</h3>
+                <p>Centralized access to research papers, articles, and official documents, saving you time and effort.</p>
+                <a href="#dynamic-library">Learn More</a>
             </div>
-            <div class="feature-card">
-                <h3>Joint Market Place (JMP)</h3>
-                <p>Enables members to post announcements, search for expertise, and foster collaboration within the EuroHub4Sino Network.</p>
-                <a href="#" class="learn-more">Learn More</a>
+            <div class="feature">
+                <h3>Joint Marketplace</h3>
+                <p>Post opportunities, find collaborators, and explore new projects within the EuroHub4Sino network.</p>
+                <a href="#joint-marketplace">Learn More</a>
             </div>
-        </div>
-
-        <div class="notes">
-            <p>Notes: Learn More buttons direct to detailed info sections or new pages, depending on the UI/UX design.</p>
         </div>
     </div>
+
+    <footer>
+        <p>&copy; 2024 EH4S Platform. All Rights Reserved.</p>
+    </footer>
 </body>
 </html>
