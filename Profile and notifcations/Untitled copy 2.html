@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile and Settings Page with Library</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            padding: 20px;
+        }
+        .header {
+            background: #0056b3;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            font-size: 1.5em;
+        }
+        .profile-icon {
+            cursor: pointer;
+            position: relative;
+        }
+        .dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 200px;
+            z-index: 100;
+        }
+        .dropdown a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: #333;
+            border-bottom: 1px solid #eee;
+        }
+        .dropdown a:hover {
+            background: #f0f0f0;
+        }
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+        .container {
+            display: flex;
+            margin-top: 20px;
+        }
+        .sidebar {
+            width: 250px;
+            background: #fff;
+            border-right: 1px solid #ddd;
+            padding: 20px;
+        }
+        .sidebar a {
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            color: #333;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+        .sidebar a.active {
+            background: #0056b3;
+            color: #fff;
+        }
+        .main-content {
+            flex: 1;
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            margin-left: 20px;
+        }
+        .section {
+            margin-bottom: 30px;
+        }
+        .section h3 {
+            margin-bottom: 15px;
+            color: #0056b3;
+        }
+        .toggle {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+        }
+        .toggle label {
+            margin-left: 10px;
+        }
+        .button {
+            background: #0056b3;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .button:hover {
+            background: #004d99;
+        }
+    </style>
+    <script>
+        function toggleDropdown() {
+            const dropdown = document.getElementById('dropdown');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+    </script>
+</head>
+<body>
+    <div class="header">
+        <h1>EH4S Platform</h1>
+        <div class="profile-icon" onclick="toggleDropdown()">
+            <span>🔽</span>
+            <div class="dropdown" id="dropdown">
+                <a href="#profile">Profile Information</a>
+                <a href="#library">Library</a>
+                <a href="#notifications">Notifications</a>
+                <a href="#preferences">Preferences</a>
+                <a href="#help">Help</a>
+                <a href="#logout">Log Out</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="sidebar">
+            <a href="#profile" class="active">Profile Information</a>
+            <a href="#library">Library</a>
+            <a href="#security">Security Settings</a>
+            <a href="#privacy">Privacy</a>
+            <a href="#notifications">Notifications</a>
+            <a href="#preferences">Preferences</a>
+            <a href="#help">Help</a>
+            <a href="#logout">Log Out</a>
+        </div>
+
+        <div class="main-content">
+            <!-- Profile Information Section -->
+            <div id="profile" class="section">
+                <h3>Profile Information</h3>
+                <input type="text" placeholder="First Name">
+                <input type="text" placeholder="Last Name">
+                <textarea placeholder="Bio"></textarea>
+                <input type="text" placeholder="Organisation">
+                <input type="text" placeholder="Sector">
+                <input type="text" placeholder="Area of Expertise">
+                <input type="text" placeholder="LinkedIn">
+                <input type="text" placeholder="ResearchGate">
+                <input type="text" placeholder="Academia">
+                <input type="text" placeholder="Institution">
+                <input type="text" placeholder="Other">
+                <button class="button">Save Changes</button>
+            </div>
+
+            <!-- Library Section -->
+            <div id="library" class="section">
+                <h3>Library</h3>
+                <h4>Likes</h4>
+                <p>List of liked publications or posts. (E.g., link to the liked content)</p>
+                <h4>Comments</h4>
+                <p>List of your comments with options to edit or delete.</p>
+                <h4>Bookmarks</h4>
+                <p>Saved bookmarks for easy access to important content.</p>
+                <h4>JMP Posts</h4>
+                <p>Manage your Joint Marketplace posts, including active and expired listings.</p>
+            </div>
+
+            <!-- Security Settings Section -->
+            <div id="security" class="section">
+                <h3>Security Settings</h3>
+                <h4>Social Logins</h4>
+                <p>Apple: <button class="button">Connected</button> <button class="button">Disconnect</button></p>
+                <p>Google: <button class="button">Connected</button> <button class="button">Disconnect</button></p>
+                <p>Microsoft: <button class="button">Connected</button> <button class="button">Disconnect</button></p>
+                <p>LinkedIn: <button class="button">Connected</button> <button class="button">Disconnect</button></p>
+                <h4>Change Password</h4>
+                <input type="password" placeholder="New Password">
+                <input type="password" placeholder="Confirm New Password">
+                <h4>Two-Factor Authentication (2FA)</h4>
+                <div class="toggle">
+                    <input type="checkbox" id="2fa">
+                    <label for="2fa">Enable 2FA</label>
+                </div>
+                <button class="button">Update Security</button>
+            </div>
+
+            <!-- Privacy Section -->
+            <div id="privacy" class="section">
+                <h3>Privacy</h3>
+                <button class="button">Request Your Data</button>
+                <button class="button">Delete Your Data</button>
+            </div>
+
+            <!-- Notifications Section -->
+            <div id="notifications" class="section">
+                <h3>Notifications</h3>
+                <div class="toggle">
+                    <input type="checkbox" checked>
+                    <label>In-Platform Notifications</label>
+                </div>
+                <div class="toggle">
+                    <input type="checkbox">
+                    <label>Email Notifications</label>
+                </div>
+                <div class="toggle">
+                    <input type="checkbox">
+                    <label>Browser Notifications</label>
+                </div>
+                <h4>Notifications Content</h4>
+                <input type="text" placeholder="JMP">
+                <button class="button">Save Preferences</button>
+            </div>
+
+            <!-- Preferences Section -->
+            <div id="preferences" class="section">
+                <h3>Preferences</h3>
+                <select>
+                    <option value="light">Light Theme</option>
+                    <option value="dark">Dark Theme</option>
+                    <option value="high-contrast">High Contrast</option>
+                </select>
+                <input type="text" placeholder="Preferred Language">
+                <button class="button">Update Preferences</button>
+            </div>
+
+            <!-- Help Section -->
+            <div id="help" class="section">
+                <h3>Help</h3>
+                <p>For assistance, please visit our <a href="#">Help Center</a> or contact support.</p>
+            </div>
+
+            <!-- Log Out Section -->
+            <div id="logout" class="section">
+                <h3>Log Out</h3>
+                <p>Are you sure you want to log out?</p>
+                <button class="button">Log Out</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
