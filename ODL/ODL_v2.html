@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ODL Search Results</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Arial", sans-serif;
+            background-color: #f8f9fa;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
+        }
+        .header .logo {
+            font-size: 18px;
+            font-weight: bold;
+            color: #003366;
+        }
+        .header nav {
+            display: flex;
+            gap: 20px;
+        }
+        .header nav a {
+            text-decoration: none;
+            color: #343a40;
+            font-size: 14px;
+        }
+        .main-container {
+            display: flex;
+        }
+        .left-panel {
+            width: 250px;
+            background-color: #f8f8f8;
+            padding: 20px;
+            border-right: 1px solid #ccc;
+        }
+        .left-panel select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .content-area {
+            flex: 1;
+            padding: 20px;
+        }
+        .search-controls {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .search-controls select, .search-bar input, .search-bar button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .search-bar {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .results {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .result-item {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 15px;
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .result-content {
+            max-width: 75%;
+        }
+        .result-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .result-actions button {
+            padding: 8px 10px;
+            border: none;
+            background-color: #0073e6;
+            color: white;
+            border-radius: 3px;
+            cursor: pointer;
+            text-align: left;
+        }
+        .result-actions button.locked {
+            background-color: #d9534f;
+        }
+        .result-actions button.locked::after {
+            content: " 🔒";
+        }
+        .result-title {
+            font-size: 16px;
+            color: #0056b3;
+            margin-bottom: 5px;
+        }
+        .result-metadata {
+            color: #666;
+            font-size: 14px;
+        }
+        .result-links {
+            margin-top: 10px;
+            display: flex;
+            gap: 20px;
+        }
+        .result-links a {
+            color: #0056b3;
+            text-decoration: none;
+        }
+        .result-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">EuroHub4Sino</div>
+        <nav>
+            <a href="#">Publications</a>
+            <a href="#">Joint Marketplace</a>
+            <a href="#">Expert Enquiry</a>
+            <a href="#">Online Dynamic Library</a>
+            <a href="#">Communication</a>
+            <a href="#">Data Management</a>
+        </nav>
+    </header>
+    <!-- Main Content -->
+    <div class="main-container">
+        <!-- Filters Panel -->
+        <aside class="left-panel">
+            <select>
+                <option>Category</option>
+                <option>Books</option>
+                <option>Journals</option>
+            </select>
+            <select>
+                <option>Date Range</option>
+                <option>Last 7 Days</option>
+                <option>Last 30 Days</option>
+            </select>
+            <select>
+                <option>Author</option>
+                <option>Author 1</option>
+                <option>Author 2</option>
+            </select>
+        </aside>
+        <!-- Results Area -->
+        <div class="content-area">
+            <!-- Search Bar and Controls -->
+            <div class="search-bar">
+                <input type="text" placeholder="Search documents...">
+                <button>Search</button>
+            </div>
+            <div class="search-controls">
+                <select>
+                    <option>Sort by Relevance</option>
+                    <option>Sort by Date</option>
+                </select>
+                <select>
+                    <option>10 Results per Page</option>
+                    <option>20 Results per Page</option>
+                </select>
+            </div>
+            <!-- Results -->
+            <div class="results">
+                <div class="result-item">
+                    <div class="result-content">
+                        <div class="result-title">Responding to the Global Disorder: The EU's Quest for Open Strategic Autonomy</div>
+                        <div class="result-metadata">Joan Miró | Global Society, Volume 37, 2023</div>
+                        <div class="result-links">
+                            <a href="#">Abstract</a>
+                            <a href="#">Full Text</a>
+                        </div>
+                    </div>
+                    <div class="result-actions">
+                        <button>View</button>
+                        <button>Download</button>
+                        <button>Share</button>
+                        <button class="locked">Cite</button>
+                    </div>
+                </div>
+                <div class="result-item">
+                    <div class="result-content">
+                        <div class="result-title">India's Strategic Autonomy and Rapprochement with the US</div>
+                        <div class="result-metadata">Guillem Monsonis | Strategic Analysis, Volume 34, 2010</div>
+                        <div class="result-links">
+                            <a href="#">Abstract</a>
+                            <a href="#">Full Text</a>
+                        </div>
+                    </div>
+                    <div class="result-actions">
+                        <button>View</button>
+                        <button>Download</button>
+                        <button>Share</button>
+                        <button class="locked">Cite</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
