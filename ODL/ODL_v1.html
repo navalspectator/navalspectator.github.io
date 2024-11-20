@@ -16,8 +16,8 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background-color: #0056b3;
-            color: white;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             padding: 10px 20px;
         }
         .header .logo {
@@ -30,35 +30,14 @@
         }
         .header .nav a {
             text-decoration: none;
-            color: white;
+            color: #343a40;
             font-size: 14px;
             font-weight: 500;
             padding: 5px 10px;
-            transition: background-color 0.2s;
+            transition: color 0.2s;
         }
         .header .nav a:hover {
-            background-color: #003a7d;
-            border-radius: 4px;
-        }
-        .header .icons {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-        .header .icons .icon {
-            font-size: 1.2em;
-            cursor: pointer;
-            position: relative;
-        }
-        .header .icons .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -10px;
-            background-color: red;
-            color: white;
-            font-size: 0.8em;
-            border-radius: 50%;
-            padding: 2px 6px;
+            color: #0056b3;
         }
         .container {
             display: flex;
@@ -79,7 +58,7 @@
             font-weight: bold;
             margin-bottom: 10px;
         }
-        aside .filter-group select {
+        aside .filter-group select, aside .filter-group input {
             width: 100%;
             padding: 8px;
             margin-bottom: 10px;
@@ -126,8 +105,6 @@
             border-radius: 5px;
         }
         .result-item {
-            display: flex;
-            justify-content: space-between;
             background: white;
             border: 1px solid #ddd;
             border-radius: 5px;
@@ -135,8 +112,15 @@
             padding: 15px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-        .result-item .details {
-            flex: 1;
+        .result-item h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+        }
+        .result-item .metadata {
+            font-size: 14px;
+            color: #666;
+            margin: 10px 0;
         }
         .result-item .actions {
             display: flex;
@@ -177,23 +161,16 @@
 </head>
 <body>
     <!-- Navigation Bar -->
-    <header>
+    <header class="header">
         <div class="logo">
             <img src="path-to-logo.png" alt="ODL Logo">
             <span>Online Dynamic Library</span>
         </div>
         <nav class="nav">
             <a href="#">Publications</a>
-            <a href="#">Joint Marketplace</a>
-            <a href="#">Expert Enquiry</a>
-            <a href="#">Online Dynamic Library</a>
+            <a href="#">Library</a>
             <a href="#">Communication</a>
-            <a href="#">Data Management</a>
         </nav>
-        <div class="icons">
-            <div class="icon">🔔<span class="notification-badge">5</span></div>
-            <div class="icon">R</div>
-        </div>
     </header>
 
     <!-- Main Content -->
@@ -218,6 +195,11 @@
                     <option>Environment</option>
                 </select>
             </div>
+            <div class="filter-group">
+                <label for="tags">Tags</label>
+                <input type="checkbox" id="tag1" value="Climate"> Climate<br>
+                <input type="checkbox" id="tag2" value="Innovation"> Innovation<br>
+            </div>
         </aside>
 
         <!-- Results Section -->
@@ -238,10 +220,8 @@
 
             <!-- Results Items -->
             <div class="result-item">
-                <div class="details">
-                    <h3>Document Title</h3>
-                    <p>Author: John Doe | Published: 2023-11-20 | Category: Policy Paper</p>
-                </div>
+                <h3>Document Title</h3>
+                <p class="metadata">Author: John Doe | Published: 2023-11-20 | Category: Policy Paper</p>
                 <div class="actions">
                     <button>Read</button>
                     <button>Cite</button>
@@ -250,10 +230,8 @@
             </div>
 
             <div class="result-item">
-                <div class="details">
-                    <h3>Another Document</h3>
-                    <p>Author: Jane Smith | Published: 2022-10-10 | Category: Article</p>
-                </div>
+                <h3>Another Document</h3>
+                <p class="metadata">Author: Jane Smith | Published: 2022-10-10 | Category: Article</p>
                 <div class="actions">
                     <button>Read</button>
                     <button>Cite</button>

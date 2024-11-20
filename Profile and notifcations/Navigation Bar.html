@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EH4S Header</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Arial", sans-serif;
+            background-color: #f8f9fa;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo img {
+            height: 40px;
+        }
+        .logo .text {
+            font-size: 18px;
+            color: #1a1a1a;
+            font-weight: bold;
+        }
+        .nav {
+            display: flex;
+            gap: 20px;
+        }
+        .nav a {
+            text-decoration: none;
+            color: #343a40;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 5px;
+            transition: color 0.2s;
+        }
+        .nav a:hover {
+            color: #0056b3;
+        }
+        .profile-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+        }
+        .icon {
+            font-size: 1.2em;
+            color: #343a40;
+            cursor: pointer;
+            position: relative;
+        }
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: red;
+            color: white;
+            border-radius: 50%;
+            font-size: 0.7em;
+            padding: 2px 6px;
+        }
+        .dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 35px;
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        .dropdown.active {
+            display: block;
+        }
+        .dropdown-item {
+            padding: 10px;
+            font-size: 14px;
+            color: #343a40;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .dropdown-item:hover {
+            background-color: #f1f1f1;
+        }
+        .profile-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #e0e0e0;
+            color: #343a40;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function toggleDropdown(id) {
+            const dropdown = document.getElementById(id);
+            dropdown.classList.toggle('active');
+        }
+    </script>
+</head>
+<body>
+    <header class="header">
+        <!-- Logo Section -->
+        <div class="logo">
+            <img src="path-to-logo.png" alt="EH4S Logo">
+            <span class="text">EuroHub4Sino</span>
+        </div>
+        <!-- Navigation Links -->
+        <nav class="nav">
+            <a href="#">Publications</a>
+            <a href="#">Joint Marketplace</a>
+            <a href="#">Expert Enquiry</a>
+            <a href="#">Online Dynamic Library</a>
+            <a href="#">Communication</a>
+            <a href="#">Data Management</a>
+        </nav>
+        <!-- Profile Section -->
+        <div class="profile-container">
+            <!-- Notification Icon -->
+            <div class="icon" onclick="toggleDropdown('notificationDropdown')">
+                🔔<span class="notification-badge">5</span>
+            </div>
+            <div class="dropdown" id="notificationDropdown">
+                <div class="dropdown-item">New post in Global China</div>
+                <div class="dropdown-item">Comment on your post</div>
+                <div class="dropdown-item">System update</div>
+                <div class="dropdown-item">Reminder: Post expiry</div>
+            </div>
+            <!-- Profile Icon -->
+            <div class="profile-icon" onclick="toggleDropdown('profileDropdown')">R</div>
+            <div class="dropdown" id="profileDropdown">
+                <div class="dropdown-item">Profile Information</div>
+                <div class="dropdown-item">Settings & Privacy</div>
+                <div class="dropdown-item">Log Out</div>
+            </div>
+        </div>
+    </header>
+</body>
+</html>
