@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Results Panel</title>
+    <style>
+        /* Results Panel Specific Styles */
+        .results-controls {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            padding: 16px 24px;
+            background-color: var(--background-white-ffffff);
+            border-bottom: 1px solid var(--border2-e9e9ea);
+            gap: 16px;
+        }
+
+        .view-controls {
+            display: flex;
+            gap: 0;
+            border: none;
+            height: 40px;
+        }
+
+        .view-button {
+            padding: 0 16px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #2F4858;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            opacity: 0.6;
+        }
+
+        .view-button:hover {
+            opacity: 0.8;
+        }
+
+        .view-button.active {
+            opacity: 1;
+            font-weight: 500;
+            background: none;
+        }
+
+        .view-button.active::after {
+            display: none;
+        }
+
+        .sort-dropdown {
+            position: relative;
+        }
+
+        .sort-button {
+            height: 40px;
+            padding: 0 16px;
+            background: none;
+            border: none;
+            font-weight: 500;
+            color: #2F4858;
+        }
+
+        .sort-button:hover {
+            background-color: #f5f5f5;
+        }
+
+        .sort-button .arrow {
+            font-size: 12px;
+            margin-left: 4px;
+        }
+
+        .sort-options {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: var(--background-white-ffffff);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            display: none;
+            min-width: 200px;
+            z-index: 100;
+        }
+
+        .sort-options.active {
+            display: block;
+        }
+
+        .sort-option {
+            padding: 8px 16px;
+            cursor: pointer;
+        }
+
+        .sort-option:hover {
+            background-color: #f5f5f5;
+        }
+
+        /* List View Styles */
+        .results-list {
+            background-color: #F8F9FA;
+            min-height: calc(100vh - 200px);
+            padding: 0;
+        }
+
+        .list-item {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            gap: 20px;
+            padding: 16px;
+            min-height: 80px;
+            align-items: center;
+            border-bottom: 1px solid #E9E9EA;
+            background-color: var(--background-white-ffffff);
+            transition: background-color 0.2s ease;
+        }
+
+        .list-item:hover {
+            background-color: #F8F9FA;
+        }
+
+        .profile-picture-wrapper {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .profile-picture-wrapper:hover {
+            transform: scale(1.05);
+        }
+
+        .profile-picture {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: #2F4858;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border: 2px solid transparent;
+            transition: all 0.2s ease;
+        }
+
+        .profile-picture-wrapper:hover .profile-picture {
+            border-color: var(--primary);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .profile-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .profile-picture-wrapper:hover .profile-overlay {
+            opacity: 1;
+        }
+
+        .profile-info {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 8px;
+            position: relative;
+        }
+
+        .name-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .name {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2F4858;
+            margin: 0;
+            line-height: 1.4;
+        }
+
+        .organization {
+            font-size: 14px;
+            font-weight: 400;
+            color: #2F4858;
+            margin: 0;
+        }
+
+        .bio {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #5F6368;
+            margin: 8px 0;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .areas {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 8px 0;
+        }
+
+        .area-tag {
+            background-color: #F0F4F8;
+            color: #2F4858;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 13px;
+            font-weight: 400;
+            transition: background-color 0.2s ease;
+        }
+
+        .area-tag:hover {
+            background-color: #E8EEF4;
+        }
+
+        .role {
+            font-size: 14px;
+            color: var(--secondary);
+        }
+
+        .contact-follow {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 120px; /* Ensure consistent width */
+        }
+
+        .contact-button, .follow-button {
+            width: 100%; /* Make buttons fill container */
+            padding: 8px 12px;
+            font-size: 13px;
+            justify-content: center; /* Center button content */
+        }
+
+        .contact-button {
+            background: none;
+            border: 1px solid #2F4858;
+            color: #2F4858;
+            border-radius: 4px;
+            padding: 6px 12px;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background-color 0.2s ease;
+        }
+
+        .contact-button:hover {
+            background-color: rgba(47, 72, 88, 0.05);
+        }
+
+        .follow-button {
+            background-color: #2F4858;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .follow-button:hover {
+            background-color: #243642;
+            transform: translateY(-1px);
+        }
+
+        .follow-button.following {
+            background-color: #E8F0FE;
+            color: #2F4858;
+            border: 1px solid #2F4858;
+        }
+
+        .follow-button .icon {
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        /* Grid View Styles (hidden by default) */
+        .results-grid {
+            background-color: #F8F9FA;
+            min-height: calc(100vh - 200px);
+            padding: 24px;
+        }
+
+        /* Add these new styles */
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .results-count {
+            color: var(--secondary);
+            font-size: 14px;
+        }
+
+        /* Grid View Styles */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            padding: 24px;
+        }
+
+        .grid-item {
+            background: var(--background-white-ffffff);
+            border: 1px solid #E9E9EA;
+            border-radius: 8px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(47, 72, 88, 0.05);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .grid-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(47, 72, 88, 0.1);
+        }
+
+        .grid-item .profile-picture {
+            width: 80px;
+            height: 80px;
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .grid-item .profile-info {
+            width: 100%;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .grid-item .contact-follow {
+            width: 100%;
+            margin-top: 16px;
+        }
+
+        /* Pagination Styles */
+        .pagination {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+            border-top: 1px solid var(--border);
+            background: var(--background-white-ffffff);
+        }
+
+        .page-controls {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .page-button {
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: none;
+            cursor: pointer;
+            color: var(--secondary);
+        }
+
+        .page-button:hover:not(:disabled) {
+            background: #f5f5f5;
+        }
+
+        .page-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-info {
+            margin: 0 16px;
+            color: var(--secondary);
+        }
+
+        .per-page-select {
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: var(--background-white-ffffff);
+        }
+
+        /* Loading indicator */
+        .loading-indicator {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            display: none;
+        }
+
+        .loading-indicator.active {
+            display: block;
+        }
+
+        /* New Follow Button Styles */
+        .follow-section {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 4px;
+        }
+
+        .follow-button {
+            background-color: #2F4858;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 6px 16px;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .follow-button:hover {
+            background-color: #243642;
+            transform: translateY(-1px);
+        }
+
+        .follow-button.following {
+            background-color: #E8F0FE;
+            color: #2F4858;
+            border: 1px solid #2F4858;
+        }
+
+        .follow-button .icon {
+            font-size: 16px;
+            line-height: 1;
+        }
+
+        /* Update contact button */
+        .contact-button {
+            background: none;
+            border: 1px solid #2F4858;
+            color: #2F4858;
+            border-radius: 4px;
+            padding: 6px 12px;
+            font-size: 13px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: background-color 0.2s ease;
+        }
+
+        .contact-button:hover {
+            background-color: rgba(47, 72, 88, 0.05);
+        }
+
+        /* Update grid view follow button */
+        .grid-item .follow-section {
+            justify-content: center;
+            margin: 12px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="results-panel">
+        <!-- Controls Bar -->
+        <div class="results-controls">
+            <div class="view-controls">
+                <button class="view-button active" data-view="list">
+                    <span class="icon">☰</span>
+                    <span class="text">List</span>
+                </button>
+                <button class="view-button" data-view="grid">
+                    <span class="icon">⊞</span>
+                    <span class="text">Grid</span>
+                </button>
+            </div>
+            
+            <div class="sort-dropdown">
+                <button class="sort-button">
+                    Sort by
+                    <span class="arrow">▼</span>
+                </button>
+                <div class="sort-options">
+                    <div class="sort-option">Most Relevant</div>
+                    <div class="sort-option">Name A-Z</div>
+                    <div class="sort-option">Name Z-A</div>
+                    <div class="sort-option">Most Recent</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add this after the controls bar -->
+        <div class="results-header">
+            <div class="results-count">25 results found</div>
+        </div>
+
+        <!-- List View -->
+        <div class="results-list">
+            <!-- Item 1 -->
+            <div class="list-item">
+                <div class="profile-picture-wrapper">
+                    <div class="profile-picture">👤</div>
+                    <div class="profile-overlay">View Profile</div>
+                </div>
+                <div class="profile-info">
+                    <div class="name-section">
+                        <h3 class="name">Dr. Jane Smith</h3>
+                        <p class="organization">European Institute of Innovation</p>
+                    </div>
+                    <p class="bio">Senior researcher specializing in EU-China relations with over 15 years of experience in international relations and policy analysis.</p>
+                    <div class="areas">
+                        <span class="area-tag">Tech</span>
+                        <span class="area-tag">Policy</span>
+                        <span class="area-tag">Innovation</span>
+                    </div>
+                </div>
+                <div class="contact-follow">
+                    <button class="contact-button">✉️ Message</button>
+                    <button class="follow-button">
+                        <span class="icon">+</span>
+                        Follow
+                    </button>
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="list-item">
+                <div class="profile-picture-wrapper">
+                    <div class="profile-picture">👤</div>
+                    <div class="profile-overlay">View Profile</div>
+                </div>
+                <div class="profile-info">
+                    <div class="name-section">
+                        <h3 class="name">Prof. Michael Chen</h3>
+                        <p class="organization">Berlin Institute of Technology</p>
+                    </div>
+                    <p class="bio">Expert in EU-Asia technology transfer and innovation policy. Leading research on digital transformation and cross-border collaboration.</p>
+                    <div class="areas">
+                        <span class="area-tag">Innovation</span>
+                        <span class="area-tag">Digital</span>
+                        <span class="area-tag">Policy</span>
+                    </div>
+                </div>
+                <div class="contact-follow">
+                    <button class="contact-button">✉️ Message</button>
+                    <button class="follow-button">
+                        <span class="icon">+</span>
+                        Follow
+                    </button>
+                </div>
+            </div>
+
+            <!-- Item 3 -->
+            <div class="list-item">
+                <div class="profile-picture-wrapper">
+                    <div class="profile-picture">👤</div>
+                    <div class="profile-overlay">View Profile</div>
+                </div>
+                <div class="profile-info">
+                    <div class="name-section">
+                        <h3 class="name">Dr. Sarah Johnson</h3>
+                        <p class="organization">Copenhagen Business School</p>
+                    </div>
+                    <p class="bio">Research focus on international trade relations and economic policy between Europe and China. Expertise in market access and regulatory frameworks.</p>
+                    <div class="areas">
+                        <span class="area-tag">Trade</span>
+                        <span class="area-tag">Economics</span>
+                        <span class="area-tag">Policy</span>
+                    </div>
+                </div>
+                <div class="contact-follow">
+                    <button class="contact-button">✉️ Message</button>
+                    <button class="follow-button">
+                        <span class="icon">+</span>
+                        Follow
+                    </button>
+                </div>
+            </div>
+
+            <!-- Add these items after Item 3 in the results-list -->
+
+            <!-- Item 4 -->
+            <div class="list-item">
+                <div class="profile-picture-wrapper">
+                    <div class="profile-picture">👤</div>
+                    <div class="profile-overlay">View Profile</div>
+                </div>
+                <div class="profile-info">
+                    <div class="name-section">
+                        <h3 class="name">Dr. Anna Kowalski</h3>
+                        <p class="organization">Warsaw School of Economics</p>
+                    </div>
+                    <p class="bio">Specializing in Eastern European economic integration and EU-China trade corridors. Expert in Belt and Road Initiative implications for Europe.</p>
+                    <div class="areas">
+                        <span class="area-tag">Economics</span>
+                        <span class="area-tag">Trade</span>
+                        <span class="area-tag">Infrastructure</span>
+                    </div>
+                </div>
+                <div class="contact-follow">
+                    <button class="contact-button">✉️ Message</button>
+                    <button class="follow-button">
+                        <span class="icon">+</span>
+                        Follow
+                    </button>
+                </div>
+            </div>
+
+            <!-- Item 5 -->
+            <div class="list-item">
+                <div class="profile-picture-wrapper">
+                    <div class="profile-picture">👤</div>
+                    <div class="profile-overlay">View Profile</div>
+                </div>
+                <div class="profile-info">
+                    <div class="name-section">
+                        <h3 class="name">Prof. Luis Garcia</h3>
+                        <p class="organization">Madrid Institute of Global Affairs</p>
+                    </div>
+                    <p class="bio">Research focus on EU-China diplomatic relations and cultural exchange programs. Leading expert in cross-cultural communication and policy dialogue.</p>
+                    <div class="areas">
+                        <span class="area-tag">Diplomacy</span>
+                        <span class="area-tag">Culture</span>
+                        <span class="area-tag">Policy</span>
+                    </div>
+                </div>
+                <div class="contact-follow">
+                    <button class="contact-button">✉️ Message</button>
+                    <button class="follow-button">
+                        <span class="icon">+</span>
+                        Follow
+                    </button>
+                </div>
+            </div>
+
+            <!-- Item 6 -->
+            <div class="list-item">
+                <div class="profile-picture-wrapper">
+                    <div class="profile-picture">👤</div>
+                    <div class="profile-overlay">View Profile</div>
+                </div>
+                <div class="profile-info">
+                    <div class="name-section">
+                        <h3 class="name">Dr. Marie Laurent</h3>
+                        <p class="organization">Paris Institute of Political Studies</p>
+                    </div>
+                    <p class="bio">Expert in environmental policy and EU-China cooperation on climate change initiatives. Leading research on sustainable development partnerships.</p>
+                    <div class="areas">
+                        <span class="area-tag">Environment</span>
+                        <span class="area-tag">Policy</span>
+                        <span class="area-tag">Sustainability</span>
+                    </div>
+                </div>
+                <div class="contact-follow">
+                    <button class="contact-button">✉️ Message</button>
+                    <button class="follow-button">
+                        <span class="icon">+</span>
+                        Follow
+                    </button>
+                </div>
+            </div>
+
+            <!-- Item 7 -->
+            <div class="list-item">
+                <div class="profile-picture-wrapper">
+                    <div class="profile-picture">👤</div>
+                    <div class="profile-overlay">View Profile</div>
+                </div>
+                <div class="profile-info">
+                    <div class="name-section">
+                        <h3 class="name">Prof. Hans Weber</h3>
+                        <p class="organization">Munich Center for Technology Studies</p>
+                    </div>
+                    <p class="bio">Focusing on technological cooperation between EU and Chinese research institutions. Expert in AI and robotics policy frameworks.</p>
+                    <div class="areas">
+                        <span class="area-tag">Technology</span>
+                        <span class="area-tag">AI</span>
+                        <span class="area-tag">Research</span>
+                    </div>
+                </div>
+                <div class="contact-follow">
+                    <button class="contact-button">✉️ Message</button>
+                    <button class="follow-button">
+                        <span class="icon">+</span>
+                        Follow
+                    </button>
+                </div>
+            </div>
+
+            <!-- Item 8 -->
+            <div class="list-item">
+                <div class="profile-picture-wrapper">
+                    <div class="profile-picture">👤</div>
+                    <div class="profile-overlay">View Profile</div>
+                </div>
+                <div class="profile-info">
+                    <div class="name-section">
+                        <h3 class="name">Dr. Elena Popov</h3>
+                        <p class="organization">Sofia Institute for Strategic Studies</p>
+                    </div>
+                    <p class="bio">Specialist in digital infrastructure development and cybersecurity cooperation between EU and China. Expert in data protection policies.</p>
+                    <div class="areas">
+                        <span class="area-tag">Digital</span>
+                        <span class="area-tag">Security</span>
+                        <span class="area-tag">Policy</span>
+                    </div>
+                </div>
+                <div class="contact-follow">
+                    <button class="contact-button">✉️ Message</button>
+                    <button class="follow-button">
+                        <span class="icon">+</span>
+                        Follow
+                    </button>
+                </div>
+            </div>
+
+            <!-- Item 9 -->
+            <div class="list-item">
+                <div class="profile-picture-wrapper">
+                    <div class="profile-picture">👤</div>
+                    <div class="profile-overlay">View Profile</div>
+                </div>
+                <div class="profile-info">
+                    <div class="name-section">
+                        <h3 class="name">Prof. Marco Rossi</h3>
+                        <p class="organization">Rome Center for International Studies</p>
+                    </div>
+                    <p class="bio">Expert in cultural heritage preservation and museum cooperation between EU and China. Leading research on digital cultural exchange platforms.</p>
+                    <div class="areas">
+                        <span class="area-tag">Culture</span>
+                        <span class="area-tag">Heritage</span>
+                        <span class="area-tag">Digital</span>
+                    </div>
+                </div>
+                <div class="contact-follow">
+                    <button class="contact-button">✉️ Message</button>
+                    <button class="follow-button">
+                        <span class="icon">+</span>
+                        Follow
+                    </button>
+                </div>
+            </div>
+
+            <!-- Item 10 -->
+            <div class="list-item">
+                <div class="profile-picture-wrapper">
+                    <div class="profile-picture">👤</div>
+                    <div class="profile-overlay">View Profile</div>
+                </div>
+                <div class="profile-info">
+                    <div class="name-section">
+                        <h3 class="name">Dr. Sofia Andersson</h3>
+                        <p class="organization">Stockholm Environmental Institute</p>
+                    </div>
+                    <p class="bio">Researcher in sustainable urban development and smart city cooperation between European and Chinese cities. Expert in green technology transfer.</p>
+                    <div class="areas">
+                        <span class="area-tag">Urban</span>
+                        <span class="area-tag">Sustainability</span>
+                        <span class="area-tag">Technology</span>
+                    </div>
+                </div>
+                <div class="contact-follow">
+                    <button class="contact-button">✉️ Message</button>
+                    <button class="follow-button">
+                        <span class="icon">+</span>
+                        Follow
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Grid View (hidden by default) -->
+        <div class="results-grid" style="display: none;">
+            <!-- Repeat this 12 times -->
+            <div class="grid-item">
+                <div class="profile-picture">👤</div>
+                <div class="profile-info">
+                    <h3 class="name">Dr. Jane Smith</h3>
+                    <p class="organization">European Institute of Innovation</p>
+                    <div class="areas">
+                        <span class="area-tag">Tech</span>
+                        <span class="area-tag">Policy</span>
+                    </div>
+                </div>
+                <div class="contact-follow">
+                    <button class="contact-button">✉️ Message</button>
+                    <button class="follow-button">
+                        <span class="icon">+</span>
+                        Follow
+                    </button>
+                </div>
+            </div>
+            <!-- Copy 11 more times -->
+        </div>
+
+        <!-- Add Pagination -->
+        <div class="pagination">
+            <div class="per-page">
+                <select class="per-page-select">
+                    <option value="10">10 per page</option>
+                    <option value="20" selected>20 per page</option>
+                    <option value="50">50 per page</option>
+                </select>
+            </div>
+            <div class="page-controls">
+                <button class="page-button" disabled>Previous</button>
+                <span class="page-info">Page 1 of 3</span>
+                <button class="page-button">Next</button>
+            </div>
+        </div>
+
+        <!-- Add Loading Indicator -->
+        <div class="loading-indicator">
+            Loading results...
+        </div>
+    </div>
+
+    <script>
+        // View switching functionality
+        document.querySelectorAll('.view-button').forEach(button => {
+            button.addEventListener('click', () => {
+                // Update active button
+                document.querySelectorAll('.view-button').forEach(btn => 
+                    btn.classList.remove('active'));
+                button.classList.add('active');
+
+                // Switch view
+                const view = button.dataset.view;
+                const resultsList = document.querySelector('.results-list');
+                const resultsGrid = document.querySelector('.results-grid');
+
+                if (view === 'list') {
+                    resultsList.style.display = 'block';
+                    resultsGrid.style.display = 'none';
+                } else {
+                    resultsList.style.display = 'none';
+                    resultsGrid.style.display = 'grid';
+                }
+            });
+        });
+
+        // Sort dropdown functionality
+        const sortButton = document.querySelector('.sort-button');
+        const sortOptions = document.querySelector('.sort-options');
+
+        sortButton.addEventListener('click', () => {
+            sortOptions.classList.toggle('active');
+        });
+
+        // Close sort dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.sort-dropdown')) {
+                sortOptions.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Sorting functionality
+            const sortOptions = document.querySelectorAll('.sort-option');
+            sortOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const loadingIndicator = document.querySelector('.loading-indicator');
+                    loadingIndicator.classList.add('active');
+                    
+                    // Simulate loading delay
+                    setTimeout(() => {
+                        loadingIndicator.classList.remove('active');
+                    }, 800);
+                    
+                    // Close dropdown
+                    document.querySelector('.sort-options').classList.remove('active');
+                });
+            });
+
+            // Pagination functionality
+            const perPageSelect = document.querySelector('.per-page-select');
+            perPageSelect.addEventListener('change', function() {
+                const loadingIndicator = document.querySelector('.loading-indicator');
+                loadingIndicator.classList.add('active');
+                
+                // Simulate loading delay
+                setTimeout(() => {
+                    loadingIndicator.classList.remove('active');
+                }, 800);
+            });
+
+            // Follow button functionality
+            document.querySelectorAll('.follow-button').forEach(button => {
+                button.addEventListener('click', function() {
+                    const isFollowing = this.classList.toggle('following');
+                    const icon = this.querySelector('.icon');
+                    const text = this.textContent.trim().replace('+', '').replace('✓', '');
+                    
+                    if (isFollowing) {
+                        icon.textContent = '✓';
+                        this.innerHTML = `<span class="icon">✓</span>Following`;
+                    } else {
+                        icon.textContent = '+';
+                        this.innerHTML = `<span class="icon">+</span>Follow`;
+                    }
+                });
+            });
+        });
+
+        // Add profile picture click handler
+        document.querySelectorAll('.profile-picture-wrapper').forEach(wrapper => {
+            wrapper.addEventListener('click', () => {
+                // Handle profile navigation
+                console.log('Navigate to profile page');
+            });
+        });
+    </script>
+</body>
+</html> 

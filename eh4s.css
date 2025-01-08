@@ -1,290 +1,72 @@
 :root {
-
-/* Colors: */
---defauld-1e262b: #1E262B;
---sub-title: #A5A8AA;
---title: #62676B;
---unnamed-color-d4670b: #D4670B;
---unnamed-color-f6ae2d: #F6AE2D;
---unnamed-color-55dde0: #55DDE0;
----959497-border-en-koyusu: #959497;
---border-c7c7c9: #C7C7C9;
---border2-e9e9ea: #E9E9EA;
---background-white-ffffff: #FFFFFF;
---secondar-light-6ba1c5: #6BA1C5;
---secondary-33658a: #33658A;
---primary-light-386982: #386982;
---primary-2f4858: #2F4858;
---unnamed-color-707070: #707070;
-
-/* Font/text values */
---unnamed-font-family-roboto: Roboto;
---unnamed-font-family-roboto-slab: Roboto Slab;
---unnamed-font-style-normal: normal;
---unnamed-font-weight-medium: medium;
---unnamed-font-weight-normal: normal;
---unnamed-font-weight-bold: bold;
---unnamed-font-size-10: 10px;
---unnamed-font-size-13: 13px;
---unnamed-font-size-16: 16px;
---unnamed-font-size-20: 20px;
---unnamed-font-size-24: 24px;
---unnamed-font-size-31: 31px;
---unnamed-font-size-39: 39px;
---unnamed-font-size-49: 49px;
---unnamed-character-spacing-0: 0px;
---unnamed-line-spacing-13: 13px;
---unnamed-line-spacing-15: 15px;
---unnamed-line-spacing-19: 19px;
---unnamed-line-spacing-21: 21px;
---unnamed-line-spacing-26: 26px;
---unnamed-line-spacing-32: 32px;
---unnamed-line-spacing-40: 40px;
---unnamed-line-spacing-52: 52px;
---unnamed-line-spacing-64: 64px;
+    /* Core variables */
+    --background: #ffffff;
+    --primary: #1a73e8;
+    --secondary: #5f6368;
+    --neutral-dark: #202124;
+    --border: #dadce0;
+    --border2-e9e9ea: #e9e9ea;
+    --background-white-ffffff: #ffffff;
+    
+    /* Font families */
+    --font-family-roboto: 'Roboto', sans-serif;
+    --font-family-roboto-slab: 'Roboto Slab', serif;
 }
 
-/* Character Styles */
-.buttonbold—-16pt {
-font-family: var(--unnamed-font-family-roboto);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-bold);
-font-size: var(--unnamed-font-size-16);
-line-height: var(--unnamed-line-spacing-19);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
+/* Add some basic fallback styles */
+body {
+    font-family: var(--font-family-roboto, sans-serif);
+    background-color: var(--background, #ffffff);
+    color: var(--neutral-dark, #202124);
 }
-.label-caption—-10pt {
-font-family: var(--unnamed-font-family-roboto);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-bold);
-font-size: var(--unnamed-font-size-10);
-line-height: var(--unnamed-line-spacing-13);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
+
+/* Results Panel Styles */
+.results-panel {
+    background-color: var(--background);
+    min-height: calc(100vh - 64px - 64px); /* Subtract header and search bar heights */
 }
-.paragrafbold—-13pt {
-font-family: var(--unnamed-font-family-roboto);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-bold);
-font-size: var(--unnamed-font-size-13);
-line-height: var(--unnamed-line-spacing-15);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
+
+/* Keep all the results panel styles but update colors to use CSS variables */
+.results-controls {
+    background-color: var(--background);
+    border-bottom: 1px solid var(--border);
 }
-.h6bold—-16pt {
-font-family: var(--unnamed-font-family-roboto-slab);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-bold);
-font-size: var(--unnamed-font-size-16);
-line-height: var(--unnamed-line-spacing-21);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
+
+.view-button {
+    color: var(--neutral-dark);
 }
-.h5bold-—-20pt {
-font-family: var(--unnamed-font-family-roboto-slab);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-bold);
-font-size: var(--unnamed-font-size-20);
-line-height: var(--unnamed-line-spacing-26);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
+
+.sort-button {
+    color: var(--neutral-dark);
 }
-.h4bold-—-24pt {
-font-family: var(--unnamed-font-family-roboto-slab);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-bold);
-font-size: var(--unnamed-font-size-24);
-line-height: var(--unnamed-line-spacing-32);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
+
+.list-item {
+    background-color: var(--background);
+    border-bottom: 1px solid var(--border);
 }
-.h3bold—-31pt {
-font-family: var(--unnamed-font-family-roboto-slab);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-bold);
-font-size: var(--unnamed-font-size-31);
-line-height: var(--unnamed-line-spacing-40);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
+
+.profile-picture {
+    background-color: var(--primary);
 }
-.h2bold-—-39pt {
-font-family: var(--unnamed-font-family-roboto-slab);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-bold);
-font-size: var(--unnamed-font-size-39);
-line-height: var(--unnamed-line-spacing-52);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
+
+.name {
+    color: var(--neutral-dark);
 }
-.h1bold-—-49pt {
-font-family: var(--unnamed-font-family-roboto-slab);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-bold);
-font-size: var(--unnamed-font-size-49);
-line-height: var(--unnamed-line-spacing-64);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
+
+.organization {
+    color: var(--primary);
 }
-.label-caption—-10pt {
-font-family: var(--unnamed-font-family-roboto);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-medium);
-font-size: var(--unnamed-font-size-10);
-line-height: var(--unnamed-line-spacing-13);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
+
+.area-tag {
+    background-color: #E8F0FE;
+    color: var(--primary);
 }
-.buttonmedium—-16pt {
-font-family: var(--unnamed-font-family-roboto);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-medium);
-font-size: var(--unnamed-font-size-16);
-line-height: var(--unnamed-line-spacing-19);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
+
+.follow-button {
+    background-color: var(--primary);
 }
-.paragrafmedium—-13pt {
-font-family: var(--unnamed-font-family-roboto);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-medium);
-font-size: var(--unnamed-font-size-13);
-line-height: var(--unnamed-line-spacing-15);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
-}
-.h6medium-—-16pt {
-font-family: var(--unnamed-font-family-roboto-slab);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-medium);
-font-size: var(--unnamed-font-size-16);
-line-height: var(--unnamed-line-spacing-21);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
-}
-.h5medium-—-20pt {
-font-family: var(--unnamed-font-family-roboto-slab);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-medium);
-font-size: var(--unnamed-font-size-20);
-line-height: var(--unnamed-line-spacing-26);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
-}
-.h4medium-—-24pt {
-font-family: var(--unnamed-font-family-roboto-slab);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-medium);
-font-size: var(--unnamed-font-size-24);
-line-height: var(--unnamed-line-spacing-32);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
-}
-.h3medium-—-31pt {
-font-family: var(--unnamed-font-family-roboto-slab);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-medium);
-font-size: var(--unnamed-font-size-31);
-line-height: var(--unnamed-line-spacing-40);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
-}
-.h2medium-—-39pt {
-font-family: var(--unnamed-font-family-roboto-slab);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-medium);
-font-size: var(--unnamed-font-size-39);
-line-height: var(--unnamed-line-spacing-52);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
-}
-.h1medium-—-49pt {
-font-family: var(--unnamed-font-family-roboto-slab);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-medium);
-font-size: var(--unnamed-font-size-49);
-line-height: var(--unnamed-line-spacing-64);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
-}
-.label-captionregular—-10pt {
-font-family: var(--unnamed-font-family-roboto);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-normal);
-font-size: var(--unnamed-font-size-10);
-line-height: var(--unnamed-line-spacing-13);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
-}
-.buttonregular—-16pt {
-font-family: var(--unnamed-font-family-roboto);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-normal);
-font-size: var(--unnamed-font-size-16);
-line-height: var(--unnamed-line-spacing-19);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
-}
-.paragrafregular—-13pt {
-font-family: var(--unnamed-font-family-roboto);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-normal);
-font-size: var(--unnamed-font-size-13);
-line-height: var(--unnamed-line-spacing-15);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
-}
-.h6regular-—-16pt {
-font-family: var(--unnamed-font-family-roboto-slab);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-normal);
-font-size: var(--unnamed-font-size-16);
-line-height: var(--unnamed-line-spacing-21);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
-}
-.h5regular-—-20pt {
-font-family: var(--unnamed-font-family-roboto-slab);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-normal);
-font-size: var(--unnamed-font-size-20);
-line-height: var(--unnamed-line-spacing-26);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
-}
-.h4regular-—-24pt {
-font-family: var(--unnamed-font-family-roboto-slab);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-normal);
-font-size: var(--unnamed-font-size-24);
-line-height: var(--unnamed-line-spacing-32);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
-}
-.h3regular-—-31pt {
-font-family: var(--unnamed-font-family-roboto-slab);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-normal);
-font-size: var(--unnamed-font-size-31);
-line-height: var(--unnamed-line-spacing-40);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
-}
-.h2regular-—-39pt {
-font-family: var(--unnamed-font-family-roboto-slab);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-normal);
-font-size: var(--unnamed-font-size-39);
-line-height: var(--unnamed-line-spacing-52);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
-}
-.h1regular-—-49pt {
-font-family: var(--unnamed-font-family-roboto-slab);
-font-style: var(--unnamed-font-style-normal);
-font-weight: var(--unnamed-font-weight-normal);
-font-size: var(--unnamed-font-size-49);
-line-height: var(--unnamed-line-spacing-64);
-letter-spacing: var(--unnamed-character-spacing-0);
-color: var(--unnamed-color-707070);
+
+.contact-button {
+    border-color: var(--primary);
+    color: var(--primary);
 }

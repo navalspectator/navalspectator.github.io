@@ -1,4 +1,16 @@
+                font-size: 16px;
+                color: var(--neutral-dark);
+                box-sizing: border-box;
+                outline: none;
+            }
+
+            .search-icon {
 <!DOCTYPE html>
+                position: absolute;
+                right: 16px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 24px;
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -33,251 +45,115 @@
             z-index: 1000;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo img {
-            height: 40px;
-        }
-
-        .logo .text {
-            font-size: 18px;
-            color: var(--primary);
-            font-weight: 500;
-        }
-
-        .nav {
-            display: flex;
-            gap: 20px;
-        }
-
-        .nav a {
-            text-decoration: none;
-            color: var(--neutral-dark);
-            font-size: 14px;
-            font-weight: 500;
-            padding: 5px;
-            transition: color 0.2s;
-        }
-
-        .nav a:hover {
-            color: var(--secondary);
-        }
-
-        .profile-container {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            position: relative;
-        }
-
-        .icon {
-            color: var(--neutral-dark);
-            cursor: pointer;
-            position: relative;
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: #D14343;
-            color: white;
-            border-radius: 50%;
-            font-size: 12px;
-            padding: 2px 6px;
-        }
-
-        .profile-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: var(--secondary);
-            color: var(--background);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .dropdown {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: 40px;
-            background-color: var(--background);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            z-index: 100;
-            min-width: 200px;
-        }
-
-        .dropdown.active {
-            display: block;
-        }
-
-        .dropdown-item {
-            padding: 10px 15px;
-            font-size: 14px;
-            color: var(--neutral-dark);
-            cursor: pointer;
-            transition: background-color 0.2s;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .dropdown-item:last-child {
-            border-bottom: none;
-        }
-
-        .dropdown-item:hover {
-            background-color: var(--border);
-        }
-
-        /* Main container styles */
-        .main-container {
-            display: flex;
-            min-height: calc(100vh - 60px);
-            margin-top: 60px;
-        }
-
-        /* Filter Panel styles */
-        .filter-sidebar {
-            width: 280px;
-            background-color: var(--background-white-ffffff);
-            border-right: 1px solid var(--border2-e9e9ea);
-            height: calc(100vh - 60px);
-            position: sticky;
-            top: 60px;
-            overflow-y: auto;
-        }
-
-        /* Content area */
-        .content-area {
-            flex: 1;
-            padding: 24px;
-        }
-
-        /* Search bar styles */
-        .search-container {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            height: 54px;
-            margin: 0 auto 24px;
-        }
-
-        .search-bar {
-            width: 100%;
-            height: 100%;
-            padding: 0 45px;
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            font-size: 14px;
-            background: transparent url('img/Search.png') 15px center no-repeat;
-            outline: none;
-        }
+        /* ... (rest of the original styles) ... */
     </style>
 </head>
 <body>
     <!-- Navigation Bar -->
     <header class="header">
-        <a href="#" class="logo">
-            <img src="eh4s_logo.png" alt="EH4S Logo">
-            <span class="text">EuroHub4Sino</span>
-        </a>
-        <nav class="nav">
-            <a href="#publications">Publications</a>
-            <a href="#marketplace">Joint Marketplace</a>
-            <a href="#expert-enquiry">Expert Enquiry</a>
-            <a href="#library">Online Dynamic Library</a>
-            <a href="#data-management">Data Management</a>
-        </nav>
-        <div class="profile-container">
-            <div class="icon" onclick="toggleDropdown('notificationDropdown')">
-                🔔<span class="notification-badge">5</span>
-            </div>
-            <div class="dropdown" id="notificationDropdown">
-                <div class="dropdown-item">New post in Global China</div>
-                <div class="dropdown-item">Comment on your post</div>
-                <div class="dropdown-item">System update</div>
-                <div class="dropdown-item">Reminder: Post expiry</div>
-            </div>
-            <div class="icon" onclick="toggleDropdown('messageDropdown')">
-                ✉️<span class="notification-badge">3</span>
-            </div>
-            <div class="dropdown" id="messageDropdown">
-                <div class="dropdown-item">Message from John Doe</div>
-                <div class="dropdown-item">New group message</div>
-                <div class="dropdown-item">Message from Jane Smith</div>
-            </div>
-            <div class="profile-icon" onclick="toggleDropdown('profileDropdown')">R</div>
-            <div class="dropdown" id="profileDropdown">
-                <div class="dropdown-item" onclick="navigateToProfile('profileInfo')">Profile Information</div>
-                <div class="dropdown-item" onclick="navigateToProfile('settingsPrivacy')">Settings & Privacy</div>
-                <div class="dropdown-item" onclick="navigateToProfile('libraryPosts')">Library and Posts</div>
-                <div class="dropdown-item" onclick="navigateToProfile('preferences')">Preferences</div>
-                <div class="dropdown-item" onclick="navigateToProfile('help')">Help</div>
-                <div class="dropdown-item">Log Out</div>
-            </div>
-        </div>
+        <!-- ... (original navigation content) ... -->
     </header>
 
-    <div class="main-container">
-        <!-- Filter Panel -->
-        <div class="filter-sidebar">
-            <div id="filter-container"></div>
+    <div class="main-layout">
+        <style>
+            .main-layout {
+                display: flex;
+                min-height: 100vh;
+                background-color: var(--background-white-ffffff);
+            }
+
+            .search-wrapper {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                padding: 24px;
+                height: 24px;
+                color: var(--secondary);
+            }
+
+            .content-area {
+                display: flex;
+                background-color: var(--background-white-ffffff);
+                z-index: 100;
+                border-bottom: 1px solid var(--border2-e9e9ea);
+                margin-top: 100px; /* Space for fixed search bar */
+                width: 100%;
+            }
+
+            .filter-panel-container {
+                width: 280px;
+                min-width: 280px;
+            }
+
+            .search-container {
+                max-width: 800px;
+                margin: 0 auto;
+            }
+
+            .main-content {
+                flex: 1;
+                padding: 24px;
+            }
+        </style>
+
+        <!-- Fixed Search Bar -->
+        <div class="search-wrapper">
+            <div class="search-container">
+                <div class="search-bar">
+                    <input type="text" class="search-input" placeholder="Lorem ipsum">
+                    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                </div>
+            }
+
+            .search-bar {
+                position: relative;
+                width: 100%;
+            }
+
+            .search-input {
+                width: 100%;
+                padding: 16px 48px 16px 24px;
+            </div>
         </div>
 
-        <!-- Content Area -->
         <div class="content-area">
-            <div class="search-container">
-                <input type="text" class="search-bar" placeholder="Search for experts, publications, or topics...">
+            <!-- Filter Panel -->
+            <div class="filter-panel-container">
+                <filter-panel></filter-panel>
             </div>
-            <div id="main-content"></div>
+
+            <!-- Main Content -->
+                border: 1px solid var(--border2-e9e9ea);
+                border-radius: 32px;
+                font-family: var(--font-family-roboto);
+                font-size: 16px;
+            <div class="main-content">
+                <!-- Your content here -->
+            </div>
         </div>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            // Load the entire filter component
-            $("#filter-container").load("filter-panel.html .filter-component", function() {
-                // Ensure jQuery is loaded
-                if (typeof jQuery === 'undefined') {
-                    var script = document.createElement('script');
-                    script.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
-                    document.head.appendChild(script);
-                }
-                console.log("Filter panel loaded");
+        // Initialize search functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.querySelector('.search-input');
+            searchInput.addEventListener('input', function(e) {
+                const searchTerm = e.target.value;
+                console.log('Searching for:', searchTerm);
+                // Add your search logic here
             });
-        });
 
-        function toggleDropdown(id) {
-            document.querySelectorAll('.dropdown').forEach(dropdown => {
-                if (dropdown.id !== id && dropdown.classList.contains('active')) {
-                    dropdown.classList.remove('active');
-                }
-            });
-            document.getElementById(id).classList.toggle('active');
-        }
-
-        function navigateToProfile(section) {
-            localStorage.setItem('activeProfileSection', section);
-            window.location.href = 'Profile Page.html';
-        }
-
-        // Close dropdowns when clicking outside
-        document.addEventListener('click', function(event) {
-            if (!event.target.closest('.profile-container')) {
-                document.querySelectorAll('.dropdown').forEach(dropdown => {
-                    dropdown.classList.remove('active');
+            // Handle sort options
+            document.querySelectorAll('.sort-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    document.querySelectorAll('.sort-option').forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
                 });
-            }
+            });
         });
     </script>
 </body>

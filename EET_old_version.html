@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expert Enquiry Tool</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2F4858;
+      --primary-light: #386982;
+      --secondary: #33658A;
+      --secondary-light: #6BA1C5;
+      --accent-orange: #D4670B;
+      --accent-yellow: #F6AE2D;
+      --neutral-dark: #1E262B;
+      --neutral-light: #A5A8AA;
+      --border: #E9E9EA;
+      --background: #FFFFFF;
+      --font-body: 13px;
+      --font-heading: 20px;
+      --button-font: 16px;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      background-color: var(--background);
+    }
+
+    /* Header */
+    header {
+      background-color: var(--primary);
+      color: var(--background);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header img {
+      height: 40px;
+    }
+
+    header nav {
+      display: flex;
+      gap: 15px;
+    }
+
+    header nav a {
+      color: var(--background);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    /* Layout */
+    .container {
+      display: flex;
+    }
+
+    /* Filter Panel */
+    .filter-panel {
+      background-color: var(--border);
+      padding: 15px;
+      width: 300px;
+      height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .filter-panel h3 {
+      font-size: var(--font-heading);
+      margin-bottom: 10px;
+    }
+
+    .filter-panel label {
+      display: block;
+      margin-bottom: 10px;
+    }
+
+    .filter-panel input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .filter-panel .filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 15px;
+    }
+
+    .filter-panel .chip {
+      background-color: var(--accent-orange);
+      color: var(--background);
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: var(--font-body);
+    }
+
+    .filter-panel .clear-all {
+      margin-top: 15px;
+      display: block;
+      color: var(--accent-orange);
+      background: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Search Results */
+    .search-results {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .search-bar {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+    }
+
+    .search-bar button {
+      background-color: var(--primary);
+      color: var(--background);
+      border: none;
+      padding: 10px 15px;
+      margin-left: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .view-toggle {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 15px;
+    }
+
+    .view-toggle button {
+      background-color: var(--primary-light);
+      color: var(--background);
+      border: none;
+      padding: 5px 10px;
+      margin-left: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 15px;
+      gap: 10px;
+    }
+
+    .pagination button {
+      border: 1px solid var(--border);
+      background-color: var(--background);
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+
+    /* List View */
+    .profile {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding: 10px 0;
+    }
+
+    .profile img {
+      height: 50px;
+      width: 50px;
+      border-radius: 50%;
+      margin-right: 15px;
+    }
+
+    .profile-details {
+      flex: 1;
+    }
+
+    .profile-details h4 {
+      margin: 0;
+      font-size: var(--font-body);
+      font-weight: bold;
+    }
+
+    .profile-details .tags span {
+      display: inline-block;
+      background-color: var(--accent-orange);
+      color: var(--background);
+      padding: 3px 10px;
+      margin-right: 5px;
+      border-radius: 3px;
+      font-size: var(--font-body);
+    }
+
+    .profile-actions {
+      display: flex;
+      gap: 10px;
+    }
+
+    .profile-actions button {
+      border: none;
+      background: none;
+      cursor: pointer;
+      color: var(--primary);
+    }
+
+    /* Grid View */
+    .grid-view {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 15px;
+    }
+
+    .grid-view .profile {
+      display: block;
+      text-align: center;
+      padding: 15px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .grid-view .profile img {
+      height: 100px;
+      width: 100px;
+      margin-bottom: 10px;
+    }
+
+    .grid-view .profile .profile-details h4 {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="Logo">
+    <nav>
+      <a href="#">Publications</a>
+      <a href="#">Joint Marketplace</a>
+      <a href="#">Expert Enquiry</a>
+      <a href="#">Communication</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <!-- Filter Panel -->
+    <div class="filter-panel">
+      <h3>Filters</h3>
+      <div class="filter-chips">
+        <span class="chip">Politics</span>
+        <span class="chip">Research</span>
+      </div>
+      <label><input type="checkbox"> Politics</label>
+      <label><input type="checkbox"> Tech</label>
+      <label><input type="checkbox"> Trade and Economy</label>
+      <label><input type="checkbox"> Military</label>
+      <label><input type="checkbox"> Research</label>
+      <label><input type="checkbox"> Beginner</label>
+      <label><input type="checkbox"> Intermediate</label>
+      <label><input type="checkbox"> Advanced</label>
+      <label><input type="checkbox"> Country: China</label>
+      <button class="clear-all">Clear All</button>
+    </div>
+
+    <!-- Search Results -->
+    <div class="search-results">
+      <div class="search-bar">
+        <input type="text" placeholder="Search by name, expertise, or keyword">
+        <button>Search</button>
+      </div>
+
+      <div class="view-toggle">
+        <button>List View</button>
+        <button>Grid View</button>
+      </div>
+
+      <div class="list-view">
+        <div class="profile">
+          <img src="default-profile.png" alt="Profile Picture">
+          <div class="profile-details">
+            <h4>John Doe</
