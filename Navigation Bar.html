@@ -1,150 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EH4S Header</title>
-    <style>
-        :root {
-            --primary: #2F4858;
-            --secondary: #6BA1C5;
-            --secondary-dark: #33658A;
-            --neutral-dark: #1E262B;
-            --border: #E9E9EA;
-            --background: #FFFFFF;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: var(--background);
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: var(--background);
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            padding: 10px 20px;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo img {
-            height: 40px;
-        }
-
-        .logo .text {
-            font-size: 18px;
-            color: var(--primary);
-            font-weight: 500;
-        }
-
-        .nav {
-            display: flex;
-            gap: 20px;
-        }
-
-        .nav a {
-            text-decoration: none;
-            color: var(--neutral-dark);
-            font-size: 14px;
-            font-weight: 500;
-            padding: 5px;
-            transition: color 0.2s;
-        }
-
-        .nav a:hover {
-            color: var(--secondary);
-        }
-
-        .profile-container {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .icon {
-            color: var(--neutral-dark);
-            cursor: pointer;
-            position: relative;
-        }
-
-        .notification-badge {
-            position: absolute;
-            top: -5px;
-            right: -5px;
-            background-color: #D14343;
-            color: white;
-            border-radius: 50%;
-            font-size: 12px;
-            padding: 2px 6px;
-        }
-
-        .profile-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            background-color: var(--secondary);
-            color: var(--background);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .dropdown {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: 40px;
-            background-color: var(--background);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            z-index: 100;
-        }
-
-        .dropdown.active {
-            display: block;
-        }
-
-        .dropdown-item {
-            padding: 10px 15px;
-            font-size: 14px;
-            color: var(--neutral-dark);
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-
-        .dropdown-item:hover {
-            background-color: var(--border);
-        }
-    </style>
-</head>
-<body>
+<div class="nav-component">
     <header class="header">
-        <div class="logo">
+        <a href="main-page.html" class="logo">
             <img src="eh4s_logo.png" alt="EH4S Logo">
             <span class="text">EuroHub4Sino</span>
-        </div>
+        </a>
         <nav class="nav">
-            <a href="#">Publications</a>
-            <a href="#">Joint Marketplace</a>
-            <a href="#">Expert Enquiry</a>
-            <a href="#">Online Dynamic Library</a>
-            <a href="#">Data Management</a>
+            <a href="main-page.html#publications">Publications</a>
+            <a href="main-page.html#marketplace">Joint Marketplace</a>
+            <a href="main-page.html#expert-enquiry">Expert Enquiry</a>
+            <a href="main-page.html#library">Online Dynamic Library</a>
+            <a href="main-page.html#data-management">Data Management</a>
         </nav>
         <div class="profile-container">
             <div class="icon" onclick="toggleDropdown('notificationDropdown')">
@@ -166,18 +31,13 @@
             </div>
             <div class="profile-icon" onclick="toggleDropdown('profileDropdown')">R</div>
             <div class="dropdown" id="profileDropdown">
-                <div class="dropdown-item">Profile Information</div>
-                <div class="dropdown-item">Settings & Privacy</div>
+                <div class="dropdown-item" onclick="navigateToProfile('profileInfo')">Profile Information</div>
+                <div class="dropdown-item" onclick="navigateToProfile('settingsPrivacy')">Settings & Privacy</div>
+                <div class="dropdown-item" onclick="navigateToProfile('libraryPosts')">Library and Posts</div>
+                <div class="dropdown-item" onclick="navigateToProfile('preferences')">Preferences</div>
+                <div class="dropdown-item" onclick="navigateToProfile('help')">Help</div>
                 <div class="dropdown-item">Log Out</div>
             </div>
         </div>
     </header>
-
-    <script>
-        function toggleDropdown(id) {
-            const dropdown = document.getElementById(id);
-            dropdown.classList.toggle('active');
-        }
-    </script>
-</body>
-</html>
+</div>
