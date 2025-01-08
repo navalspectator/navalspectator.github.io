@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Expert Enquiry Tool</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2F4858;
+      --primary-light: #386982;
+      --secondary: #33658A;
+      --secondary-light: #6BA1C5;
+      --accent-orange: #D4670B;
+      --accent-yellow: #F6AE2D;
+      --neutral-dark: #1E262B;
+      --neutral-light: #A5A8AA;
+      --border: #E9E9EA;
+      --background: #FFFFFF;
+      --font-body: 13px;
+      --font-heading: 20px;
+      --button-font: 16px;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      background-color: var(--background);
+    }
+
+    /* Header */
+    header {
+      background-color: var(--background);
+      color: var(--neutral-dark);
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+
+    header img {
+      height: 40px;
+    }
+
+    header nav {
+      display: flex;
+      gap: 20px;
+    }
+
+    header nav a {
+      color: var(--neutral-dark);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: var(--font-body);
+    }
+
+    header .profile-actions {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    header .profile-actions img {
+      height: 32px;
+      width: 32px;
+      border-radius: 50%;
+    }
+
+    /* Layout */
+    .container {
+      display: flex;
+    }
+
+    /* Filter Panel */
+    .filter-panel {
+      background-color: var(--background);
+      padding: 15px;
+      width: 280px;
+      height: 100vh;
+      border-right: 1px solid var(--border);
+      box-sizing: border-box;
+    }
+
+    .filter-panel h3 {
+      font-size: var(--font-heading);
+      margin-bottom: 15px;
+      color: var(--neutral-dark);
+    }
+
+    .filter-panel .filter-group {
+      margin-bottom: 20px;
+    }
+
+    .filter-panel .filter-group h4 {
+      font-size: var(--font-body);
+      font-weight: 500;
+      margin-bottom: 10px;
+      color: var(--neutral-dark);
+    }
+
+    .filter-panel label {
+      display: flex;
+      align-items: center;
+      font-size: var(--font-body);
+      color: var(--neutral-dark);
+      margin-bottom: 10px;
+    }
+
+    .filter-panel input[type="checkbox"] {
+      margin-right: 8px;
+    }
+
+    .filter-panel .filter-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 15px;
+    }
+
+    .filter-panel .chip {
+      background-color: var(--accent-orange);
+      color: var(--background);
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: var(--font-body);
+    }
+
+    .filter-panel .clear-all {
+      margin-top: 15px;
+      display: block;
+      color: var(--accent-orange);
+      background: none;
+      border: none;
+      font-size: var(--font-body);
+      cursor: pointer;
+    }
+
+    /* Search Results */
+    .search-results {
+      flex: 1;
+      padding: 20px;
+    }
+
+    .search-bar {
+      display: flex;
+      margin-bottom: 20px;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      font-size: var(--font-body);
+    }
+
+    .search-bar button {
+      background-color: var(--primary);
+      color: var(--background);
+      border: none;
+      padding: 10px 15px;
+      margin-left: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: var(--font-body);
+    }
+
+    .view-switch {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .view-switch button {
+      background-color: var(--primary-light);
+      color: var(--background);
+      border: none;
+      padding: 5px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: var(--font-body);
+    }
+
+    .sort-options {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .sort-options select {
+      padding: 5px;
+      font-size: var(--font-body);
+      border: 1px solid var(--border);
+      border-radius: 5px;
+    }
+
+    .results {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+    }
+
+    .result-item {
+      border: 1px solid var(--border);
+      padding: 10px;
+      border-radius: 5px;
+      text-align: center;
+    }
+
+    .result-item img {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-bottom: 10px;
+    }
+
+    .result-item h4 {
+      margin: 5px 0;
+      font-size: var(--font-body);
+      color: var(--neutral-dark);
+    }
+
+    .result-item .tags {
+      margin: 5px 0;
+    }
+
+    .result-item .tags span {
+      display: inline-block;
+      background-color: var(--accent-orange);
+      color: var(--background);
+      padding: 3px 10px;
+      border-radius: 15px;
+      font-size: var(--font-body);
+      margin: 2px;
+    }
+
+    .result-item .actions button {
+      margin-top: 10px;
+      padding: 5px 10px;
+      border: none;
+      background-color: var(--primary);
+      color: var(--background);
+      border-radius: 5px;
+      font-size: var(--font-body);
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="Logo">
+    <nav>
+      <a href="#">Publications</a>
+      <a href="#">Joint Marketplace</a>
+      <a href="#">Expert Enquiry</a>
+      <a href="#">Communication</a>
+    </nav>
+    <div class="profile-actions">
+      <img src="profile-icon.png" alt="User Profile">
+    </div>
+  </header>
+
+  <div class="container">
+    <!-- Filter Panel -->
+    <div class="filter-panel">
+      <h3>Filter By</h3>
+
+      <div class="filter-group">
+        <h4>Category</h4>
+        <label><input type="checkbox"> Events</label>
+        <label><input type="checkbox"> Expertise</label>
+        <label><input type="checkbox"> Open Positions</label>
+        <label><input type="checkbox"> Other</label>
+        <label><input type="checkbox"> Projects</label>
+        <label><input type="checkbox"> Research</label>
+      </div>
+
+      <div class="filter-group">
+        <h4>Tags</h4>
+        <label><input type="checkbox"> Conference</label>
+        <label><input type="checkbox"> Consultancy</label>
+        <label><input type="checkbox"> Funding</label>
