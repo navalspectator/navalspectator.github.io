@@ -7,12 +7,13 @@
   <style>
     :root {
       --primary: #2F4858;
-      --accent-orange: #D4670B;
+      --secondary: #6BA1C5;
+      --secondary-dark: #33658A;
       --neutral-dark: #1E262B;
       --border: #E9E9EA;
       --background: #FFFFFF;
-      --font-body: 13px;
-      --font-heading: 20px;
+      --font-body: 14px;
+      --font-heading: 16px;
     }
 
     body {
@@ -24,7 +25,7 @@
 
     .filter-panel {
       background-color: var(--background);
-      padding: 15px;
+      padding: 24px;
       width: 280px;
       border-right: 1px solid var(--border);
       box-sizing: border-box;
@@ -32,45 +33,55 @@
 
     .filter-panel h3 {
       font-size: var(--font-heading);
-      margin-bottom: 15px;
+      margin: 0 0 16px 0;
+      font-weight: 500;
       color: var(--neutral-dark);
     }
 
     .filter-panel .selected-chips {
       display: flex;
       flex-wrap: wrap;
-      gap: 5px;
-      margin-bottom: 15px;
+      gap: 8px;
+      margin-bottom: 24px;
     }
 
     .filter-panel .chip {
-      background-color: var(--accent-orange);
+      background-color: var(--secondary);
       color: var(--background);
-      padding: 5px 10px;
-      border-radius: 15px;
-      font-size: var(--font-body);
+      padding: 4px 8px 4px 12px;
+      border-radius: 4px;
+      font-size: 13px;
       display: flex;
       align-items: center;
+      gap: 8px;
+      height: 24px;
+      box-sizing: border-box;
     }
 
     .filter-panel .chip .remove-chip {
-      background: none;
+      width: 15px;
+      height: 15px;
+      background-color: var(--secondary-dark);
       border: none;
       color: var(--background);
-      font-size: 14px;
-      font-weight: bold;
-      margin-left: 8px;
+      font-size: 12px;
+      padding: 0;
+      line-height: 1;
       cursor: pointer;
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .filter-panel .filter-group {
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
     .filter-panel .filter-group h4 {
       font-size: var(--font-body);
       font-weight: 500;
-      margin-bottom: 10px;
+      margin: 0 0 16px 0;
       color: var(--neutral-dark);
     }
 
@@ -79,42 +90,85 @@
       align-items: center;
       font-size: var(--font-body);
       color: var(--neutral-dark);
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      cursor: pointer;
     }
 
     .filter-panel input[type="checkbox"] {
-      margin-right: 8px;
+      margin-right: 12px;
+      width: 16px;
+      height: 16px;
     }
 
     .filter-panel .show-more {
-      color: var(--accent-orange);
-      font-size: var(--font-body);
+      color: var(--secondary);
+      font-size: 13px;
       cursor: pointer;
-      text-decoration: underline;
+      text-decoration: none;
+      display: block;
+      margin-top: 8px;
     }
 
     .filter-panel .clear-all {
-      margin-bottom: 15px;
-      display: block;
-      color: var(--accent-orange);
       background: none;
+      color: var(--neutral-dark);
       border: none;
-      font-size: var(--font-body);
+      font-size: 13px;
       cursor: pointer;
+      padding: 4px 12px;
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .filter-panel .clear-all::before {
+      content: "↻";
+      font-size: 16px;
+    }
+
+    .filter-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .filter-panel h3 {
+      font-size: var(--font-heading);
+      margin: 0;
+      font-weight: 500;
+      color: var(--neutral-dark);
+    }
+
+    .filter-panel .clear-all {
+      background-color: var(--secondar-light-6ba1c5);
+      color: var(--background-white-ffffff);
+      border: none;
+      font-size: var(--unnamed-font-size-13);
+      cursor: pointer;
+      padding: 4px 12px;
+      margin: 0;
+      font-family: var(--unnamed-font-family-roboto);
+      border-radius: 4px;
     }
   </style>
 </head>
 <body>
   <div class="filter-panel">
-    <h3>Filter By</h3>
-
-    <button class="clear-all">Reset All</button>
+    <div class="filter-header">
+      <h3>Filter By</h3>
+      <button class="clear-all">Reset All</button>
+    </div>
 
     <div class="selected-chips">
-      <span class="chip">Politics <button class="remove-chip">&times;</button></span>
-      <span class="chip">Military <button class="remove-chip">&times;</button></span>
-      <span class="chip">Researcher <button class="remove-chip">&times;</button></span>
-      <span class="chip">Report <button class="remove-chip">&times;</button></span>
+      <span class="chip">Politics <button class="remove-chip">×</button></span>
+      <span class="chip">Military <button class="remove-chip">×</button></span>
+      <span class="chip">Researcher <button class="remove-chip">×</button></span>
+      <span class="chip">Report <button class="remove-chip">×</button></span>
     </div>
 
     <div class="filter-group">

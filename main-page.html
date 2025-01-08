@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EuroHub4Sino</title>
+    <link rel="stylesheet" href="eh4s.css">
+    <style>
+        /* Root variables */
+        :root {
+            --primary: #2F4858;
+            --secondary: #6BA1C5;
+            --secondary-dark: #33658A;
+            --neutral-dark: #1E262B;
+            --border: #E9E9EA;
+            --background: #FFFFFF;
+            --font-body: 14px;
+            --font-heading: 16px;
+        }
+
+        /* Base styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--neutral-dark);
+        }
+
+        /* Layout */
+        .main-container {
+            display: flex;
+            min-height: calc(100vh - 60px);
+        }
+
+        /* Navigation styles */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: var(--background);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            padding: 10px 20px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .logo .text {
+            font-size: 18px;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: var(--neutral-dark);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 5px;
+            transition: color 0.2s;
+        }
+
+        .nav a:hover, .nav a.active {
+            color: var(--secondary);
+        }
+
+        /* Profile container styles */
+        .profile-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+        }
+
+        .icon {
+            color: var(--neutral-dark);
+            cursor: pointer;
+            position: relative;
+            font-size: 20px;
+        }
+
+        .notification-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background-color: #D14343;
+            color: white;
+            border-radius: 50%;
+            font-size: 12px;
+            padding: 2px 6px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        .profile-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: var(--secondary);
+            color: var(--background);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        /* Dropdown styles */
+        .dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 40px;
+            background-color: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+            min-width: 200px;
+        }
+
+        .dropdown.active {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 10px 15px;
+            font-size: 14px;
+            color: var(--neutral-dark);
+            cursor: pointer;
+            transition: background-color 0.2s;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .dropdown-item:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--border);
+        }
+
+        /* Filter Panel styles */
+        .filter-sidebar {
+            width: 280px;
+            border-right: 1px solid var(--border);
+            background-color: var(--background);
+            height: calc(100vh - 60px);
+            position: sticky;
+            top: 60px;
+            overflow-y: auto;
+        }
+
+        .filter-panel {
+            padding: 24px;
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .filter-panel h3 {
+            font-size: var(--font-heading);
+            margin: 0;
+            font-weight: 500;
+        }
+
+        .clear-all {
+            background: none;
+            color: var(--neutral-dark);
+            border: none;
+            font-size: 13px;
+            cursor: pointer;
+            padding: 4px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .clear-all::before {
+            content: "↻";
+            font-size: 16px;
+        }
+
+        /* Selected chips styles */
+        .selected-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+
+        .chip {
+            background-color: var(--secondary);
+            color: var(--background);
+            padding: 4px 8px 4px 12px;
+            border-radius: 4px;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            height: 24px;
+        }
+
+        .remove-chip {
+            width: 15px;
+            height: 15px;
+            background-color: var(--secondary-dark);
+            border: none;
+            color: var(--background);
+            font-size: 12px;
+            padding: 0;
+            line-height: 1;
+            cursor: pointer;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Filter groups */
+        .filter-group {
+            margin-bottom: 24px;
+        }
+
+        .filter-group h4 {
+            font-size: var(--font-body);
+            font-weight: 500;
+            margin: 0 0 16px 0;
+        }
+
+        .filter-group label {
+            display: flex;
+            align-items: center;
+            font-size: var(--font-body);
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+
+        .filter-group input[type="checkbox"] {
+            margin-right: 12px;
+            width: 16px;
+            height: 16px;
+        }
+
+        .show-more {
+            color: var(--secondary);
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: none;
+            display: block;
+            margin-top: 8px;
+        }
+
+        /* Content area */
+        .content-area {
+            flex: 1;
+            padding: 24px;
+        }
+
+        #main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Search bar styles */
+        .search-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            height: 54px;
+            margin: 0 auto;
+        }
+
+        .search-bar {
+            width: 100%;
+            height: 100%;
+            padding: 0 45px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 14px;
+            background: transparent url('img/Search.png') 15px center no-repeat;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-bar:focus {
+            border-color: var(--secondary);
+        }
+
+        .search-bar::placeholder {
+            color: var(--neutral-dark);
+            opacity: 0.5;
+        }
+
+        /* Make search container responsive */
+        @media (max-width: 1024px) {
+            .search-container {
+                max-width: 600px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .search-container {
+                max-width: 100%;
+            }
+        }
+
+        /* Profile section styles */
+        .profile-section {
+            padding: 24px;
+            background-color: var(--background);
+            border-radius: 4px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .input-group {
+            margin-bottom: 16px;
+        }
+
+        .input-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+
+        .input-group input,
+        .input-group select,
+        .input-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .button {
+            background-color: var(--secondary);
+            color: var(--background);
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+
+        .button:hover {
+            background-color: var(--secondary-dark);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header class="header">
+        <a href="#" class="logo" onclick="handleNavigation('home')">
+            <img src="eh4s_logo.png" alt="EH4S Logo">
+            <span class="text">EuroHub4Sino</span>
+        </a>
+        <nav class="nav">
+            <a href="#" data-page="publications">Publications</a>
+            <a href="#" data-page="marketplace">Joint Marketplace</a>
+            <a href="#" data-page="expert-enquiry">Expert Enquiry</a>
+            <a href="#" data-page="library">Online Dynamic Library</a>
+            <a href="#" data-page="data-management">Data Management</a>
+        </nav>
+        <div class="profile-container">
+            <div class="icon" onclick="toggleDropdown('notificationDropdown')">
+                🔔<span class="notification-badge">5</span>
+            </div>
+            <div class="dropdown" id="notificationDropdown">
+                <div class="dropdown-item">New post in Global China</div>
+                <div class="dropdown-item">Comment on your post</div>
+                <div class="dropdown-item">System update</div>
+                <div class="dropdown-item">Message from John Doe</div>
+                <div class="dropdown-item">Reminder: Post expiry</div>
+            </div>
+            <div class="icon" onclick="toggleDropdown('messageDropdown')">
+                ✉️<span class="notification-badge">3</span>
+            </div>
+            <div class="dropdown" id="messageDropdown">
+                <div class="dropdown-item">Message from John Doe</div>
+                <div class="dropdown-item">New group message</div>
+                <div class="dropdown-item">Message from Jane Smith</div>
+            </div>
+            <div class="profile-icon" onclick="toggleDropdown('profileDropdown')">R</div>
+            <div class="dropdown" id="profileDropdown">
+                <div class="dropdown-item" onclick="handleNavigation('profile')">Profile Information</div>
+                <div class="dropdown-item">Settings & Privacy</div>
+                <div class="dropdown-item">Log Out</div>
+            </div>
+        </div>
+    </header>
+
+    <div class="main-container">
+        <!-- Filter Panel -->
+        <div class="filter-sidebar">
+            <div class="filter-panel">
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <input type="text" 
+                        class="search-bar" 
+                        placeholder="Search for experts, publications, or topics..."
+                    >
+                </div>
+
+                <div class="filter-header">
+                    <h3>Filter By</h3>
+                    <button class="clear-all">Reset All</button>
+                </div>
+
+                <div class="selected-chips">
+                    <span class="chip">Politics <button class="remove-chip">×</button></span>
+                    <span class="chip">Military <button class="remove-chip">×</button></span>
+                    <span class="chip">Researcher <button class="remove-chip">×</button></span>
+                    <span class="chip">Report <button class="remove-chip">×</button></span>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Area of Interest</h4>
+                    <label><input type="checkbox"> Politics</label>
+                    <label><input type="checkbox"> Tech</label>
+                    <label><input type="checkbox"> Trade and Economy</label>
+                    <label><input type="checkbox"> Military</label>
+                    <label><input type="checkbox"> History and Culture</label>
+                    <label><input type="checkbox"> Human Rights</label>
+                    <label><input type="checkbox"> Gender</label>
+                    <label><input type="checkbox"> Environment and Climate</label>
+                    <label><input type="checkbox"> Other</label>
+                    <span class="show-more">Show More</span>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Member Type</h4>
+                    <label><input type="checkbox"> Researcher</label>
+                    <label><input type="checkbox"> Official</label>
+                    <label><input type="checkbox"> Business</label>
+                    <label><input type="checkbox"> Journalist</label>
+                    <label><input type="checkbox"> Practitioner</label>
+                    <span class="show-more">Show More</span>
+                </div>
+
+                <div class="filter-group">
+                    <h4>Service</h4>
+                    <label><input type="checkbox"> Research</label>
+                    <label><input type="checkbox"> Analysis</label>
+                    <label><input type="checkbox"> Policy Brief</label>
+                    <label><input type="checkbox"> Project</label>
+                    <label><input type="checkbox"> Training</label>
+                    <label><input type="checkbox"> Consultancy</label>
+                    <label><input type="checkbox"> Report</label>
+                    <span class="show-more">Show More</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="content-area">
+            <div id="main-content">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleDropdown(id) {
+            // Close all other dropdowns first
+            document.querySelectorAll('.dropdown').forEach(dropdown => {
+                if (dropdown.id !== id && dropdown.classList.contains('active')) {
+                    dropdown.classList.remove('active');
+                }
+            });
+            document.getElementById(id).classList.toggle('active');
+        }
+
+        function handleNavigation(page) {
+            // Remove active class from all links
+            document.querySelectorAll('.nav a').forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // Add active class to clicked link if it exists
+            const activeLink = document.querySelector(`[data-page="${page}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+
+            // Control filter panel visibility
+            const filterSidebar = document.querySelector('.filter-sidebar');
+            filterSidebar.style.display = page === 'profile' ? 'none' : 'block';
+
+            // Handle different pages
+            switch(page) {
+                case 'home':
+                    document.getElementById('main-content').innerHTML = '';
+                    break;
+                case 'profile':
+                    loadProfileContent();
+                    break;
+                // Add other page handlers as needed
+            }
+        }
+
+        function loadProfileContent() {
+            const profileContent = `
+                <div class="profile-section">
+                    <h2>Profile Information</h2>
+                    <div class="input-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" placeholder="First Name">
+                    </div>
+                    <div class="input-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" placeholder="Last Name">
+                    </div>
+                    <div class="input-group">
+                        <label for="userType">User Type</label>
+                        <input type="text" id="userType" value="Member - Researcher" disabled>
+                    </div>
+                    <div class="input-group">
+                        <label for="bio">Bio</label>
+                        <textarea id="bio" placeholder="Write your bio..."></textarea>
+                    </div>
+                    <button class="button">Save Changes</button>
+                </div>
+            `;
+            document.getElementById('main-content').innerHTML = profileContent;
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('.profile-container')) {
+                document.querySelectorAll('.dropdown').forEach(dropdown => {
+                    dropdown.classList.remove('active');
+                });
+            }
+        });
+
+        function setupNavigationListeners() {
+            // Logo click handler
+            document.querySelector('.logo').addEventListener('click', (e) => {
+                e.preventDefault();
+                handleNavigation('home');
+            });
+
+            // Navigation links handlers
+            document.querySelectorAll('.nav a').forEach(link => {
+                link.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    handleNavigation(e.target.getAttribute('data-page'));
+                });
+            });
+
+            // Filter chip remove handlers
+            document.querySelectorAll('.remove-chip').forEach(button => {
+                button.addEventListener('click', function() {
+                    this.parentElement.remove();
+                });
+            });
+
+            // Clear all filters handler
+            document.querySelector('.clear-all').addEventListener('click', function() {
+                document.querySelectorAll('.selected-chips .chip').forEach(chip => {
+                    chip.remove();
+                });
+                document.querySelectorAll('.filter-group input[type="checkbox"]').forEach(checkbox => {
+                    checkbox.checked = false;
+                });
+            });
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            setupNavigationListeners();
+        });
+    </script>
+</body>
+</html>

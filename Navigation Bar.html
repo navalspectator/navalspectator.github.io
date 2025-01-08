@@ -5,135 +5,148 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EH4S Header</title>
     <style>
+        :root {
+            --primary: #2F4858;
+            --secondary: #6BA1C5;
+            --secondary-dark: #33658A;
+            --neutral-dark: #1E262B;
+            --border: #E9E9EA;
+            --background: #FFFFFF;
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
+
         body {
-            font-family: "Arial", sans-serif;
-            background-color: #f8f9fa;
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background);
         }
+
         .header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            background-color: white;
+            background-color: var(--background);
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             padding: 10px 20px;
         }
+
         .logo {
             display: flex;
             align-items: center;
             gap: 10px;
         }
+
         .logo img {
             height: 40px;
         }
+
         .logo .text {
             font-size: 18px;
-            color: #1a1a1a;
-            font-weight: bold;
+            color: var(--primary);
+            font-weight: 500;
         }
+
         .nav {
             display: flex;
             gap: 20px;
         }
+
         .nav a {
             text-decoration: none;
-            color: #343a40;
+            color: var(--neutral-dark);
             font-size: 14px;
             font-weight: 500;
             padding: 5px;
             transition: color 0.2s;
         }
+
         .nav a:hover {
-            color: #0056b3;
+            color: var(--secondary);
         }
+
         .profile-container {
             display: flex;
             align-items: center;
             gap: 20px;
-            position: relative;
         }
+
         .icon {
-            font-size: 1.2em;
-            color: #343a40;
+            color: var(--neutral-dark);
             cursor: pointer;
             position: relative;
         }
+
         .notification-badge {
             position: absolute;
             top: -5px;
             right: -5px;
-            background-color: red;
+            background-color: #D14343;
             color: white;
             border-radius: 50%;
-            font-size: 0.7em;
+            font-size: 12px;
             padding: 2px 6px;
         }
-        .dropdown {
-            display: none;
-            position: absolute;
-            right: 0;
-            top: 35px;
-            background-color: white;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            z-index: 100;
-        }
-        .dropdown.active {
-            display: block;
-        }
-        .dropdown-item {
-            padding: 10px;
-            font-size: 14px;
-            color: #343a40;
-            cursor: pointer;
-            transition: background-color 0.2s;
-        }
-        .dropdown-item:hover {
-            background-color: #f1f1f1;
-        }
+
         .profile-icon {
             width: 32px;
             height: 32px;
             border-radius: 50%;
-            background-color: #e0e0e0;
-            color: #343a40;
+            background-color: var(--secondary);
+            color: var(--background);
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            font-size: 14px;
+        }
+
+        .dropdown {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 40px;
+            background-color: var(--background);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+
+        .dropdown.active {
+            display: block;
+        }
+
+        .dropdown-item {
+            padding: 10px 15px;
+            font-size: 14px;
+            color: var(--neutral-dark);
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .dropdown-item:hover {
+            background-color: var(--border);
         }
     </style>
-    <script>
-        function toggleDropdown(id) {
-            const dropdown = document.getElementById(id);
-            dropdown.classList.toggle('active');
-        }
-    </script>
 </head>
 <body>
     <header class="header">
-        <!-- Logo Section -->
         <div class="logo">
-            <img src="path-to-logo.png" alt="EH4S Logo">
+            <img src="eh4s_logo.png" alt="EH4S Logo">
             <span class="text">EuroHub4Sino</span>
         </div>
-        <!-- Navigation Links -->
         <nav class="nav">
             <a href="#">Publications</a>
             <a href="#">Joint Marketplace</a>
             <a href="#">Expert Enquiry</a>
             <a href="#">Online Dynamic Library</a>
-            <a href="#">Communication</a>
             <a href="#">Data Management</a>
         </nav>
-        <!-- Profile Section -->
         <div class="profile-container">
-            <!-- Notification Icon -->
             <div class="icon" onclick="toggleDropdown('notificationDropdown')">
                 🔔<span class="notification-badge">5</span>
             </div>
@@ -143,7 +156,14 @@
                 <div class="dropdown-item">System update</div>
                 <div class="dropdown-item">Reminder: Post expiry</div>
             </div>
-            <!-- Profile Icon -->
+            <div class="icon" onclick="toggleDropdown('messageDropdown')">
+                ✉️<span class="notification-badge">3</span>
+            </div>
+            <div class="dropdown" id="messageDropdown">
+                <div class="dropdown-item">Message from John Doe</div>
+                <div class="dropdown-item">New group message</div>
+                <div class="dropdown-item">Message from Jane Smith</div>
+            </div>
             <div class="profile-icon" onclick="toggleDropdown('profileDropdown')">R</div>
             <div class="dropdown" id="profileDropdown">
                 <div class="dropdown-item">Profile Information</div>
@@ -152,5 +172,12 @@
             </div>
         </div>
     </header>
+
+    <script>
+        function toggleDropdown(id) {
+            const dropdown = document.getElementById(id);
+            dropdown.classList.toggle('active');
+        }
+    </script>
 </body>
 </html>
