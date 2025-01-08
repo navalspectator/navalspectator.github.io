@@ -459,6 +459,7 @@
             color: white;
         }
 
+        /* Single, consolidated grid view styles */
         .results-list.grid-view {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -468,30 +469,46 @@
 
         .results-list.grid-view .result-item {
             flex-direction: column;
-            align-items: center;
-            text-align: center;
+            padding: 16px;
+            height: auto; /* Remove fixed height */
+            min-height: 0; /* Remove min-height */
             background: white;
-            border: 1px solid var(--border);
+            border: 1px solid var(--border2-e9e9ea);
             border-radius: 8px;
-            padding: 20px;
         }
 
         .results-list.grid-view .profile-icon {
+            align-self: center;
             width: 80px;
             height: 80px;
-            margin-bottom: 16px;
+            margin-bottom: 8px;
         }
 
         .results-list.grid-view .result-content {
-            width: 100%;
+            flex-direction: column;
+            display: flex;
+            gap: 8px;
+        }
+
+        .results-list.grid-view .content-main {
+            text-align: center;
+        }
+
+        .results-list.grid-view .bio {
+            margin: 0;
+            font-size: 14px;
+            line-height: 1.4;
         }
 
         .results-list.grid-view .tags {
+            margin: 4px 0;
             justify-content: center;
         }
 
         .results-list.grid-view .action-buttons {
-            justify-content: center;
+            margin-top: 8px;
+            width: 100%;
+            padding: 0;
         }
 
         /* Modal Styles */
@@ -697,7 +714,7 @@
         }
 
         .grid-item .bio {
-            margin: 12px 0;
+            margin: 0;
             font-size: 14px;
             line-height: 1.5;
             /* Limit bio text to 3 lines */
@@ -707,44 +724,54 @@
             overflow: hidden;
         }
 
-        /* Update only the grid-specific styles */
-        .results-grid .result-item {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            min-height: 400px;
+        .results-list.grid-view .tags {
+            margin: 4px 0;
+            justify-content: center;
         }
 
-        .results-grid .result-content {
+        /* Remove any conflicting styles */
+        .results-grid .action-buttons {
+            margin-top: 8px;
+            width: 100%;
+            padding-top: 0;
+        }
+
+        .grid-item .bio {
+            margin: 0;
+        }
+
+        /* Restore the grid view container styles */
+        .results-list.grid-view {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
+        /* Adjust the spacing in grid view items */
+        .results-list.grid-view .result-content {
             flex-direction: column;
             height: 100%;
             display: flex;
         }
 
-        .results-grid .content-main {
+        .results-list.grid-view .content-main {
             flex: 1;
             text-align: center;
         }
 
-        .results-grid .action-buttons {
-            margin-top: auto; /* This pushes the buttons to the bottom */
+        .results-list.grid-view .bio {
+            margin: 4px 0;
+        }
+
+        .results-list.grid-view .tags {
+            margin: 4px 0;
+            justify-content: center;
+        }
+
+        .results-list.grid-view .action-buttons {
+            margin-top: 8px; /* Reduced space between content and buttons */
             width: 100%;
-            padding-top: 16px;
-        }
-
-        /* Keep the list view styles unchanged */
-        .results-list .result-item {
-            display: flex;
-            gap: 16px;
-        }
-
-        .results-list .result-content {
-            flex-direction: row;
-        }
-
-        .results-list .action-buttons {
-            align-self: center;
-            min-width: 120px;
         }
     </style>
 </head>
