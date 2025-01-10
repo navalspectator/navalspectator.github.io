@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Longer Collapsible Cards</title>
+  <title>Collapsible Cards - Expanded by Default</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -74,7 +74,9 @@
       flex: 3;
       display: flex;
       flex-direction: column;
+      border-left: 1px solid #ccc;
       overflow: auto;
+      position: relative;
       padding: 10px;
     }
 
@@ -82,10 +84,7 @@
     .collapsible-card {
       border: 1px solid #ccc;
       border-radius: 5px;
-      margin-bottom: 20px; /* Space between cards */
-      background-color: white;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-      min-height: calc(33.33vh - 20px); /* Cards occupy equal vertical space */
+      margin-bottom: 10px;
     }
     .card-header {
       display: flex;
@@ -97,9 +96,6 @@
       font-weight: bold;
       border-bottom: 1px solid #ddd;
     }
-    .card-header:hover {
-      background-color: #f1f1f1;
-    }
     .card-header .icon {
       font-size: 16px;
       color: #0078d4;
@@ -108,8 +104,6 @@
       display: block; /* Expanded by default */
       padding: 15px;
       background-color: white;
-      overflow-y: auto; /* Allow scroll for long content */
-      height: calc(100% - 50px); /* Adjust to fit card */
     }
   </style>
 </head>
@@ -150,9 +144,6 @@
           <p><strong>File Name:</strong> Antwerp_Surveillance.mp3</p>
           <p><strong>File Type:</strong> Audio/mp3</p>
           <p><strong>Duration:</strong> 3:18</p>
-          <p><strong>Size:</strong> 2.4 MB</p>
-          <p><strong>Last Modified:</strong> 01/10/2025</p>
-          <p><strong>Description:</strong> This file contains surveillance data recorded at the Antwerp port.</p>
         </div>
       </div>
 
@@ -162,9 +153,8 @@
         </div>
         <div class="card-body">
           <ul>
-            <li>Document 1: Incident Report (Created: 09/09/2020)</li>
-            <li>Document 2: Biographic Intelligence Report (Created: 10/08/2023)</li>
-            <li>Document 3: Drug Trafficking Overview (Created: 15/07/2024)</li>
+            <li>Document 1</li>
+            <li>Document 2</li>
           </ul>
         </div>
       </div>
@@ -175,9 +165,8 @@
         </div>
         <div class="card-body">
           <ul>
-            <li>Audio File 1: Surveillance Recording 1 (Duration: 2:45)</li>
-            <li>Video File 1: Drone Footage (Duration: 5:30)</li>
-            <li>Image File 1: Port View Image</li>
+            <li>Audio File 1</li>
+            <li>Video File 1</li>
           </ul>
         </div>
       </div>
