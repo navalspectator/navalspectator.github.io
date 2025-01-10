@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Collapsible Cards - Expanded by Default</title>
+  <title>Collapsible Panels in Side Panel</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -77,16 +77,43 @@
       border-left: 1px solid #ccc;
       overflow: auto;
       position: relative;
+      background-color: #fff;
+    }
+    .tabs {
+      display: flex;
+      border-bottom: 2px solid #ccc;
+      background: #f9f9f9;
+    }
+    .tab {
+      flex: 1;
       padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      background: #f9f9f9;
+      border-right: 1px solid #ccc;
+    }
+    .tab.active {
+      background: white;
+      font-weight: bold;
+      border-bottom: 2px solid #0078d4;
+    }
+    .tab-content {
+      flex: 1;
+      padding: 20px;
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
     }
 
-    /* Collapsible Card */
-    .collapsible-card {
+    /* Collapsible Panel */
+    .collapsible-panel {
       border: 1px solid #ccc;
       border-radius: 5px;
       margin-bottom: 10px;
+      overflow: hidden;
     }
-    .card-header {
+    .collapsible-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -96,14 +123,20 @@
       font-weight: bold;
       border-bottom: 1px solid #ddd;
     }
-    .card-header .icon {
+    .collapsible-header:hover {
+      background-color: #f1f1f1;
+    }
+    .collapsible-header .icon {
       font-size: 16px;
       color: #0078d4;
     }
-    .card-body {
-      display: block; /* Expanded by default */
+    .collapsible-content {
+      display: none;
       padding: 15px;
-      background-color: white;
+      background-color: #fff;
+    }
+    .collapsible-content.visible {
+      display: block;
     }
   </style>
 </head>
@@ -135,54 +168,80 @@
 
     <!-- Side Panel -->
     <div class="side-panel">
-      <!-- Collapsible Cards -->
-      <div class="collapsible-card">
-        <div class="card-header" onclick="toggleCard(this)">
-          Details <span class="icon">-</span>
-        </div>
-        <div class="card-body">
-          <p><strong>File Name:</strong> Antwerp_Surveillance.mp3</p>
-          <p><strong>File Type:</strong> Audio/mp3</p>
-          <p><strong>Duration:</strong> 3:18</p>
-        </div>
+      <div class="tabs">
+        <div class="tab active" onclick="showTab(event, 'details')">Details</div>
+        <div class="tab" onclick="showTab(event, 'related-docs')">Related Documents</div>
+        <div class="tab" onclick="showTab(event, 'related-media')">Related Media</div>
       </div>
 
-      <div class="collapsible-card">
-        <div class="card-header" onclick="toggleCard(this)">
-          Related Documents <span class="icon">-</span>
+      <!-- Tab Content -->
+      <div id="details" class="tab-content active">
+        <!-- Collapsible Panels -->
+        <div class="collapsible-panel">
+          <div class="collapsible-header" onclick="togglePanel(this)">
+            File Details <span class="icon">+</span>
+          </div>
+          <div class="collapsible-content">
+            <p><strong>File Name:</strong> Antwerp_Surveillance.mp3</p>
+            <p><strong>File Type:</strong> Audio/mp3</p>
+            <p><strong>Duration:</strong> 3:18</p>
+          </div>
         </div>
-        <div class="card-body">
-          <ul>
-            <li>Document 1</li>
-            <li>Document 2</li>
-          </ul>
+
+        <div class="collapsible-panel">
+          <div class="collapsible-header" onclick="togglePanel(this)">
+            Security Information <span class="icon">+</span>
+          </div>
+          <div class="collapsible-content">
+            <p><strong>Encrypted:</strong> Yes</p>
+            <p><strong>Security Level:</strong> Unclassified</p>
+          </div>
+        </div>
+
+        <div class="collapsible-panel">
+          <div class="collapsible-header" onclick="togglePanel(this)">
+            Tags <span class="icon">+</span>
+          </div>
+          <div class="collapsible-content">
+            <p><strong>Tags:</strong> Surveillance, Port, Drug Trafficking</p>
+          </div>
         </div>
       </div>
-
-      <div class="collapsible-card">
-        <div class="card-header" onclick="toggleCard(this)">
-          Related Media <span class="icon">-</span>
-        </div>
-        <div class="card-body">
-          <ul>
-            <li>Audio File 1</li>
-            <li>Video File 1</li>
-          </ul>
-        </div>
+      <div id="related-docs" class="tab-content">
+        <h3>Related Documents</h3>
+        <ul>
+          <li>Document 1</li>
+          <li>Document 2</li>
+        </ul>
+      </div>
+      <div id="related-media" class="tab-content">
+        <h3>Related Media</h3>
+        <ul>
+          <li>Audio File 1</li>
+          <li>Video File 1</li>
+        </ul>
       </div>
     </div>
   </div>
 
   <script>
-    function toggleCard(header) {
-      const body = header.nextElementSibling;
+    function showTab(event, tabId) {
+      const tabs = document.querySelectorAll('.tab');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      tabs.forEach(tab => tab.classList.remove('active'));
+      tabContents.forEach(content => content.classList.remove('active'));
+
+      event.target.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    function togglePanel(header) {
+      const content = header.nextElementSibling;
       const icon = header.querySelector('.icon');
 
-      body.classList.toggle('visible');
-      icon.textContent = body.classList.contains('visible') ? '-' : '+';
-
-      // Toggle visibility of the card body
-      body.style.display = body.style.display === 'block' ? 'none' : 'block';
+      content.classList.toggle('visible');
+      icon.textContent = content.classList.contains('visible') ? '-' : '+';
     }
   </script>
 </body>
