@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Collapsible Panels in Side Panel</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      background-color: #0078d4;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header .title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .header .actions button {
+      background: white;
+      border: none;
+      color: #0078d4;
+      padding: 8px 12px;
+      margin-left: 5px;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+
+    /* Main Layout */
+    .main-container {
+      display: flex;
+      flex: 1;
+    }
+
+    /* Document Viewer */
+    .document-viewer {
+      flex: 7;
+      background-color: #f4f4f4;
+      padding: 20px;
+      overflow: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .document-content {
+      width: 90%;
+      max-width: 800px;
+      height: 100%;
+      background: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+    .document-content h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .document-content p {
+      line-height: 1.6;
+    }
+
+    /* Side Panel */
+    .side-panel {
+      flex: 3;
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid #ccc;
+      overflow: auto;
+      position: relative;
+      background-color: #fff;
+    }
+    .tabs {
+      display: flex;
+      border-bottom: 2px solid #ccc;
+      background: #f9f9f9;
+    }
+    .tab {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      background: #f9f9f9;
+      border-right: 1px solid #ccc;
+    }
+    .tab.active {
+      background: white;
+      font-weight: bold;
+      border-bottom: 2px solid #0078d4;
+    }
+    .tab-content {
+      flex: 1;
+      padding: 20px;
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Collapsible Panel */
+    .collapsible-panel {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+    .collapsible-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      cursor: pointer;
+      background-color: #f9f9f9;
+      font-weight: bold;
+      border-bottom: 1px solid #ddd;
+    }
+    .collapsible-header:hover {
+      background-color: #f1f1f1;
+    }
+    .collapsible-header .icon {
+      font-size: 16px;
+      color: #0078d4;
+    }
+    .collapsible-content {
+      display: none;
+      padding: 15px;
+      background-color: #fff;
+    }
+    .collapsible-content.visible {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <div class="title">Antwerp Port Drug Surveillance</div>
+    <div class="actions">
+      <button>Back</button>
+      <button>Save</button>
+      <button>Export</button>
+    </div>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="main-container">
+    <!-- Document Viewer -->
+    <div class="document-viewer">
+      <div class="document-content">
+        <h2>Sample Document</h2>
+        <p>
+          This is a placeholder for the document content. The document viewer area can display text, images, or media files such as audio and video.
+        </p>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur vehicula risus at dui volutpat, vitae lacinia sapien aliquam.
+        </p>
+      </div>
+    </div>
+
+    <!-- Side Panel -->
+    <div class="side-panel">
+      <div class="tabs">
+        <div class="tab active" onclick="showTab(event, 'details')">Details</div>
+        <div class="tab" onclick="showTab(event, 'related-docs')">Related Documents</div>
+        <div class="tab" onclick="showTab(event, 'related-media')">Related Media</div>
+      </div>
+
+      <!-- Tab Content -->
+      <div id="details" class="tab-content active">
+        <!-- Collapsible Panels -->
+        <div class="collapsible-panel">
+          <div class="collapsible-header" onclick="togglePanel(this)">
+            File Details <span class="icon">+</span>
+          </div>
+          <div class="collapsible-content">
+            <p><strong>File Name:</strong> Antwerp_Surveillance.mp3</p>
+            <p><strong>File Type:</strong> Audio/mp3</p>
+            <p><strong>Duration:</strong> 3:18</p>
+          </div>
+        </div>
+
+        <div class="collapsible-panel">
+          <div class="collapsible-header" onclick="togglePanel(this)">
+            Security Information <span class="icon">+</span>
+          </div>
+          <div class="collapsible-content">
+            <p><strong>Encrypted:</strong> Yes</p>
+            <p><strong>Security Level:</strong> Unclassified</p>
+          </div>
+        </div>
+
+        <div class="collapsible-panel">
+          <div class="collapsible-header" onclick="togglePanel(this)">
+            Tags <span class="icon">+</span>
+          </div>
+          <div class="collapsible-content">
+            <p><strong>Tags:</strong> Surveillance, Port, Drug Trafficking</p>
+          </div>
+        </div>
+      </div>
+      <div id="related-docs" class="tab-content">
+        <h3>Related Documents</h3>
+        <ul>
+          <li>Document 1</li>
+          <li>Document 2</li>
+        </ul>
+      </div>
+      <div id="related-media" class="tab-content">
+        <h3>Related Media</h3>
+        <ul>
+          <li>Audio File 1</li>
+          <li>Video File 1</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function showTab(event, tabId) {
+      const tabs = document.querySelectorAll('.tab');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      tabs.forEach(tab => tab.classList.remove('active'));
+      tabContents.forEach(content => content.classList.remove('active'));
+
+      event.target.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    function togglePanel(header) {
+      const content = header.nextElementSibling;
+      const icon = header.querySelector('.icon');
+
+      content.classList.toggle('visible');
+      icon.textContent = content.classList.contains('visible') ? '-' : '+';
+    }
+  </script>
+</body>
+</html>
