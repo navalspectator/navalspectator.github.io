@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document Viewer with Tabbed Side Panel</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+    }
+
+    /* Header */
+    .header {
+      background-color: #0078d4;
+      color: white;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .header .title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .header .actions button {
+      background: white;
+      border: none;
+      color: #0078d4;
+      padding: 8px 12px;
+      margin-left: 5px;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+
+    /* Main Layout */
+    .main-container {
+      display: flex;
+      flex: 1;
+    }
+
+    /* Document Viewer */
+    .document-viewer {
+      flex: 7;
+      background-color: #f4f4f4;
+      padding: 20px;
+      overflow: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .document-content {
+      width: 100%;
+      max-width: 800px;
+      height: 100%;
+      background: white;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Side Panel */
+    .side-panel {
+      flex: 3;
+      display: flex;
+      flex-direction: column;
+      border-left: 1px solid #ccc;
+      overflow: auto;
+      position: relative;
+    }
+    .resize-handle {
+      width: 5px;
+      cursor: ew-resize;
+      background: #ccc;
+      position: absolute;
+      left: -5px;
+      top: 0;
+      bottom: 0;
+    }
+    .tabs {
+      display: flex;
+      border-bottom: 2px solid #ccc;
+      background: #f9f9f9;
+    }
+    .tab {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      cursor: pointer;
+      background: #f9f9f9;
+      border-right: 1px solid #ccc;
+    }
+    .tab.active {
+      background: white;
+      font-weight: bold;
+      border-bottom: 2px solid #0078d4;
+    }
+    .tab-content {
+      flex: 1;
+      padding: 20px;
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .collapsible {
+      background: #f1f1f1;
+      padding: 10px;
+      cursor: pointer;
+      border: none;
+      text-align: left;
+      outline: none;
+      margin-bottom: 5px;
+    }
+    .collapsible-content {
+      padding: 10px 15px;
+      display: none;
+      background: #f9f9f9;
+      border: 1px solid #ddd;
+    }
+    .collapsible.active + .collapsible-content {
+      display: block;
+    }
+
+    /* Footer */
+    .footer {
+      background: #f9f9f9;
+      padding: 10px 20px;
+      text-align: center;
+      border-top: 1px solid #ccc;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <div class="title">Antwerp Port Drug Surveillance</div>
+    <div class="actions">
+      <button>Back</button>
+      <button>Save</button>
+      <button>Export</button>
+    </div>
+  </div>
+
+  <!-- Main Layout -->
+  <div class="main-container">
+    <!-- Document Viewer -->
+    <div class="document-viewer">
+      <div class="document-content">Document Content Area</div>
+    </div>
+
+    <!-- Side Panel -->
+    <div class="side-panel">
+      <div class="resize-handle"></div>
+      <!-- Tabs -->
+      <div class="tabs">
+        <div class="tab active" onclick="showTab(event, 'details')">Details</div>
+        <div class="tab" onclick="showTab(event, 'related-docs')">Related Documents</div>
+        <div class="tab" onclick="showTab(event, 'related-media')">Related Media</div>
+      </div>
+
+      <!-- Tab Content -->
+      <div id="details" class="tab-content active">
+        <h3>Document Details</h3>
+        <button class="collapsible">Metadata Group 1</button>
+        <div class="collapsible-content">Details about Metadata Group 1.</div>
+        <button class="collapsible">Metadata Group 2</button>
+        <div class="collapsible-content">Details about Metadata Group 2.</div>
+      </div>
+      <div id="related-docs" class="tab-content">
+        <h3>Related Documents</h3>
+        <ul>
+          <li>Document 1</li>
+          <li>Document 2</li>
+        </ul>
+      </div>
+      <div id="related-media" class="tab-content">
+        <h3>Related Media</h3>
+        <ul>
+          <li>Audio File 1</li>
+          <li>Video File 1</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">Last viewed: 01/10/2025 | File Encrypted</div>
+
+  <script>
+    function showTab(event, tabId) {
+      const tabs = document.querySelectorAll('.tab');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      tabs.forEach(tab => tab.classList.remove('active'));
+      tabContents.forEach(content => content.classList.remove('active'));
+
+      event.target.classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    }
+
+    const collapsibles = document.querySelectorAll('.collapsible');
+    collapsibles.forEach(collapsible => {
+      collapsible.addEventListener('click', function () {
+        this.classList.toggle('active');
+        const content = this.nextElementSibling;
+        content.style.display = content.style.display === 'block' ? 'none' : 'block';
+      });
+    });
+  </script>
+</body>
+</html>
