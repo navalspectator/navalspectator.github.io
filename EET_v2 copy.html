@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expert Details Pop-Up</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .modal {
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            width: 60%;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .profile-picture {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: #ddd;
+            margin-right: 20px;
+        }
+
+        .name-section {
+            flex: 1;
+        }
+
+        .name {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .profession {
+            font-size: 1em;
+            color: #666;
+            margin: 0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        button {
+            background: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 20px;
+            border-bottom: 2px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 0;
+            cursor: pointer;
+        }
+
+        .tab:hover {
+            color: #007bff;
+        }
+
+        .tab.active {
+            font-weight: bold;
+            border-bottom: 2px solid #007bff;
+        }
+
+        .content {
+            margin-bottom: 20px;
+        }
+
+        .content h3 {
+            margin: 0 0 10px 0;
+        }
+
+        .chips {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            padding: 5px 10px;
+            background: #e0e0e0;
+            border-radius: 20px;
+            font-size: 0.9em;
+        }
+
+        .footer {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .footer button {
+            background: #ddd;
+            color: #333;
+        }
+
+        .footer button:hover {
+            background: #bbb;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+<div class="modal">
+    <!-- Header Section -->
+    <div class="header">
+        <div class="profile-picture"></div>
+        <div class="name-section">
+            <p class="name">Dr. Jane Smith</p>
+            <p class="profession">Senior Researcher - European Institute of Innovation</p>
+        </div>
+        <div class="action-buttons">
+            <button>Message</button>
+            <button>Follow</button>
+        </div>
+    </div>
+
+    <!-- Tabs Section -->
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('overview')">Overview</div>
+        <div class="tab" onclick="showTab('contact')">Contact</div>
+        <div class="tab" onclick="showTab('publications')">Publications</div>
+    </div>
+
+    <!-- Content Section -->
+    <div id="overview" class="content">
+        <h3>Bio</h3>
+        <p>Senior researcher specializing in EU-China relations with over 15 years of experience in international relations and policy analysis.</p>
+
+        <h3>Institutions and Affiliations</h3>
+        <p>European Institute of Innovation</p>
+    </div>
+
+    <div id="contact" class="content hidden">
+        <h3>Contact Information</h3>
+        <ul>
+            <li>Email: jane.smith@example.com</li>
+            <li>Phone: +123 456 789</li>
+            <li><a href="#">LinkedIn Profile</a></li>
+            <li><a href="#">ORCID ID</a></li>
+        </ul>
+    </div>
+
+    <div id="publications" class="content hidden">
+        <h3>Publications</h3>
+        <ul>
+            <li><a href="#">Publication 1: EU-China Policy Analysis</a></li>
+            <li><a href="#">Publication 2: Innovation Strategies in Europe</a></li>
+        </ul>
+    </div>
+
+    <!-- Footer Section -->
+    <div class="footer">
+        <button>&larr; Previous</button>
+        <button>Next &rarr;</button>
+    </div>
+</div>
+
+<script>
+    function showTab(tabId) {
+        const tabs = document.querySelectorAll('.content');
+        tabs.forEach(tab => tab.classList.add('hidden'));
+        document.getElementById(tabId).classList.remove('hidden');
+
+        const tabButtons = document.querySelectorAll('.tab');
+        tabButtons.forEach(button => button.classList.remove('active'));
+        document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+    }
+</script>
+
+</body>
+</html>
