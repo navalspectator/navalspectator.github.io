@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>Asset and Media Manager</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+        .container {
+            display: grid;
+            grid-template-areas:
+                "header header header"
+                "left center right"
+                "footer footer footer";
+            grid-template-columns: 1fr 3fr 1fr;
+            grid-template-rows: auto 1fr auto;
+            height: 80vh;
+            width: 90vw;
+            margin: auto;
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        header {
+            grid-area: header;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border-bottom: 1px solid #ddd;
+        }
+        header .breadcrumbs {
+            font-size: 0.9em;
+        }
+        header .search-bar {
+            flex-grow: 3;
+            margin: 0 12px;
+        }
+        header button {
+            margin-left: 5px;
+        }
+        .header-actions {
+            margin-top: 10px;
+            display: flex;
+            justify-content: flex-start;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-bottom: 1px solid #ddd;
+        }
+        .header-actions button {
+            margin-right: 10px;
+        }
+        .left-panel {
+            grid-area: left;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-right: 1px solid #ddd;
+        }
+        .left-panel ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .left-panel ul li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .left-panel ul li img {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+        }
+        .center-panel {
+            grid-area: center;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+        .center-panel .file-display {
+            flex-grow: 1;
+            overflow-y: auto;
+            margin-bottom: 10px;
+        }
+        .file {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .file input[type="checkbox"] {
+            margin-right: 10px;
+        }
+        .right-panel {
+            grid-area: right;
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-left: 1px solid #ddd;
+            overflow-y: auto;
+        }
+        .right-panel .metadata {
+            margin-bottom: 15px;
+        }
+        .metadata label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        .metadata input[type="text"],
+        .metadata textarea {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .metadata .upload-info {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        .metadata .post-link {
+            color: #0073aa;
+            text-decoration: none;
+        }
+        .metadata .post-link:hover {
+            text-decoration: underline;
+        }
+        footer {
+            grid-area: footer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            background-color: #f4f4f4;
+            border-top: 1px solid #ddd;
+        }
+        .screen-options {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            background: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+        .screen-options.active {
+            display: block;
+        }
+        .screen-options label {
+            display: block;
+            margin: 5px 0;
+        }
+        .column-header {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+        .column-header:hover {
+            background-color: #f0f0f0;
+        }
+        .sort-icon {
+            margin-left: 5px;
+            opacity: 0.5;
+        }
+        .column-header:hover .sort-icon {
+            opacity: 1;
+        }
+        .file-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .file-table th, .file-table td {
+            padding: 8px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        .file-table th {
+            background-color: #f4f4f4;
+        }
+        .search-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .screen-options-button {
+            background: none;
+            border: 1px solid #ddd;
+            padding: 5px 10px;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        .view-toggle {
+            display: flex;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .view-toggle button {
+            padding: 6px 12px;
+            border: none;
+            background: white;
+            cursor: pointer;
+        }
+        .view-toggle button.active {
+            background: #f0f0f0;
+        }
+        .upload-btn {
+            background: #0073aa;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .upload-btn:hover {
+            background: #005d8c;
+        }
+        .metadata-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        .edit-btn {
+            padding: 6px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+        }
+        .edit-btn.editing {
+            background: #f0f0f0;
+        }
+        .metadata-actions {
+            display: none;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .metadata-actions.show {
+            display: flex;
+        }
+        .save-btn {
+            background: #0073aa;
+            color: white;
+            border: none;
+        }
+        .cancel-btn {
+            background: white;
+            border: 1px solid #ddd;
+        }
+        .save-btn, .cancel-btn {
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <span class="breadcrumbs">Home > Asset Manager</span>
+            <div class="header-controls">
+                <div class="search-container">
+                    <input type="text" class="search-bar" placeholder="Search files by name or metadata">
+                </div>
+                <div class="view-toggle">
+                    <button class="active"><i class="fas fa-th-large"></i> Grid</button>
+                    <button><i class="fas fa-list"></i> List</button>
+                </div>
+                <button class="screen-options-button">
+                    <i class="fas fa-cog"></i> Screen Options
+                </button>
+                <button class="upload-btn">
+                    <i class="fas fa-upload"></i> Upload
+                </button>
+            </div>
+            <button>Close</button>
+        </header>
+
+        <div class="screen-options">
+            <h4>Show Columns</h4>
+            <label><input type="checkbox" checked> File Name</label>
+            <label><input type="checkbox" checked> Author</label>
+            <label><input type="checkbox" checked> Uploaded To</label>
+            <label><input type="checkbox" checked> Date</label>
+            <label><input type="checkbox" checked> File Size</label>
+            <label><input type="checkbox"> Dimensions</label>
+            <h4>Items per page</h4>
+            <input type="number" value="20" min="1" max="999">
+            <button>Apply</button>
+        </div>
+
+        <aside class="left-panel">
+            <h3>Filters</h3>
+            <ul>
+                <li>📷 Images</li>
+                <li>📄 Documents</li>
+                <li>🎥 Videos</li>
+                <li>🎵 Audio</li>
+            </ul>
+            <h3>Date Filters</h3>
+            <div>
+                <label for="creation-date">Creation Date:</label>
+                <select id="creation-date">
+                    <option value="last-day">Last Day</option>
+                    <option value="last-week">Last Week</option>
+                    <option value="last-month">Last Month</option>
+                    <option value="last-year">Last Year</option>
+                    <option value="custom">Custom</option>
+                </select>
+            </div>
+            <div>
+                <label for="modification-date">Modification Date:</label>
+                <select id="modification-date">
+                    <option value="last-day">Last Day</option>
+                    <option value="last-week">Last Week</option>
+                    <option value="last-month">Last Month</option>
+                    <option value="last-year">Last Year</option>
+                    <option value="custom">Custom</option>
+                </select>
+            </div>
+        </aside>
+        <main class="center-panel">
+            <div class="file-display">
+                <table class="file-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="select-all"></th>
+                            <th>File Name</th>
+                            <th>Author</th>
+                            <th>Uploaded To</th>
+                            <th>Date</th>
+                            <th>File Size</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>📷 sample-image.jpg</td>
+                            <td>John Doe</td>
+                            <td>Sample Post</td>
+                            <td>2024-01-15</td>
+                            <td>245 KB</td>
+                        </tr>
+                        <tr>
+                            <td><input type="checkbox"></td>
+                            <td>📄 document.pdf</td>
+                            <td>Jane Smith</td>
+                            <td>About Page</td>
+                            <td>2024-01-14</td>
+                            <td>1.2 MB</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+        <aside class="right-panel">
+            <div class="metadata-header">
+                <h3>Metadata</h3>
+                <button class="edit-btn">
+                    <i class="fas fa-pencil-alt"></i> Edit
+                </button>
+            </div>
+            <div class="metadata">
+                <div class="upload-info">
+                    <p><strong>Uploaded on:</strong> <span>January 15, 2024</span></p>
+                    <p><strong>Uploaded by:</strong> <span>John Doe</span></p>
+                    <p><strong>Uploaded to:</strong> <a href="#" class="post-link">Sample Post Title</a></p>
+                </div>
+            </div>
+            
+            <div class="metadata">
+                <label>File name:</label>
+                <input type="text" value="sample-image.jpg" readonly>
+            </div>
+            
+            <div class="metadata">
+                <label>File type:</label>
+                <input type="text" value="image/jpeg" readonly>
+            </div>
+            
+            <div class="metadata">
+                <label>File size:</label>
+                <input type="text" value="245 KB" readonly>
+            </div>
+            
+            <div class="metadata">
+                <label>Dimensions:</label>
+                <input type="text" value="1920 × 1080 pixels" readonly>
+            </div>
+            
+            <div class="metadata">
+                <label>Alt Text:</label>
+                <input type="text" placeholder="Enter alt text for the image">
+            </div>
+            
+            <div class="metadata">
+                <label>Title:</label>
+                <input type="text" value="Sample Image Title">
+            </div>
+            
+            <div class="metadata">
+                <label>Caption:</label>
+                <textarea rows="2" placeholder="Enter a brief caption..."></textarea>
+            </div>
+            
+            <div class="metadata">
+                <label>Description:</label>
+                <textarea rows="3" placeholder="Enter a detailed description..."></textarea>
+            </div>
+            
+            <div class="metadata">
+                <label>Tags:</label>
+                <input type="text" value="tag1, tag2" placeholder="Enter tags separated by commas">
+            </div>
+            
+            <div class="metadata-actions">
+                <button class="cancel-btn">Cancel</button>
+                <button class="save-btn">Save Changes</button>
+            </div>
+        </aside>
+
+        <footer>
+            <span>Drag and drop files or click "Upload" to add files.</span>
+        </footer>
+    </div>
+
+    <script>
+        // Toggle Screen Options
+        const screenOptionsBtn = document.querySelector('.screen-options-button');
+        const screenOptions = document.querySelector('.screen-options');
+        
+        screenOptionsBtn.addEventListener('click', () => {
+            screenOptions.classList.toggle('active');
+        });
+
+        // Column Sorting with data handling
+        const columnHeaders = document.querySelectorAll('.column-header');
+        columnHeaders.forEach(header => {
+            header.addEventListener('click', () => {
+                const columnIndex = Array.from(header.parentElement.children).indexOf(header);
+                const tbody = document.querySelector('.file-table tbody');
+                const rows = Array.from(tbody.querySelectorAll('tr'));
+                
+                // Get current sort direction
+                const icon = header.querySelector('.sort-icon');
+                const isAscending = icon.classList.contains('fa-sort') || 
+                                  icon.classList.contains('fa-sort-down');
+                
+                // Update sort icons
+                columnHeaders.forEach(h => {
+                    h.querySelector('.sort-icon').className = 'fas fa-sort sort-icon';
+                });
+                icon.className = `fas fa-sort-${isAscending ? 'up' : 'down'} sort-icon`;
+                
+                // Sort rows
+                rows.sort((a, b) => {
+                    let aVal = a.children[columnIndex].textContent;
+                    let bVal = b.children[columnIndex].textContent;
+                    
+                    // Handle different data types
+                    if (header.textContent.includes('Date')) {
+                        aVal = new Date(aVal);
+                        bVal = new Date(bVal);
+                    } else if (header.textContent.includes('Size')) {
+                        aVal = parseFileSize(aVal);
+                        bVal = parseFileSize(bVal);
+                    }
+                    
+                    if (aVal < bVal) return isAscending ? -1 : 1;
+                    if (aVal > bVal) return isAscending ? 1 : -1;
+                    return 0;
+                });
+                
+                // Reorder rows
+                rows.forEach(row => tbody.appendChild(row));
+            });
+        });
+
+        // Helper function to parse file sizes
+        function parseFileSize(size) {
+            const units = {'KB': 1, 'MB': 1024, 'GB': 1048576};
+            const [value, unit] = size.split(' ');
+            return parseFloat(value) * (units[unit] || 1);
+        }
+
+        // Date Filter Dropdowns
+        const dateFilters = document.querySelectorAll('.date-filter');
+        dateFilters.forEach(filter => {
+            const trigger = filter.querySelector('span');
+            const dropdown = filter.querySelector('.date-filter-dropdown');
+            
+            trigger.addEventListener('click', (e) => {
+                e.stopPropagation();
+                // Close other dropdowns
+                document.querySelectorAll('.date-filter-dropdown.active')
+                    .forEach(d => {
+                        if (d !== dropdown) d.classList.remove('active');
+                    });
+                dropdown.classList.toggle('active');
+            });
+        });
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', () => {
+            document.querySelectorAll('.date-filter-dropdown.active')
+                .forEach(dropdown => dropdown.classList.remove('active'));
+        });
+
+        // Select All Functionality
+        const selectAllCheckbox = document.getElementById('select-all');
+        selectAllCheckbox.addEventListener('change', (e) => {
+            const checkboxes = document.querySelectorAll('.file-table tbody input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = e.target.checked;
+            });
+        });
+
+        // View Toggle
+        const viewToggleButtons = document.querySelectorAll('.view-toggle button');
+        viewToggleButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                viewToggleButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                // Add logic here to switch between grid and list views
+            });
+        });
+
+        // Metadata Edit Mode
+        const editBtn = document.querySelector('.edit-btn');
+        const metadataInputs = document.querySelectorAll('.metadata input:not([readonly]), .metadata textarea');
+        const metadataActions = document.querySelector('.metadata-actions');
+        const cancelBtn = document.querySelector('.cancel-btn');
+        const saveBtn = document.querySelector('.save-btn');
+
+        let originalValues = {};
+
+        editBtn.addEventListener('click', () => {
+            const isEditing = editBtn.classList.toggle('editing');
+            
+            if (isEditing) {
+                // Enter edit mode
+                editBtn.innerHTML = '<i class="fas fa-pencil-alt"></i> Editing...';
+                metadataActions.classList.add('show');
+                
+                // Store original values and enable inputs
+                metadataInputs.forEach(input => {
+                    originalValues[input.name] = input.value;
+                    input.removeAttribute('readonly');
+                });
+            } else {
+                exitEditMode();
+            }
+        });
+
+        cancelBtn.addEventListener('click', () => {
+            // Restore original values
+            metadataInputs.forEach(input => {
+                input.value = originalValues[input.name];
+            });
+            exitEditMode();
+        });
+
+        function exitEditMode() {
+            editBtn.classList.remove('editing');
+            editBtn.innerHTML = '<i class="fas fa-pencil-alt"></i> Edit';
+            metadataActions.classList.remove('show');
+            
+            // Disable inputs
+            metadataInputs.forEach(input => {
+                input.setAttribute('readonly', true);
+            });
+        }
+
+        saveBtn.addEventListener('click', () => {
+            // Add save logic here
+            exitEditMode();
+        });
+    </script>
+</body>
+</html>
