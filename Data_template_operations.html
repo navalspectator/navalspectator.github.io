@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Move or Copy Data Between Ontologies</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            width: 80%;
+            margin: 50px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 14px;
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        select, input[type="text"], button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .summary, .dependency-check, .confirmation {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 20px;
+        }
+        .checkbox-container {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Move or Copy Data Between Ontologies</h1>
+
+        <label for="targetOntology">Select Target Ontology:</label>
+        <select id="targetOntology">
+            <option value="odesa">Odesa</option>
+            <option value="ukraine">Ukraine</option>
+        </select>
+
+        <label for="actionType">Action Type:</label>
+        <select id="actionType">
+            <option value="move">Move</option>
+            <option value="copy">Copy</option>
+        </select>
+
+        <label>Select Templates to Include:</label>
+        <div class="checkbox-container">
+            <label>
+                <input type="checkbox" name="template" value="droneAttackEvents" data-type="event"> Drone Attack Events (Event)
+            </label>
+            <label>
+                <input type="checkbox" name="template" value="missileStrikeEvents" data-type="event"> Missile Strike Events (Event)
+            </label>
+            <!-- Add more templates as needed -->
+        </div>
+
+        <div class="checkbox-container">
+            <label>
+                <input type="checkbox" name="includeData" value="includeData"> Include Data in Selected Templates
+            </label>
+        </div>
+
+        <label>Summary of Changes:</label>
+        <div class="summary">
+            <p id="summaryText">No templates selected.</p>
+        </div>
+
+        <button id="confirmBtn">Confirm</button>
+
+        <div id="secondaryConfirmation" class="confirmation" style="display:none;">
+            <p>You are about to move/copy X instances. Please enter the number X to confirm:</p>
+            <input type="text" id="confirmInput" placeholder="Enter number of instances">
+            <button id="finalConfirmBtn">Final Confirm</button>
+        </div>
+    </div>
+
+    <script>
+        const confirmBtn = document.getElementById('confirmBtn');
+        const secondaryConfirmation = document.getElementById('secondaryConfirmation');
+        const summaryText = document.getElementById('summaryText');
+        const finalConfirmBtn = document.getElementById('finalConfirmBtn');
+        const confirmInput = document.getElementById('confirmInput');
+
+        confirmBtn.addEventListener('click', function() {
+            const selectedTemplates = Array.from(document.querySelectorAll('input[name="template"]:checked'));
+            const includeData = document.querySelector('input[name="includeData"]:checked');
+            if (selectedTemplates.length === 0) {
+                alert('Please select at least one template.');
+                return;
+            }
+
+            let summary = `You are about to ${document.getElementById('actionType').value} the following templates:\n`;
+            selectedTemplates.forEach(template => {
+                summary += ` - ${template.nextSibling.textContent.trim()} (${template.dataset.type})\n`;
+            });
+            if (includeData) {
+                summary += 'Including data in the selected templates.\n';
+            } else {
+                summary += 'Not including data in the selected templates.\n';
+            }
+
+            summaryText.innerText = summary;
+
+            // Display secondary confirmation
+            secondaryConfirmation.style.display = 'block';
+        });
+
+        finalConfirmBtn.addEventListener('click', function() {
+            const input = confirmInput.value;
+            if (input == 'X') { // Replace 'X' with the actual number of instances
+                alert('Data moved/copied successfully.');
+                // Logic to move/copy data goes here
+            } else {
+                alert('Please enter the correct number of instances.');
+            }
+        });
+    </script>
+</body>
+</html>
