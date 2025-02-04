@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Post Details Pop-Up</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center h-screen">
+    <!-- Pop-Up Container -->
+    <div class="bg-white rounded-lg shadow-lg max-w-2xl w-full p-6 relative">
+        <!-- Header Section -->
+        <div class="border-b pb-4 mb-4">
+            <h2 class="text-2xl font-bold text-gray-900">Post Title Goes Here</h2>
+            <div class="flex items-center text-gray-500 text-sm mt-2">
+                <span class="mr-4 flex items-center"><i class="mr-1">📅</i> Jan 30, 2025</span>
+                <span class="mr-4 flex items-center"><i class="mr-1">👤</i> John Doe</span>
+                <span class="px-2 py-1 bg-gray-200 rounded text-xs">Workshop</span>
+            </div>
+        </div>
+        
+        <!-- Main Content Area -->
+        <div class="text-gray-700 text-sm mb-4">
+            <p class="line-clamp-3">This is a short description of the post. If the content is longer, it should be truncated with a 'Read More' option.</p>
+            <button class="text-blue-500 hover:underline mt-2">Read More</button>
+        </div>
+        
+        <!-- Comments Section -->
+        <div class="border-t pt-4 mt-4">
+            <h3 class="text-lg font-semibold mb-2">Comments</h3>
+            <div class="space-y-3 max-h-40 overflow-y-auto">
+                <div class="flex items-start space-x-3">
+                    <img class="w-10 h-10 rounded-full" src="https://via.placeholder.com/40" alt="User">
+                    <div>
+                        <p class="text-sm font-semibold">Jane Doe <span class="text-gray-400 text-xs">2h ago</span></p>
+                        <p class="text-gray-600 text-sm">This is a sample comment.</p>
+                        <div class="text-blue-500 text-xs flex space-x-2 mt-1">
+                            <button>Reply</button> <button>Like</button> <button>...</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Additional comments will go here -->
+            </div>
+            <div class="mt-4 flex items-center border-t pt-3">
+                <input type="text" class="w-full p-2 border rounded-lg" placeholder="Write a comment...">
+                <button class="ml-2 bg-blue-500 text-white px-4 py-2 rounded-lg">Send</button>
+            </div>
+        </div>
+        
+        <!-- Fixed Bottom Actions -->
+        <div class="border-t mt-4 pt-4 flex justify-between items-center">
+            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg">Join</button>
+            <div class="flex space-x-4">
+                <button class="text-gray-500">🔗 Share</button>
+                <button class="text-gray-500">⭐ Bookmark</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
