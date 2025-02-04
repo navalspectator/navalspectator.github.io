@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Filter Panel</title>
+    <style>
+        .filter-component {
+            width: 280px;
+            min-width: 280px;
+            background-color: var(--background-white-ffffff);
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .filter-panel {
+            padding: 24px;
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-family: var(--font-family-roboto);
+        }
+
+        .filter-header h3 {
+            font-size: 24px;
+            color: var(--neutral-dark);
+        }
+
+        .clear-all {
+            color: var(--secondary);
+            background: none;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .selected-filters {
+            margin-bottom: 24px;
+        }
+
+        .selected-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .chip {
+            background-color: #E8F0FE;
+            color: var(--neutral-dark);
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .chip .remove-chip {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            font-size: 18px;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+        }
+
+        .filter-group {
+            margin-bottom: 24px;
+        }
+
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .toggle {
+            display: flex;
+            background: #e0e0e0;
+            border-radius: 20px;
+            padding: 5px;
+            width: 120px;
+            justify-content: space-between;
+            cursor: pointer;
+        }
+
+        .toggle span {
+            flex: 1;
+            text-align: center;
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+
+        .toggle .active {
+            background: var(--primary);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="filter-component">
+        <div class="filter-panel">
+            <div class="filter-header">
+                <h3>Filter By</h3>
+                <button class="clear-all">Clear All</button>
+            </div>
+
+            <div class="filter-group">
+                <h4>Government Source</h4>
+                <div class="toggle-container">
+                    <div class="toggle" id="gov-source-toggle">
+                        <span id="yes-option">Yes</span>
+                        <span id="no-option">No</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="filter-group">
+                <h4>Area of Interest</h4>
+                <label><input type="checkbox"> Politics</label>
+                <label><input type="checkbox"> Tech</label>
+                <label><input type="checkbox"> Trade and Economy</label>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const yesOption = document.getElementById("yes-option");
+            const noOption = document.getElementById("no-option");
+            let selected = null;
+
+            function toggleFilter(option) {
+                if (selected === option) {
+                    selected = null;
+                    yesOption.classList.remove("active");
+                    noOption.classList.remove("active");
+                } else {
+                    selected = option;
+                    yesOption.classList.toggle("active", option === "yes");
+                    noOption.classList.toggle("active", option === "no");
+                }
+            }
+
+            yesOption.addEventListener("click", () => toggleFilter("yes"));
+            noOption.addEventListener("click", () => toggleFilter("no"));
+        });
+    </script>
+</body>
+</html>

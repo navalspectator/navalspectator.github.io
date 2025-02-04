@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Government Source Filter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .filter-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .toggle {
+            display: flex;
+            background: #e0e0e0;
+            border-radius: 20px;
+            padding: 5px;
+            width: 120px;
+            cursor: pointer;
+        }
+        .toggle span {
+            flex: 1;
+            text-align: center;
+            padding: 5px 10px;
+            border-radius: 15px;
+        }
+        .active {
+            background: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h3>Filter by Government Source</h3>
+    <div class="filter-container">
+        <label for="gov-source-toggle">Government Source:</label>
+        <div class="toggle" id="gov-source-toggle">
+            <span id="yes-option">Yes</span>
+            <span id="no-option">No</span>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const yesOption = document.getElementById("yes-option");
+            const noOption = document.getElementById("no-option");
+            let selected = null;
+            
+            function toggleFilter(option) {
+                if (selected === option) {
+                    selected = null;
+                    yesOption.classList.remove("active");
+                    noOption.classList.remove("active");
+                } else {
+                    selected = option;
+                    yesOption.classList.toggle("active", option === "yes");
+                    noOption.classList.toggle("active", option === "no");
+                }
+            }
+            
+            yesOption.addEventListener("click", () => toggleFilter("yes"));
+            noOption.addEventListener("click", () => toggleFilter("no"));
+        });
+    </script>
+</body>
+</html>
