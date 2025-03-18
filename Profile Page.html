@@ -246,6 +246,132 @@
             margin-top: 5px;
             font-size: 14px;
         }
+
+        .profile-pic {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 10px;
+        }
+
+        .edit-icon {
+            background-color: var(--primary, #0056b3);
+            color: white;
+            padding: 5px 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .edit-icon:hover {
+            background-color: #004494;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .upload-btn,
+        .remove-btn,
+        .cancel-btn {
+            background-color: var(--primary, #0056b3);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .upload-btn:hover,
+        .remove-btn:hover,
+        .cancel-btn:hover {
+            background-color: #004494;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            background-color: #f4f4f4;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .tab.active {
+            background-color: #0056b3;
+            color: white;
+        }
+
+        .results-list,
+        .grid-view {
+            display: none;
+        }
+
+        .results-list.active,
+        .grid-view.active {
+            display: block;
+        }
+
+        .result-item,
+        .grid-card {
+            padding: 10px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .grid-view {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+        }
+
+        .post-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .post-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -303,7 +429,8 @@
         <div class="sidebar">
             <a href="#" onclick="showSection('profileInfo')" class="active">Profile Information</a>
             <a href="#" onclick="showSection('settingsPrivacy')">Settings & Privacy</a>
-            <a href="#" onclick="showSection('libraryPosts')">Library and Posts</a>
+            <a href="#" onclick="showSection('bookmarks')">Bookmarks</a>
+            <a href="#" onclick="showSection('myPosts')">My Posts</a>
             <a href="#" onclick="showSection('preferences')">Preferences</a>
             <a href="#" onclick="showSection('help')">Help</a>
         </div>
@@ -313,6 +440,13 @@
             <!-- Profile Information Section -->
             <div class="section active" id="profileInfo">
                 <h2>Profile Information</h2>
+                <div class="input-group">
+                    <label for="profilePic">Profile Picture</label>
+                    <div class="profile-container">
+                        <img id="profilePic" src="https://via.placeholder.com/150/555/eee?text=Profile" alt="Profile Picture" class="profile-pic">
+                        <button class="edit-icon" onclick="openModal()">✏️ Edit</button>
+                    </div>
+                </div>
                 <div class="input-group">
                     <label for="firstName">First Name</label>
                     <input type="text" id="firstName" placeholder="First Name">
@@ -392,20 +526,47 @@
                 </div>
             </div>
 
-            <!-- Library and Posts Section -->
-            <div class="section" id="libraryPosts">
-                <h2>Library and Posts</h2>
-                <div class="input-group">
-                    <label>Bookmarks</label>
-                    <p>Manage your saved content, filter by themes, document templates, or entity type.</p>
+            <!-- Bookmarks Section -->
+            <div class="section" id="bookmarks">
+                <h2>Bookmarks</h2>
+                <div class="tabs">
+                    <div class="tab active" onclick="showTab('jmp')">JMP</div>
+                    <div class="tab" onclick="showTab('odl')">ODL</div>
+                    <div class="tab" onclick="showTab('eet')">EET</div>
+                    <div class="tab" onclick="showTab('vitrine')">Vitrine</div>
                 </div>
-                <div class="input-group">
-                    <label>My JMP Posts</label>
-                    <p>View and manage your posts, filter by status or category, and view engagement metrics.</p>
+                <div class="results-list" id="jmp">
+                    <div class="result-item">📄 JMP Research Paper 1</div>
+                    
                 </div>
+                <div class="results-list" id="odl" style="display:none;">
+                    <div class="result-item">📄 ODL Whitepaper</div>
+                </div>
+                <div class="results-list" id="eet" style="display:none;">
+                    <div class="result-item">📄 EET Innovation Report</div>
+                </div>
+                <div class="grid-view" id="vitrine" style="display:none;">
+                    <div class="grid-card">📰 Vitrine Article 1</div>
+                    <div class="grid-card">📰 Vitrine Article 2</div>
+                    <div class="grid-card">📰 Vitrine Article 3</div>
+                    <div class="grid-card">📰 Vitrine Article 4</div>
+                    <div class="grid-card">📰 Vitrine Article 5</div>
+                </div>
+            </div>
+
+            <!-- My Posts Section -->
+            <div class="section" id="myPosts">
+                <h2>My JMP Posts</h2>
                 <div class="input-group">
-                    <label>My Activity</label>
-                    <p>View likes and comments you have made.</p>
+                    <label>You can View your postson JMP.</label>
+                </div>
+                <div class="post-item">
+                    <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</h3>
+                    <p>by Lorem ipsum • 20 April 2023 • News</p>
+                    <p>Duis orci nisl, vulputate interdum feugiat eu, eleifend vitae lorem. Pellentesque finibus quam ac ultrices sollicitudin. Ut odio sem, porttitor eget maximus sit amet, rutrum at urna. Nam tincidunt semper sem eu bibendum. Nullam congue velit nulla, sit amet aliquam lacus sollicitudin id.</p>
+                    <div class="post-footer">
+                        <button class="button">Full Text</button>
+                    </div>
                 </div>
             </div>
 
@@ -439,6 +600,20 @@
                 <h2>Help</h2>
                 <p>Access the help center, FAQs, or contact support for assistance.</p>
                 <button class="button">Submit Feedback</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <h3>Update Profile Picture</h3>
+            <img id="modalProfilePic" src="https://via.placeholder.com/150/555/eee?text=Profile" alt="Profile Picture">
+            <div class="modal-buttons">
+                <input type="file" id="fileInput" accept="image/*" onchange="changeProfilePic(event)">
+                <button class="upload-btn" onclick="document.getElementById('fileInput').click()">Upload New Photo</button>
+                <button class="remove-btn" onclick="removeProfilePic()">Remove Photo</button>
+                <button class="cancel-btn" onclick="closeModal()">Cancel</button>
             </div>
         </div>
     </div>
@@ -480,6 +655,52 @@
                 });
             }
         });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("Profile page initialized");
+            showSection('profileInfo'); // Show profile information by default
+        });
+
+        function openModal() {
+            document.getElementById("profileModal").style.display = "block";
+            document.getElementById("modalProfilePic").src = document.getElementById("profilePic").src;
+        }
+
+        function closeModal() {
+            document.getElementById("profileModal").style.display = "none";
+        }
+
+        function changeProfilePic(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    document.getElementById("profilePic").src = e.target.result;
+                    document.getElementById("modalProfilePic").src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+            closeModal();
+        }
+
+        function removeProfilePic() {
+            const defaultPic = "https://via.placeholder.com/150/555/eee?text=Profile";
+            document.getElementById("profilePic").src = defaultPic;
+            document.getElementById("modalProfilePic").src = defaultPic;
+            closeModal();
+        }
+
+        function showTab(tabId) {
+            document.querySelectorAll('.results-list, .grid-view').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabId).style.display = 'block';
+            document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+        }
 
         // Initialize page
         document.addEventListener('DOMContentLoaded', function() {
