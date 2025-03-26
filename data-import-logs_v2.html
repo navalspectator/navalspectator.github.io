@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Import Job Results</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script>
+    function toggleDropdown(id) {
+      const el = document.getElementById(id);
+      if (el) {
+        el.classList.toggle("hidden");
+      }
+    }
+
+    function clearFilter(id) {
+      const filter = document.getElementById(id);
+      if (filter) {
+        const inputs = filter.querySelectorAll('input[type="checkbox"]');
+        inputs.forEach(input => input.checked = false);
+      }
+    }
+
+    if (!window.errorLogModule) {
+      window.errorLogModule = (function () {
+        let currentPage = 1;
+        const rowsPerPage = 2;
+        const errorData = [
+          { row: 12, field: "Zone Coordinates", message: "Invalid format (expected GeoJSON)" },
+          { row: 47, field: "Event Title", message: "Required field missing" },
+          { row: 91, field: "Threat Level", message: "Value \"X\" not in enum list" },
+          { row: 102, field: "Event Title", message: "Empty field detected" },
+          { row: 118, field: "Zone Coordinates", message: "Missing longitude value" }
+        ];
+
+        function renderErrorTable() {
+          const start = (currentPage - 1) * rowsPerPage;
+          const end = start + rowsPerPage;
+          const paginatedData = errorData.slice(start, end);
+
+          const tbody = document.getElementById("errorTableBody");
+          tbody.innerHTML = "";
+
+          paginatedData.forEach(err => {
+            const row = `<tr>
+              <td class='p-2'>${err.row}</td>
+              <td class='p-2'>${err.field}</td>
+              <td class='p-2'>${err.message}</td>
+            </tr>`;
+            tbody.innerHTML += row;
+          });
+
+          document.getElementById("paginationInfo").innerText = `Page ${currentPage} of ${Math.ceil(errorData.length / rowsPerPage)}`;
+        }
+
+        function changePage(direction) {
+          const totalPages = Math.ceil(errorData.length / rowsPerPage);
+          if (direction === 'next' && currentPage < totalPages) {
+            currentPage++;
+          } else if (direction === 'prev' && currentPage > 1) {
+            currentPage--;
+          }
+          renderErrorTable();
+        }
+
+        function openModal() {
+          document.getElementById('importDetailModal').classList.remove('hidden');
+          currentPage = 1;
+          renderErrorTable();
+        }
+
+        function closeModal() {
+          document.getElementById('importDetailModal').classList.add('hidden');
+        }
+
+        function downloadErrorLog() {
+          const csvContent = ["Row #,Field(s),Error Message"].concat(errorData.map(err => `${err.row},${err.field},${err.message}`)).join("\n");
+          const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.setAttribute("href", url);
+          link.setAttribute("download", "error_log.csv");
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+
+        return {
+          openModal,
+          closeModal,
+          changePage,
+          downloadErrorLog
+        };
+      })();
+    }
+  </script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <div class="container mx-auto py-6">
+    <h1 class="text-2xl font-bold mb-4">📄 Data Import Job Results</h1>
+
+    <!-- Import Jobs Table -->
+    <div class="bg-white rounded shadow overflow-x-auto">
+      <table class="table-auto w-full text-sm">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="p-2 text-left">File Name</th>
+            <th class="p-2 text-left">Template
+              <div class="relative inline-block">
+                <div onclick="toggleDropdown('templateFilter')" class="cursor-pointer text-blue-600 underline">Select Template</div>
+                <div id="templateFilter" class="hidden absolute bg-white border rounded shadow p-2 z-10 w-64 mt-1">
+                  <input type="text" class="w-full p-1 mb-2 border rounded" placeholder="Search templates...">
+                  <label class="block"><input type="checkbox"> Object_Template_A</label>
+                  <label class="block"><input type="checkbox"> Event_Template_B</label>
+                  <label class="block"><input type="checkbox"> Object_Template_C</label>
+                  <button onclick="clearFilter('templateFilter')" class="mt-2 text-sm text-red-600 underline">Clear</button>
+                </div>
+              </div>
+            </th>
+            <th class="p-2 text-left">User
+              <div class="relative inline-block">
+                <div onclick="toggleDropdown('userFilter')" class="cursor-pointer text-blue-600 underline">Select User</div>
+                <div id="userFilter" class="hidden absolute bg-white border rounded shadow p-2 z-10 w-64 mt-1">
+                  <input type="text" class="w-full p-1 mb-2 border rounded" placeholder="Search users...">
+                  <label class="block"><input type="checkbox"> Alice</label>
+                  <label class="block"><input type="checkbox"> Bob</label>
+                  <label class="block"><input type="checkbox"> Admin</label>
+                  <button onclick="clearFilter('userFilter')" class="mt-2 text-sm text-red-600 underline">Clear</button>
+                </div>
+              </div>
+            </th>
+            <th class="p-2 text-left">Date</th>
+            <th class="p-2 text-left">Ontology
+              <div class="relative inline-block">
+                <div onclick="toggleDropdown('ontologyFilter')" class="cursor-pointer text-blue-600 underline">Select</div>
+                <div id="ontologyFilter" class="hidden absolute bg-white border rounded shadow p-2 z-10 w-48 mt-1">
+                  <label class="block"><input type="checkbox"> Event</label>
+                  <label class="block"><input type="checkbox"> Object</label>
+                  <label class="block"><input type="checkbox"> Document</label>
+                  <label class="block"><input type="checkbox"> Catalogue</label>
+                  <button onclick="clearFilter('ontologyFilter')" class="mt-2 text-sm text-red-600 underline">Clear</button>
+                </div>
+              </div>
+            </th>
+            <th class="p-2 text-left">Status
+              <div class="relative inline-block">
+                <div onclick="toggleDropdown('statusFilter')" class="cursor-pointer text-blue-600 underline">Select</div>
+                <div id="statusFilter" class="hidden absolute bg-white border rounded shadow p-2 z-10 w-48 mt-1">
+                  <label class="block"><input type="checkbox"> Success</label>
+                  <label class="block"><input type="checkbox"> Partial</label>
+                  <label class="block"><input type="checkbox"> Failed</label>
+                  <button onclick="clearFilter('statusFilter')" class="mt-2 text-sm text-red-600 underline">Clear</button>
+                </div>
+              </div>
+            </th>
+            <th class="p-2 text-left">Total</th>
+            <th class="p-2 text-left">Success</th>
+            <th class="p-2 text-left">Failed</th>
+            <th class="p-2 text-left">Details</th>
+            <th class="p-2 text-left">Download</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="hover:bg-gray-50 cursor-pointer">
+            <td class="p-2">enemy_zones.xlsx</td>
+            <td class="p-2">Event_Template_B</td>
+            <td class="p-2">Bob</td>
+            <td class="p-2">2025-03-24</td>
+            <td class="p-2">Event</td>
+            <td class="p-2 text-yellow-600 font-semibold">❌ Partial</td>
+            <td class="p-2">120</td>
+            <td class="p-2">90</td>
+            <td class="p-2">30</td>
+            <td class="p-2">
+              <button onclick="errorLogModule.openModal()" class="text-blue-600 underline">View</button>
+            </td>
+            <td class="p-2">
+              <button onclick="errorLogModule.downloadErrorLog()" class="text-green-600 underline">Download</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal -->
+  <div id="importDetailModal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-start pt-10 z-50">
+    <div class="bg-white w-11/12 max-w-5xl p-6 rounded shadow-lg overflow-y-auto max-h-[90vh]">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-bold">📁 enemy_zones.xlsx – Import Details</h2>
+        <button onclick="errorLogModule.closeModal()" class="text-red-600 font-semibold text-lg">✖</button>
+      </div>
+
+      <p class="mb-4 text-sm text-gray-600">Imported by <strong>Bob</strong> on <strong>2025-03-24 16:32 UTC</strong> | Template: <strong>Event_Template_B</strong> | Ontology: <strong>Event</strong> | Status: <span class="text-yellow-600 font-medium">Partial</span></p>
+
+      <!-- Import Summary Stats -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mb-6">
+        <div><strong>Total Rows:</strong> 120</div>
+        <div><strong>Successful:</strong> 90</div>
+        <div><strong>Failed:</strong> 30</div>
+        <div><strong>File Size:</strong> 132 KB</div>
+      </div>
+
+      <!-- Error Table -->
+      <h3 class="font-semibold text-lg mb-2">❗ Error Log</h3>
+      <table class="table-auto w-full text-sm">
+        <thead class="bg-gray-100">
+          <tr>
+            <th class="p-2">Row #</th>
+            <th class="p-2">Field(s)</th>
+            <th class="p-2">Error Message</th>
+          </tr>
+        </thead>
+        <tbody id="errorTableBody"></tbody>
+      </table>
+
+      <!-- Pagination and Download -->
+      <div class="flex justify-between items-center mt-4">
+        <button onclick="errorLogModule.changePage('prev')" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Previous</button>
+        <span id="paginationInfo" class="text-sm text-gray-600">Page 1</span>
+        <div class="flex gap-4">
+          <button onclick="errorLogModule.downloadErrorLog()" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Download Log</button>
+          <button onclick="errorLogModule.changePage('next')" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

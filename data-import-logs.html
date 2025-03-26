@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Import Job Results</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script>
+    function toggleDropdown(id) {
+      const el = document.getElementById(id);
+      el.classList.toggle("hidden");
+    }
+    function toggleDetails(id) {
+      const el = document.getElementById(id);
+      el.classList.toggle("hidden");
+    }
+    function clearFilter(id) {
+      document.getElementById(id).value = "";
+    }
+  </script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <div class="container mx-auto py-6">
+    <h1 class="text-2xl font-bold mb-4">📄 Data Import Job Results</h1>
+
+    <!-- Search Bar -->
+    <div class="mb-4">
+      <input type="text" class="border p-2 rounded w-full md:w-1/3" placeholder="Search File Name">
+    </div>
+
+    <!-- Import Jobs Table with Filter Row -->
+    <div class="bg-white rounded shadow overflow-x-auto">
+      <table class="table-auto w-full text-sm">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="p-2 text-left">File Name</th>
+            <th class="p-2 text-left">Template
+              <div class="relative">
+                <div onclick="toggleDropdown('templateFilter')" class="cursor-pointer text-blue-600 underline">Select Template</div>
+                <div id="templateFilter" class="hidden absolute bg-white border rounded shadow p-2 z-10 w-64">
+                  <input type="text" class="w-full p-1 mb-2 border rounded" placeholder="Search templates...">
+                  <label class="block"><input type="checkbox"> Object_Template_A</label>
+                  <label class="block"><input type="checkbox"> Event_Template_B</label>
+                  <label class="block"><input type="checkbox"> Object_Template_C</label>
+                  <button onclick="clearFilter('templateFilter')" class="mt-2 text-sm text-red-600 underline">Clear</button>
+                </div>
+              </div>
+            </th>
+            <th class="p-2 text-left">User
+              <div class="relative">
+                <div onclick="toggleDropdown('userFilter')" class="cursor-pointer text-blue-600 underline">Select Users</div>
+                <div id="userFilter" class="hidden absolute bg-white border rounded shadow p-2 z-10 w-64">
+                  <input type="text" class="w-full p-1 mb-2 border rounded" placeholder="Search users...">
+                  <label class="block"><input type="checkbox"> Alice</label>
+                  <label class="block"><input type="checkbox"> Bob</label>
+                  <label class="block"><input type="checkbox"> Admin</label>
+                  <button onclick="clearFilter('userFilter')" class="mt-2 text-sm text-red-600 underline">Clear</button>
+                </div>
+              </div>
+            </th>
+            <th class="p-2 text-left">Date
+              <div class="relative">
+                <input type="date" class="mt-1 border p-1 rounded">
+                <button onclick="clearFilter('dateFilter')" class="text-sm text-red-600 underline ml-2">Clear</button>
+              </div>
+            </th>
+            <th class="p-2 text-left">Ontology
+              <div class="relative">
+                <div onclick="toggleDropdown('ontologyFilter')" class="cursor-pointer text-blue-600 underline">Select</div>
+                <div id="ontologyFilter" class="hidden absolute bg-white border rounded shadow p-2 z-10 w-48">
+                  <label class="block"><input type="checkbox"> Event</label>
+                  <label class="block"><input type="checkbox"> Object</label>
+                  <label class="block"><input type="checkbox"> Document</label>
+                  <label class="block"><input type="checkbox"> Catalogue</label>
+                  <button onclick="clearFilter('ontologyFilter')" class="mt-2 text-sm text-red-600 underline">Clear</button>
+                </div>
+              </div>
+            </th>
+            <th class="p-2 text-left">Status
+              <div class="relative">
+                <div onclick="toggleDropdown('statusFilter')" class="cursor-pointer text-blue-600 underline">Select</div>
+                <div id="statusFilter" class="hidden absolute bg-white border rounded shadow p-2 z-10 w-48">
+                  <label class="block"><input type="checkbox"> Success</label>
+                  <label class="block"><input type="checkbox"> Partial</label>
+                  <label class="block"><input type="checkbox"> Failed</label>
+                  <button onclick="clearFilter('statusFilter')" class="mt-2 text-sm text-red-600 underline">Clear</button>
+                </div>
+              </div>
+            </th>
+            <th class="p-2 text-left">Total</th>
+            <th class="p-2 text-left">Success</th>
+            <th class="p-2 text-left">Failed</th>
+            <th class="p-2 text-left">Details</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Dummy data row 1 -->
+          <tr class="hover:bg-gray-50 cursor-pointer">
+            <td class="p-2">enemy_zones.xlsx</td>
+            <td class="p-2">Event_Template_B</td>
+            <td class="p-2">Bob</td>
+            <td class="p-2">2025-03-24</td>
+            <td class="p-2">Event</td>
+            <td class="p-2 text-yellow-600 font-semibold">❌ Partial</td>
+            <td class="p-2">120</td>
+            <td class="p-2">90</td>
+            <td class="p-2">30</td>
+            <td class="p-2">
+              <button onclick="toggleDetails('details1')" class="text-blue-600 underline">Expand</button>
+            </td>
+          </tr>
+          <tr id="details1" class="hidden bg-gray-50">
+            <td colspan="10" class="p-4">[Placeholder for future detailed breakdown]</td>
+          </tr>
+
+          <!-- Dummy data row 2 -->
+          <tr class="hover:bg-gray-50 cursor-pointer">
+            <td class="p-2">radar_log_01.csv</td>
+            <td class="p-2">Object_Template_C</td>
+            <td class="p-2">Admin</td>
+            <td class="p-2">2025-03-24</td>
+            <td class="p-2">Object</td>
+            <td class="p-2 text-red-500 font-semibold">❌ Failed</td>
+            <td class="p-2">100</td>
+            <td class="p-2">0</td>
+            <td class="p-2">100</td>
+            <td class="p-2">
+              <button onclick="toggleDetails('details2')" class="text-blue-600 underline">Expand</button>
+            </td>
+          </tr>
+          <tr id="details2" class="hidden bg-gray-50">
+            <td colspan="10" class="p-4">[Placeholder for future detailed breakdown]</td>
+          </tr>
+
+          <!-- Dummy data row 3 -->
+          <tr class="hover:bg-gray-50 cursor-pointer">
+            <td class="p-2">ops_batch_0325.csv</td>
+            <td class="p-2">Object_Template_A</td>
+            <td class="p-2">Alice</td>
+            <td class="p-2">2025-03-25</td>
+            <td class="p-2">Object</td>
+            <td class="p-2 text-green-600 font-semibold">✅ Success</td>
+            <td class="p-2">150</td>
+            <td class="p-2">150</td>
+            <td class="p-2">0</td>
+            <td class="p-2">
+              <button onclick="toggleDetails('details3')" class="text-blue-600 underline">Expand</button>
+            </td>
+          </tr>
+          <tr id="details3" class="hidden bg-gray-50">
+            <td colspan="10" class="p-4">[Placeholder for future detailed breakdown]</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Pagination -->
+      <div class="flex justify-between items-center p-4 border-t bg-gray-50">
+        <span class="text-sm">Showing 1 to 3 of 10 results</span>
+        <div class="flex space-x-2">
+          <button class="px-3 py-1 border rounded bg-white hover:bg-gray-100">&laquo;</button>
+          <button class="px-3 py-1 border rounded bg-blue-500 text-white">1</button>
+          <button class="px-3 py-1 border rounded bg-white hover:bg-gray-100">2</button>
+          <button class="px-3 py-1 border rounded bg-white hover:bg-gray-100">3</button>
+          <button class="px-3 py-1 border rounded bg-white hover:bg-gray-100">&raquo;</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
