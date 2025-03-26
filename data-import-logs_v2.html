@@ -60,7 +60,16 @@
     }
   </script>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<script>
+  document.addEventListener("click", function (e) {
+    document.querySelectorAll("[id$='Filter']").forEach(dropdown => {
+      if (!dropdown.contains(e.target) && !e.target.closest(`[onclick="toggleDropdown('${dropdown.id}')"]`)) {
+        dropdown.classList.add("hidden");
+      }
+    });
+  });
+</script>
+
   <div class="container mx-auto py-6">
     <h1 class="text-2xl font-bold mb-4">📄 Data Import Job Results</h1>
     <!-- Content continues... -->
