@@ -23,8 +23,6 @@
 
     if (!window.errorLogModule) {
       window.errorLogModule = (function () {
-        let currentPage = 1;
-        const rowsPerPage = 2;
         const errorData = [
           { row: 12, field: "Zone Coordinates", message: "Invalid format (expected GeoJSON)" },
           { row: 47, field: "Event Title", message: "Required field missing" },
@@ -33,40 +31,8 @@
           { row: 118, field: "Zone Coordinates", message: "Missing longitude value" }
         ];
 
-        function renderErrorTable() {
-          const start = (currentPage - 1) * rowsPerPage;
-          const end = start + rowsPerPage;
-          const paginatedData = errorData.slice(start, end);
-
-          const tbody = document.getElementById("errorTableBody");
-          tbody.innerHTML = "";
-
-          paginatedData.forEach(err => {
-            const row = `<tr>
-              <td class='p-2'>${err.row}</td>
-              <td class='p-2'>${err.field}</td>
-              <td class='p-2'>${err.message}</td>
-            </tr>`;
-            tbody.innerHTML += row;
-          });
-
-          document.getElementById("paginationInfo").innerText = `Page ${currentPage} of ${Math.ceil(errorData.length / rowsPerPage)}`;
-        }
-
-        function changePage(direction) {
-          const totalPages = Math.ceil(errorData.length / rowsPerPage);
-          if (direction === 'next' && currentPage < totalPages) {
-            currentPage++;
-          } else if (direction === 'prev' && currentPage > 1) {
-            currentPage--;
-          }
-          renderErrorTable();
-        }
-
         function openModal() {
           document.getElementById('importDetailModal').classList.remove('hidden');
-          currentPage = 1;
-          renderErrorTable();
         }
 
         function closeModal() {
@@ -88,7 +54,6 @@
         return {
           openModal,
           closeModal,
-          changePage,
           downloadErrorLog
         };
       })();
@@ -98,9 +63,16 @@
 <body class="bg-gray-100 text-gray-800">
   <div class="container mx-auto py-6">
     <h1 class="text-2xl font-bold mb-4">📄 Data Import Job Results</h1>
+    <!-- Content continues... -->
+  </div>
+</body>
+</html>
+<body class="bg-gray-100 text-gray-800">
+  <div class="container mx-auto py-6">
+    <h1 class="text-2xl font-bold mb-4">📄 Data Import Job Results</h1>
 
     <!-- Import Jobs Table -->
-    <div class="bg-white rounded shadow overflow-x-auto">
+    <div class="bg-white rounded shadow overflow-x-auto relative z-0">
       <table class="table-auto w-full text-sm">
         <thead class="bg-gray-200">
           <tr>
@@ -161,29 +133,78 @@
           </tr>
         </thead>
         <tbody>
-          <tr class="hover:bg-gray-50 cursor-pointer">
-            <td class="p-2">enemy_zones.xlsx</td>
-            <td class="p-2">Event_Template_B</td>
-            <td class="p-2">Bob</td>
-            <td class="p-2">2025-03-24</td>
-            <td class="p-2">Event</td>
-            <td class="p-2 text-yellow-600 font-semibold">❌ Partial</td>
-            <td class="p-2">120</td>
-            <td class="p-2">90</td>
-            <td class="p-2">30</td>
-            <td class="p-2">
-              <button onclick="errorLogModule.openModal()" class="text-blue-600 underline">View</button>
-            </td>
-            <td class="p-2">
-              <button onclick="errorLogModule.downloadErrorLog()" class="text-green-600 underline">Download</button>
-            </td>
-          </tr>
-        </tbody>
+  <tr class="hover:bg-gray-50 cursor-pointer">
+    <td class="p-2">enemy_zones.xlsx</td>
+    <td class="p-2">Event_Template_B</td>
+    <td class="p-2">Bob</td>
+    <td class="p-2">2025-03-24</td>
+    <td class="p-2">Event</td>
+    <td class="p-2 text-yellow-600 font-semibold">❌ Partial</td>
+    <td class="p-2">120</td>
+    <td class="p-2">90</td>
+    <td class="p-2">30</td>
+    <td class="p-2">
+      <button onclick="errorLogModule.openModal()" class="text-blue-600 underline">View</button>
+    </td>
+    <td class="p-2">
+      <button onclick="errorLogModule.downloadErrorLog()" class="text-green-600 underline">Download</button>
+    </td>
+  </tr>
+  <tr class="hover:bg-gray-50">
+    <td class="p-2">radar_log_01.csv</td>
+    <td class="p-2">Object_Template_C</td>
+    <td class="p-2">Admin</td>
+    <td class="p-2">2025-03-24</td>
+    <td class="p-2">Object</td>
+    <td class="p-2 text-red-600 font-semibold">❌ Failed</td>
+    <td class="p-2">100</td>
+    <td class="p-2">0</td>
+    <td class="p-2">100</td>
+    <td class="p-2">—</td>
+    <td class="p-2 text-green-600 underline cursor-pointer">Download</td>
+  </tr>
+  <tr class="hover:bg-gray-50">
+    <td class="p-2">ops_batch_0325.csv</td>
+    <td class="p-2">Object_Template_A</td>
+    <td class="p-2">Alice</td>
+    <td class="p-2">2025-03-25</td>
+    <td class="p-2">Object</td>
+    <td class="p-2 text-green-600 font-semibold">✅ Success</td>
+    <td class="p-2">150</td>
+    <td class="p-2">150</td>
+    <td class="p-2">0</td>
+    <td class="p-2">—</td>
+    <td class="p-2 text-green-600 underline cursor-pointer">Download</td>
+  </tr>
+  <tr class="hover:bg-gray-50">
+    <td class="p-2">sensor_analytics.csv</td>
+    <td class="p-2">Sensor_Template_X</td>
+    <td class="p-2">Admin</td>
+    <td class="p-2">2025-03-26</td>
+    <td class="p-2">Sensor</td>
+    <td class="p-2 text-yellow-600 font-semibold">❌ Partial</td>
+    <td class="p-2">80</td>
+    <td class="p-2">60</td>
+    <td class="p-2">20</td>
+    <td class="p-2">—</td>
+    <td class="p-2 text-green-600 underline cursor-pointer">Download</td>
+  </tr>
+</tbody>
       </table>
+        <!-- Pagination -->
+    <div class="flex justify-between items-center p-4 border-t bg-gray-50">
+      <span class="text-sm">Showing 1 to 4 of 10 results</span>
+      <div class="flex space-x-2">
+        <button class="px-3 py-1 border rounded bg-white hover:bg-gray-100">&laquo;</button>
+        <button class="px-3 py-1 border rounded bg-blue-500 text-white">1</button>
+        <button class="px-3 py-1 border rounded bg-white hover:bg-gray-100">2</button>
+        <button class="px-3 py-1 border rounded bg-white hover:bg-gray-100">3</button>
+        <button class="px-3 py-1 border rounded bg-white hover:bg-gray-100">&raquo;</button>
+      </div>
     </div>
   </div>
-
-  <!-- Modal -->
+</div>
+<!-- Modal -->
   <div id="importDetailModal" class="hidden fixed inset-0 bg-gray-800 bg-opacity-75 flex justify-center items-start pt-10 z-50">
     <div class="bg-white w-11/12 max-w-5xl p-6 rounded shadow-lg overflow-y-auto max-h-[90vh]">
       <div class="flex justify-between items-center mb-4">
@@ -211,17 +232,39 @@
             <th class="p-2">Error Message</th>
           </tr>
         </thead>
-        <tbody id="errorTableBody"></tbody>
+        <tbody>
+  <tr>
+    <td class='p-2'>12</td>
+    <td class='p-2'>Zone Coordinates</td>
+    <td class='p-2'>Invalid format (expected GeoJSON)</td>
+  </tr>
+  <tr>
+    <td class='p-2'>47</td>
+    <td class='p-2'>Event Title</td>
+    <td class='p-2'>Required field missing</td>
+  </tr>
+  <tr>
+    <td class='p-2'>91</td>
+    <td class='p-2'>Threat Level</td>
+    <td class='p-2'>Value "X" not in enum list</td>
+  </tr>
+  <tr>
+    <td class='p-2'>102</td>
+    <td class='p-2'>Event Title</td>
+    <td class='p-2'>Empty field detected</td>
+  </tr>
+  <tr>
+    <td class='p-2'>118</td>
+    <td class='p-2'>Zone Coordinates</td>
+    <td class='p-2'>Missing longitude value</td>
+  </tr>
+</tbody>
       </table>
 
-      <!-- Pagination and Download -->
-      <div class="flex justify-between items-center mt-4">
-        <button onclick="errorLogModule.changePage('prev')" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Previous</button>
-        <span id="paginationInfo" class="text-sm text-gray-600">Page 1</span>
-        <div class="flex gap-4">
-          <button onclick="errorLogModule.downloadErrorLog()" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Download Log</button>
-          <button onclick="errorLogModule.changePage('next')" class="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">Next</button>
-        </div>
+      <!-- Download Button Only -->
+      <div class="flex justify-end items-center mt-4">
+        <button onclick="errorLogModule.downloadErrorLog()" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Download Log</button>
+      </div>
       </div>
     </div>
   </div>
