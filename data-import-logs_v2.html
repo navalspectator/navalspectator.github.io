@@ -110,7 +110,12 @@
                 </div>
               </div>
             </th>
-            <th class="p-2 text-left">Date</th>
+            <th class="p-2 text-left">Date
+              <div class="relative">
+                <input type="date" class="mt-1 border p-1 rounded">
+                <button onclick="clearFilter('dateFilter')" class="text-sm text-red-600 underline ml-2">Clear</button>
+              </div>
+            </th>
             <th class="p-2 text-left">Ontology
               <div class="relative inline-block">
                 <div onclick="toggleDropdown('ontologyFilter')" class="cursor-pointer text-blue-600 underline">Select</div>
@@ -134,9 +139,10 @@
                 </div>
               </div>
             </th>
-            <th class="p-2 text-left">Total</th>
-            <th class="p-2 text-left">Success</th>
-            <th class="p-2 text-left">Failed</th>
+            <th class="p-2 text-left">Total Rows</th>
+            <th class="p-2 text-left">Total Columns</th>
+            <th class="p-2 text-left">Successful Rows</th>
+            <th class="p-2 text-left">Failed Rows</th>
             <th class="p-2 text-left">Details</th>
             <th class="p-2 text-left">Download</th>
           </tr>
@@ -146,10 +152,11 @@
     <td class="p-2">enemy_zones.xlsx</td>
     <td class="p-2">Event_Template_B</td>
     <td class="p-2">Bob</td>
-    <td class="p-2">2025-03-24</td>
+    <td class="p-2">2025-03-24 15:35</td>
     <td class="p-2">Event</td>
     <td class="p-2 text-yellow-600 font-semibold">❌ Partial</td>
     <td class="p-2">120</td>
+    <td class="p-2">15</td>
     <td class="p-2">90</td>
     <td class="p-2">30</td>
     <td class="p-2">
@@ -163,10 +170,11 @@
     <td class="p-2">radar_log_01.csv</td>
     <td class="p-2">Object_Template_C</td>
     <td class="p-2">Admin</td>
-    <td class="p-2">2025-03-24</td>
+    <td class="p-2">2025-03-24 18:45</td>
     <td class="p-2">Object</td>
     <td class="p-2 text-red-600 font-semibold">❌ Failed</td>
     <td class="p-2">100</td>
+    <td class="p-2">15</td>
     <td class="p-2">0</td>
     <td class="p-2">100</td>
     <td class="p-2">—</td>
@@ -180,6 +188,7 @@
     <td class="p-2">Object</td>
     <td class="p-2 text-green-600 font-semibold">✅ Success</td>
     <td class="p-2">150</td>
+    <td class="p-2">15</td>
     <td class="p-2">150</td>
     <td class="p-2">0</td>
     <td class="p-2">—</td>
@@ -193,6 +202,7 @@
     <td class="p-2">Sensor</td>
     <td class="p-2 text-yellow-600 font-semibold">❌ Partial</td>
     <td class="p-2">80</td>
+    <td class="p-2">15</td>
     <td class="p-2">60</td>
     <td class="p-2">20</td>
     <td class="p-2">—</td>
