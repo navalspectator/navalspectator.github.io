@@ -84,9 +84,10 @@
 
     <h2>Expert Enquiry Tool Subscription</h2>
     
-    <button id="optButton" class="opt-button opt-in" onclick="toggleModal()">Opted In</button>
+    <p id="statusLabel">Visibility in Expert Enquiry Tool: Visible</p>
+    <button id="visibilityButton" class="opt-button opt-in" onclick="toggleModal()">Hide my profile</button>
     
-    <p id="helperText" class="helper-text">Your profile is visible in searches. Click to opt out.</p>
+    <p id="helperText" class="helper-text">You can change your visibility status at any time.</p>
 
     <!-- Confirmation Modal -->
     <div class="overlay" id="overlay"></div>
@@ -99,13 +100,34 @@
     </div>
 
     <script>
-        let optedIn = true;
+        let visibilityStatus = true; // true = Visible, false = Hidden
+
+        function updateUI() {
+            const statusLabel = document.getElementById("statusLabel");
+            const visibilityButton = document.getElementById("visibilityButton");
+            const helperText = document.getElementById("helperText");
+
+            if (visibilityStatus) {
+                statusLabel.textContent = "Visibility in Expert Enquiry Tool: Visible";
+                visibilityButton.textContent = "Hide my profile";
+                visibilityButton.classList.remove("opt-out");
+                visibilityButton.classList.add("opt-in");
+                helperText.textContent = "You can change your visibility status at any time.";
+            } else {
+                statusLabel.textContent = "Visibility in Expert Enquiry Tool: Hidden";
+                visibilityButton.textContent = "Make my profile visible";
+                visibilityButton.classList.remove("opt-in");
+                visibilityButton.classList.add("opt-out");
+                helperText.textContent = "You can make your profile visible again at any time.";
+            }
+        }
 
         function toggleModal() {
-            document.getElementById("modalText").textContent = optedIn ? 
-                "Are you sure you want to opt out? Your profile will no longer be visible in searches." :
-                "Are you sure you want to opt in? Your profile will be visible in searches again.";
-            
+            const modalText = document.getElementById("modalText");
+            modalText.textContent = visibilityStatus ?
+                "After hiding your profile from the Expert Enquiry Tool:\n\n- Your profile will no longer be visible.\n- Other members cannot find or contact you through EET.\n- You can still search for and contact other experts.\n- You can make your profile visible again anytime in Settings & Privacy." :
+                "Your profile will be visible in the Expert Enquiry Tool to other members of the EH4S Platform. Do you want to continue?";
+
             document.getElementById("confirmationModal").style.display = "block";
             document.getElementById("overlay").style.display = "block";
         }
@@ -116,24 +138,30 @@
         }
 
         function confirmToggle() {
-            optedIn = !optedIn;
-            let button = document.getElementById("optButton");
-            let helperText = document.getElementById("helperText");
-
-            if (optedIn) {
-                button.textContent = "Opted In";
-                button.classList.remove("opt-out");
-                button.classList.add("opt-in");
-                helperText.textContent = "Your profile is visible in searches. Click to opt out.";
-            } else {
-                button.textContent = "Opted Out";
-                button.classList.remove("opt-in");
-                button.classList.add("opt-out");
-                helperText.textContent = "Your profile is hidden. Click to opt in.";
-            }
-
+            visibilityStatus = !visibilityStatus;
+            updateUI();
             closeModal();
+
+            const snackbar = document.createElement("div");
+            snackbar.textContent = visibilityStatus ?
+                "✅ Your profile is now visible in the Expert Enquiry Tool." :
+                "✅ You have successfully hidden your profile in the Expert Enquiry Tool.";
+            snackbar.style.position = "fixed";
+            snackbar.style.bottom = "20px";
+            snackbar.style.left = "50%";
+            snackbar.style.transform = "translateX(-50%)";
+            snackbar.style.backgroundColor = "#333";
+            snackbar.style.color = "#fff";
+            snackbar.style.padding = "10px 20px";
+            snackbar.style.borderRadius = "5px";
+            snackbar.style.boxShadow = "0 2px 5px rgba(0, 0, 0, 0.2)";
+            snackbar.style.zIndex = "1000";
+            document.body.appendChild(snackbar);
+
+            setTimeout(() => snackbar.remove(), 10000);
         }
+
+        document.addEventListener("DOMContentLoaded", updateUI);
     </script>
 
 </body>

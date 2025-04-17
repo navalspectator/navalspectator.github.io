@@ -269,53 +269,6 @@
             background-color: #004494;
         }
 
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-content {
-            background-color: #fff;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 500px;
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .modal-buttons {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-        }
-
-        .upload-btn,
-        .remove-btn,
-        .cancel-btn {
-            background-color: var(--primary, #0056b3);
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .upload-btn:hover,
-        .remove-btn:hover,
-        .cancel-btn:hover {
-            background-color: #004494;
-        }
-
         .tabs {
             display: flex;
             gap: 10px;
@@ -371,6 +324,76 @@
             display: flex;
             justify-content: space-between;
             margin-top: 10px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-content {
+            background-color: #fff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .modal-content img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 2px solid #777;
+            margin-bottom: 20px;
+            background-color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-buttons {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        #fileInput {
+            display: none;
+        }
+
+        .upload-btn,
+        .remove-btn,
+        .cancel-btn {
+            background-color: var(--primary, #0056b3);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .upload-btn:hover,
+        .remove-btn:hover,
+        .cancel-btn:hover {
+            background-color: #004494;
         }
     </style>
 </head>
@@ -517,12 +540,39 @@
                 </div>
                 <div class="input-group">
                     <label>Privacy Controls</label>
+                    <div style="background-color: #f9f9f9; border: 1px solid #ccc; border-radius: 6px; padding: 16px; margin-top: 10px;">
+                        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap;">
+                            <div style="flex: 1; min-width: 200px;">
+                                <p id="statusLabel" style="margin: 0 0 8px 0; font-weight: 500;">🔒 Visibility in Expert Enquiry Tool: <span style="color: #b00020;">Hidden</span></p>
+                                <p id="helperText" style="font-size: 13px; color: #666; margin: 0;">You can make your profile visible again at any time.</p>
+                            </div>
+                            <button id="visibilityButton" class="button" onclick="toggleModal()" style="margin-top: 10px; white-space: nowrap;">Make my profile visible</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Request and Delete Data Buttons -->
+                <div class="input-group">
                     <button class="button">Request Your Data</button>
                     <button class="button">Delete Your Data</button>
                 </div>
-                <div class="input-group">
-                    <label for="newsletter">Newsletter Subscription</label>
-                    <button class="button">Subscribe/Unsubscribe</button>
+
+                <!-- Confirmation Modal -->
+                <div class="overlay" id="overlay"></div>
+                <div class="modal" id="confirmationModal">
+                <div id="modalText" style="text-align: left;">
+                    <p><strong>After hiding your profile from the Expert Enquiry Tool:</strong></p>
+                    <ul style="padding-left: 20px; margin-top: 10px;">
+                        <li>Your profile will no longer be visible.</li>
+                        <li>Other members cannot find or contact you through EET.</li>
+                        <li>You can still search for and contact other experts.</li>
+                        <li>You can make your profile visible again anytime in Settings & Privacy.</li>
+                    </ul>
+                </div>
+                    <div class="modal-buttons">
+                        <button class="confirm" onclick="confirmToggle()">I understand the consequences, hide my profile</button>
+                        <button class="cancel" onclick="closeConfirmationModal()">Cancel</button>
+                    </div>
                 </div>
             </div>
 
@@ -604,7 +654,7 @@
         </div>
     </div>
 
-    <!-- Modal -->
+    <!-- Integrated Profile Picture Modal and Functionality -->
     <div id="profileModal" class="modal">
         <div class="modal-content">
             <h3>Update Profile Picture</h3>
@@ -662,6 +712,23 @@
             showSection('profileInfo'); // Show profile information by default
         });
 
+        function showTab(tabId) {
+            document.querySelectorAll('.results-list, .grid-view').forEach(tab => {
+                tab.style.display = 'none';
+            });
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(tabId).style.display = 'block';
+            document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+        }
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("Profile page initialized");
+            showSection('profileInfo'); // Show profile information by default
+        });
+
         function openModal() {
             document.getElementById("profileModal").style.display = "block";
             document.getElementById("modalProfilePic").src = document.getElementById("profilePic").src;
@@ -691,22 +758,74 @@
             closeModal();
         }
 
-        function showTab(tabId) {
-            document.querySelectorAll('.results-list, .grid-view').forEach(tab => {
-                tab.style.display = 'none';
-            });
-            document.querySelectorAll('.tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.getElementById(tabId).style.display = 'block';
-            document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+        let visibilityStatus = true; // true = Visible, false = Hidden
+
+        function updateUI() {
+            const statusLabel = document.getElementById("statusLabel");
+            const visibilityButton = document.getElementById("visibilityButton");
+            const helperText = document.getElementById("helperText");
+
+            if (visibilityStatus) {
+                statusLabel.textContent = "Visibility in Expert Enquiry Tool: Visible";
+                visibilityButton.textContent = "Hide my profile";
+                visibilityButton.classList.remove("opt-out");
+                visibilityButton.classList.add("opt-in");
+                helperText.textContent = "You can change your visibility status at any time.";
+            } else {
+                statusLabel.textContent = "Visibility in Expert Enquiry Tool: Hidden";
+                visibilityButton.textContent = "Make my profile visible";
+                visibilityButton.classList.remove("opt-in");
+                visibilityButton.classList.add("opt-out");
+                helperText.textContent = "You can make your profile visible again at any time.";
+            }
         }
 
-        // Initialize page
-        document.addEventListener('DOMContentLoaded', function() {
-            console.log("Profile page initialized");
-            showSection('profileInfo'); // Show profile information by default
-        });
+        function toggleModal() {
+            const modalText = document.getElementById("modalText");
+            modalText.innerHTML = visibilityStatus
+                ? `<p><strong>After hiding your profile from the Expert Enquiry Tool:</strong></p>
+                   <ul style="padding-left: 20px; margin-top: 10px;">
+                       <li>Your profile will no longer be visible.</li>
+                       <li>Other members cannot find or contact you through EET.</li>
+                       <li>You can still search for and contact other experts.</li>
+                       <li>You can make your profile visible again anytime in Settings & Privacy.</li>
+                   </ul>`
+                : `<p>Your profile will be visible in the Expert Enquiry Tool to other members of the EH4S Platform. Do you want to continue?</p>`;
+
+            document.getElementById("confirmationModal").style.display = "block";
+            document.getElementById("overlay").style.display = "block";
+        }
+
+        function closeConfirmationModal() {
+            document.getElementById("confirmationModal").style.display = "none";
+            document.getElementById("overlay").style.display = "none";
+        }
+
+        function confirmToggle() {
+            visibilityStatus = !visibilityStatus;
+            updateUI();
+            closeModal();
+
+            const snackbar = document.createElement("div");
+            snackbar.textContent = visibilityStatus ?
+                "✅ Your profile is now visible in the Expert Enquiry Tool." :
+                "✅ You have successfully hidden your profile in the Expert Enquiry Tool.";
+            snackbar.style.position = "fixed";
+            snackbar.style.bottom = "20px";
+            snackbar.style.left = "50%";
+            snackbar.style.transform = "translateX(-50%)";
+            snackbar.style.backgroundColor = "#333";
+            snackbar.style.color = "#fff";
+            snackbar.style.padding = "10px 20px";
+            snackbar.style.borderRadius = "5px";
+            snackbar.style.boxShadow = "0 2px 5px rgba(0, 0, 0, 0.2)";
+            snackbar.style.zIndex = "1000";
+            document.body.appendChild(snackbar);
+
+            setTimeout(() => snackbar.remove(), 10000);
+        }
+
+        document.addEventListener("DOMContentLoaded", updateUI);
     </script>
 </body>
 </html>
