@@ -5,32 +5,64 @@
 <meta charset='UTF-8'>
 <style>
 body { font-family: sans-serif; margin: 0; padding: 0; }
-header { background: #333; color: white; padding: 1rem; font-size: 1.5rem; }
-nav { background: #eee; padding: 1rem; display: flex; gap: 1rem; }
-section { display: none; padding: 2rem; }
-section.active { display: block; }
-h2 { margin-top: 2rem; }
-ul { list-style-type: none; padding-left: 1rem; }
-li { margin: 0.5rem 0; }
-a { text-decoration: none; color: #0077cc; }
-a:hover { text-decoration: underline; }
+header { background: #1c1c1e; color: white; padding: 1rem 2rem; font-size: 1.25rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
+.container { display: flex; height: 100vh; }
+aside { width: 250px; background: #f5f5f5; padding: 1rem; overflow-y: auto; }
+main { flex: 1; padding: 2rem; overflow-y: auto; }
+.module-link { display: block; margin: 0.5rem 0; cursor: pointer; color: #333; }
+.module-link:hover { text-decoration: underline; }
 </style>
+<script type='application/json' id='mockup-data'>{"SN": {"Business Intelligence": ["asset_3"], "Data_Management": ["Data_template_operations", "data-import-logs", "data-import-logs_v2"]}, "EH4S": {"eh4s platform page": ["EH4S copy 2", "EH4S copy", "EH4S", "EH4S_2nd", "EH4S_3rd design", "EH4S_4th design", "EH4S_Minimalist_design", "EH4S_Minimalist_design2"], "JMP": ["Post Details pop-up"], "Components": ["Navigation Bar", "filter-panel"], "ODL": ["Document Viewer_cards", "Document Viewer_tabbed", "ODL_v3"], "Sign in": ["password"], "Profile": ["Profile Page_final copy", "Profile Page_final copy2", "Profile_EET_op_out", "profile_my_activity"], "EET": ["EET", "details-pop-up"], "Vitrine": ["News", "News_v2", "News_v3", "News_v4"]}}</script>
 <script>
-function showSection(id) {
-  document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
+const mockupData = JSON.parse(document.getElementById('mockup-data').textContent);
+function loadModule(project, module) {
+  const container = document.getElementById('mockup-area');
+  const files = mockupData[project][module];
+  container.innerHTML = `<h2>${module}</h2><ul>` + 
+    files.map(f => `<li><a href='${project}/${module}/${f}.html'>${f}</a></li>`).join('') +
+    '</ul>';
+}
+function globalSearch() {
+  const query = document.getElementById('global-search').value.toLowerCase();
+  const container = document.getElementById('mockup-area');
+  let results = [];
+  for (const project in mockupData) {
+    for (const module in mockupData[project]) {
+      mockupData[project][module].forEach(file => {
+        if (file.toLowerCase().includes(query)) {
+          results.push(`<li><a href='${project}/${module}/${file}.html'>${file}</a> <small style='color:gray;'>(${project} / ${module})</small></li>`);
+        }
+      });
+    }
+  }
+  container.innerHTML = `<h2>Search Results</h2><ul>` + results.join('') + '</ul>';
 }
 </script>
 </head>
 <body>
-<header>📄 HTML Mockups Index</header>
-<nav>
-<button onclick="showSection('product')">🧪 Product</button>
-<button onclick="showSection('projects')">🛠️ Projects</button>
-</nav>
-<p style='padding: 0 2rem;'>Last updated: 2025-04-17 18:03:55</p>
-<section id='product'><h1>Product</h1>
-</section>
-<section id='projects'><h1>Projects</h1>
-</section>
+<header>
+  <div style="font-weight: 600; font-size: 1.25rem;"> HTML Mockups Index</div>
+  <input type="text" id="global-search" placeholder="Search all mockups..." style="padding: 6px 10px; border-radius: 6px; border: none; font-size: 0.95rem; width: 250px;" oninput="globalSearch()" />
+  <span style="font-size: 0.9rem; font-weight: 300;">by navalspectator</span>
+</header>
+<div class='container'>
+<aside>
+<h3>SN</h3>
+<div class="module-link" onclick="loadModule('SN', 'Business Intelligence')">Business Intelligence</div>
+<div class="module-link" onclick="loadModule('SN', 'Data_Management')">Data_Management</div>
+<h3>EH4S</h3>
+<div class="module-link" onclick="loadModule('EH4S', 'Components')">Components</div>
+<div class="module-link" onclick="loadModule('EH4S', 'EET')">EET</div>
+<div class="module-link" onclick="loadModule('EH4S', 'JMP')">JMP</div>
+<div class="module-link" onclick="loadModule('EH4S', 'ODL')">ODL</div>
+<div class="module-link" onclick="loadModule('EH4S', 'Profile')">Profile</div>
+<div class="module-link" onclick="loadModule('EH4S', 'Sign in')">Sign in</div>
+<div class="module-link" onclick="loadModule('EH4S', 'Vitrine')">Vitrine</div>
+<div class="module-link" onclick="loadModule('EH4S', 'eh4s platform page')">eh4s platform page</div>
+</aside>
+<main>
+<div id='mockup-area'><p>Select a module to view mockups.</p></div>
+</main>
+<footer style='padding: 0 2rem; position: fixed; bottom: 0; width: 100%; background: #eee;'>&copy; Last updated: 2025-04-17 19:09:20</footer>
+</div>
 </body></html>
