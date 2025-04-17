@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>📄 HTML Mockups Index</title>
+<meta charset='UTF-8'>
+<style>
+body { font-family: sans-serif; margin: 0; padding: 0; }
+header { background: #333; color: white; padding: 1rem; font-size: 1.5rem; }
+nav { background: #eee; padding: 1rem; display: flex; gap: 1rem; }
+section { display: none; padding: 2rem; }
+section.active { display: block; }
+h2 { margin-top: 2rem; }
+ul { list-style-type: none; padding-left: 1rem; }
+li { margin: 0.5rem 0; }
+a { text-decoration: none; color: #0077cc; }
+a:hover { text-decoration: underline; }
+</style>
+<script>
+function showSection(id) {
+  document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+</script>
+</head>
+<body>
+<header>📄 HTML Mockups Index</header>
+<nav>
+<button onclick="showSection('product')">🧪 Product</button>
+<button onclick="showSection('projects')">🛠️ Projects</button>
+</nav>
+<p style='padding: 0 2rem;'>Last updated: 2025-04-17 18:03:55</p>
+<section id='product'><h1>Product</h1>
+</section>
+<section id='projects'><h1>Projects</h1>
+</section>
+</body></html>
