@@ -4,22 +4,122 @@
 <title>📄 HTML Mockups Index</title>
 <meta charset='UTF-8'>
 <style>
-body { font-family: sans-serif; margin: 0; padding: 0; }
-header { background: #1c1c1e; color: white; padding: 1rem 2rem; font-size: 1.25rem; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.15); }
-.container { display: flex; height: 100vh; }
-aside { width: 250px; background: #f5f5f5; padding: 1rem; overflow-y: auto; }
-main { flex: 1; padding: 2rem; overflow-y: auto; }
-.module-link { display: block; margin: 0.5rem 0; cursor: pointer; color: #333; }
-.module-link:hover { text-decoration: underline; }
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif; margin: 0; padding: 0; background: #fafafa; }
+header {
+  background: #0d1117;
+  color: #ffffff;
+  padding: 1rem 2rem;
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+header input#global-search {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  font-size: 0.95rem;
+  width: 250px;
+  background: #ffffff;
+}
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  height: calc(100vh - 60px);
+}
+aside {
+  width: 260px;
+  background: #f1f3f5;
+  padding: 1.5rem 1rem;
+  overflow-y: auto;
+  border-right: 1px solid #ccc;
+}
+aside h3 {
+  margin-top: 1.5rem;
+  color: #111827;
+  font-size: 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+details summary {
+  list-style: none;
+}
+details summary::-webkit-details-marker {
+  display: none;
+}
+summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 0.4rem 0;
+}
+details summary:hover {
+  color: #2563eb;
+}
+.module-link {
+  display: block;
+  margin: 0.4rem 0;
+  color: #1f2937;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+.module-link:hover {
+  background: #e2e8f0;
+  color: #000;
+  text-decoration: none;
+}
+main {
+  flex: 1;
+  padding: 2rem;
+  background: #ffffff;
+  color: #111;
+  overflow-y: auto;
+}
+main h2 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+main ul {
+  padding-left: 1.2rem;
+}
+main li a {
+  color: #2563eb;
+  text-decoration: none;
+}
+main li a:hover {
+  text-decoration: underline;
+}
+footer {
+  padding: 0 2rem;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #eee;
+}
 </style>
-<script type='application/json' id='mockup-data'>{"SN": {"Business Intelligence": ["asset_3"], "Data_Management": ["Data_template_operations", "data-import-logs", "data-import-logs_v2"]}, "EH4S": {"eh4s platform page": ["EH4S copy 2", "EH4S copy", "EH4S", "EH4S_2nd", "EH4S_3rd design", "EH4S_4th design", "EH4S_Minimalist_design", "EH4S_Minimalist_design2"], "JMP": ["Post Details pop-up"], "Components": ["Navigation Bar", "filter-panel"], "ODL": ["Document Viewer_cards", "Document Viewer_tabbed", "ODL_v3"], "Sign in": ["password"], "Profile": ["Profile Page_final copy", "Profile Page_final copy2", "Profile_EET_op_out", "profile_my_activity"], "EET": ["EET", "details-pop-up"], "Vitrine": ["News", "News_v2", "News_v3", "News_v4"]}}</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('details').forEach(detail => {
+    const icon = detail.querySelector('.toggle-icon');
+    detail.addEventListener('toggle', () => {
+      if (icon) icon.textContent = detail.open ? '−' : '+';
+    });
+  });
+});
+</script>
+<script type='application/json' id='mockup-data'>{"SN": {"Business Intelligence": ["asset_3"], "Data_Management": ["Data_template_operations", "data-import-logs", "data-import-logs_v2"], "Data_Integration": ["data-integration", "pipeline-details", "pipelines", "run-details", "runs"]}, "EH4S": {"eh4s platform page": ["EH4S copy 2", "EH4S copy", "EH4S", "EH4S_2nd", "EH4S_3rd design", "EH4S_4th design", "EH4S_Minimalist_design", "EH4S_Minimalist_design2"], "JMP": ["Post Details pop-up"], "Components": ["Navigation Bar", "filter-panel"], "ODL": ["Document Viewer_cards", "Document Viewer_tabbed", "ODL_v3"], "Sign in": ["password"], "Profile": ["Profile Page_final copy", "Profile Page_final copy2", "Profile_EET_op_out", "profile_my_activity"], "EET": ["EET", "details-pop-up"], "Vitrine": ["News", "News_v2", "News_v3", "News_v4"]}}</script>
 <script>
 const mockupData = JSON.parse(document.getElementById('mockup-data').textContent);
 function loadModule(project, module) {
   const container = document.getElementById('mockup-area');
   const files = mockupData[project][module];
   container.innerHTML = `<h2>${module}</h2><ul>` + 
-    files.map(f => `<li><a href='${project}/${module}/${f}.html'>${f}</a></li>`).join('') +
+    files.map(f => `<li><a href='${project}/${module}/${f}.html' target='_blank'>${f}</a></li>`).join('') +
     '</ul>';
 }
 function globalSearch() {
@@ -30,7 +130,7 @@ function globalSearch() {
     for (const module in mockupData[project]) {
       mockupData[project][module].forEach(file => {
         if (file.toLowerCase().includes(query)) {
-          results.push(`<li><a href='${project}/${module}/${file}.html'>${file}</a> <small style='color:gray;'>(${project} / ${module})</small></li>`);
+          results.push(`<li><a href='${project}/${module}/${file}.html' target='_blank'>${file}</a> <small style='color:gray;'>(${project} / ${module})</small></li>`);
         }
       });
     }
@@ -41,16 +141,20 @@ function globalSearch() {
 </head>
 <body>
 <header>
-  <div style="font-weight: 600; font-size: 1.25rem;"> HTML Mockups Index</div>
+  <div style="font-weight: 600; font-size: 1.25rem;"><span style="margin-right: 8px;">📄</span>HTML Mockups Index</div>
   <input type="text" id="global-search" placeholder="Search all mockups..." style="padding: 6px 10px; border-radius: 6px; border: none; font-size: 0.95rem; width: 250px;" oninput="globalSearch()" />
   <span style="font-size: 0.9rem; font-weight: 300;">by navalspectator</span>
 </header>
 <div class='container'>
 <aside>
-<h3>SN</h3>
+<details>
+<summary><span>SN</span><span class="toggle-icon">+</span></summary>
 <div class="module-link" onclick="loadModule('SN', 'Business Intelligence')">Business Intelligence</div>
+<div class="module-link" onclick="loadModule('SN', 'Data_Integration')">Data_Integration</div>
 <div class="module-link" onclick="loadModule('SN', 'Data_Management')">Data_Management</div>
-<h3>EH4S</h3>
+</details>
+<details>
+<summary><span>EH4S</span><span class="toggle-icon">+</span></summary>
 <div class="module-link" onclick="loadModule('EH4S', 'Components')">Components</div>
 <div class="module-link" onclick="loadModule('EH4S', 'EET')">EET</div>
 <div class="module-link" onclick="loadModule('EH4S', 'JMP')">JMP</div>
@@ -59,10 +163,11 @@ function globalSearch() {
 <div class="module-link" onclick="loadModule('EH4S', 'Sign in')">Sign in</div>
 <div class="module-link" onclick="loadModule('EH4S', 'Vitrine')">Vitrine</div>
 <div class="module-link" onclick="loadModule('EH4S', 'eh4s platform page')">eh4s platform page</div>
+</details>
 </aside>
 <main>
 <div id='mockup-area'><p>Select a module to view mockups.</p></div>
 </main>
-<footer style='padding: 0 2rem; position: fixed; bottom: 0; width: 100%; background: #eee;'>&copy; Last updated: 2025-04-17 19:22:32</footer>
+<footer style='padding: 0 2rem; position: fixed; bottom: 0; width: 100%; background: #eee;'>&copy; Last updated: 2025-04-23 21:26:35</footer>
 </div>
 </body></html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SmartNavigatorDI UI</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .tab-active { 
+      color: #2563eb; /* text-blue-600 */
+      font-weight: 600; /* font-semibold */
+      border-bottom-width: 2px; /* border-b-2 */
+      border-color: #2563eb; /* border-blue-600 */
+    }
+    .progress-bar {
+      height: 10px;
+      border-radius: 4px;
+    }
+    .loader { 
+      border: 3px solid #f3f3f3;
+      border-top: 3px solid #3498db;
+      border-radius: 50%;
+      width: 20px;
+      height: 20px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    [data-tooltip]:hover:after {
+      content: attr(data-tooltip);
+      position: absolute;
+      background-color: #1f2937; /* bg-gray-800 */
+      color: #ffffff; /* text-white */
+      padding: 0.25rem 0.5rem; /* px-2 py-1 */
+      border-radius: 0.25rem; /* rounded */
+      font-size: 0.75rem; /* text-xs */
+      margin-top: -2rem; /* -mt-8 */
+    }
+  </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Main Content -->
+    <div class="flex-1 flex flex-col">
+      <!-- Top Navigation -->
+      <nav class="bg-white border-b px-4 py-2">
+        <div class="flex gap-4">
+          <button onclick="switchTab('home')" class="tab-btn px-4 py-2" data-tab="home">Home</button>
+          <button onclick="switchTab('pipelines')" class="tab-btn px-4 py-2" data-tab="pipelines">Pipelines</button>
+          <button onclick="switchTab('runs')" class="tab-btn px-4 py-2" data-tab="runs">Runs</button>
+        </div>
+      </nav>
+
+      <!-- Filter Bar -->
+      <div id="filterBar" class="bg-white border-b p-4 flex items-center gap-3" style="display: none;">
+        <input type="text" placeholder="Search..." class="border rounded px-3 py-1.5 w-48">
+        <div class="flex gap-2 flex-wrap">
+          <select class="border rounded px-2 py-1.5">
+            <option>Ontology</option>
+          </select>
+          <select class="border rounded px-2 py-1.5">
+            <option>Execution Type</option>
+          </select>
+          <select class="border rounded px-2 py-1.5">
+            <option>Run State</option>
+          </select>
+          <input type="date" class="border rounded px-2 py-1.5">
+        </div>
+      </div>
+
+      <!-- Main Content Area -->
+      <main id="mainContent" class="flex-1 p-4 overflow-auto">
+        <!-- Content loaded dynamically -->
+      </main>
+    </div>
+  </div>
+
+  <script>
+    let currentState = {
+      tab: 'home',
+      detailView: null
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Check for pipeline details view
+      const urlParams = new URLSearchParams(window.location.search);
+      const pipelineId = urlParams.get('id');
+      
+      if (window.location.pathname.includes('pipeline-details.html')) {
+        return; // Let pipeline-details.html handle its own view
+      }
+      
+      // Default to home tab
+      switchTab('home');
+    });
+
+    async function switchTab(tabName) {
+      currentState.tab = tabName;
+      currentState.detailView = null;
+
+      // Update UI
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        if (btn.getAttribute('data-tab') === tabName) {
+          btn.classList.add('border-b-2', 'border-blue-600', 'text-blue-600');
+        } else {
+          btn.classList.remove('border-b-2', 'border-blue-600', 'text-blue-600');
+        }
+      });
+
+      // Toggle filter bar
+      document.getElementById('filterBar').style.display = 
+        (tabName === 'home') ? 'none' : 'flex';
+
+      // Load content
+      const content = document.getElementById('mainContent');
+      if (tabName === 'home') {
+        showHomeContent();
+        return;
+      }
+
+      try {
+        const urlParams = new URLSearchParams(window.location.search);
+        const runId = urlParams.get('id');
+
+        // Check if we need to load run details
+        if (tabName === 'runs' && runId) {
+          const response = await fetch('run-details.html');
+          if (!response.ok) throw new Error('Failed to load run details');
+          const html = await response.text();
+          content.innerHTML = html;
+          return;
+        }
+
+        const response = await fetch(`${tabName}.html`);
+        if (!response.ok) throw new Error(`Failed to load ${tabName}`);
+        const html = await response.text();
+        content.innerHTML = html;
+      } catch (error) {
+        console.error('Error:', error);
+        content.innerHTML = `<div class="text-red-500">Error loading ${tabName}</div>`;
+      }
+    }
+
+    function showHomeContent() {
+      document.getElementById('mainContent').innerHTML = `
+        <div class="max-w-2xl mx-auto mt-8">
+          <h1 class="text-2xl font-bold mb-4">Welcome to SmartNavigatorDI</h1>
+          <p class="text-gray-600">Select a tab above to manage your pipelines and runs.</p>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
