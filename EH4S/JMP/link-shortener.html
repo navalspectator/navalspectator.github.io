@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>URL Renderer Mockups</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      margin: 20px;
+      background: #f9f9f9;
+      color: #333;
+    }
+    h2 {
+      margin-top: 40px;
+      border-bottom: 2px solid #ddd;
+      padding-bottom: 4px;
+    }
+    .mockup-block {
+      margin-top: 20px;
+      padding: 16px;
+      border: 1px solid #ccc;
+      border-radius: 12px;
+      background: white;
+      max-width: 600px;
+    }
+    .external-link {
+      display: inline-flex;
+      align-items: center;
+      color: #1976d2;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .external-link:hover {
+      text-decoration: underline;
+    }
+    .external-icon {
+      margin-left: 6px;
+      font-size: 14px;
+    }
+    .table-cell {
+      padding: 8px 12px;
+      border-bottom: 1px solid #eee;
+    }
+    .table {
+      border: 1px solid #ddd;
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 8px;
+    }
+    .button-link {
+      padding: 8px 16px;
+      border: 1px solid #1976d2;
+      background-color: white;
+      color: #1976d2;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+    }
+    .button-link:hover {
+      background-color: #f0f8ff;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Smart Navigator – URL Renderer Mockups</h1>
+
+<h2>1. Details Panel (Metadata)</h2>
+<div class="mockup-block">
+  <strong>URL:</strong>
+  <a class="external-link" href="http://hdl.handle.net/10366/39701" target="_blank" title="http://hdl.handle.net/10366/39701">
+    Access Full Publication
+    <span class="external-icon">↗</span>
+  </a>
+</div>
+
+<h2>2. Map View Event Pop-up (Truncated URL)</h2>
+<div class="mockup-block">
+  <strong>Source:</strong><br>
+  <a class="external-link" href="https://navalnews.com/naval-news/2022/04/turkish-mpa-detects-..." target="_blank" title="https://navalnews.com/naval-news/2022/04/turkish-mpa-detects-the-3rd-sea-mine-off-turkey-coast">
+    navalnews.com/…mine-off-turkey-coast
+    <span class="external-icon">↗</span>
+  </a>
+</div>
+
+<h2>3. Table View Cell (Compact Domain)</h2>
+<div class="mockup-block">
+  <table class="table">
+    <tr>
+      <th>Document</th>
+      <th>Source</th>
+    </tr>
+    <tr>
+      <td>China - URSS</td>
+      <td class="table-cell">
+        <a class="external-link" href="http://hdl.handle.net/10366/39701" target="_blank" title="http://hdl.handle.net/10366/39701">
+          hdl.handle.net/10366/…
+          <span class="external-icon">↗</span>
+        </a>
+      </td>
+    </tr>
+  </table>
+</div>
+
+<h2>4. Relation Panel (Node Link)</h2>
+<div class="mockup-block">
+  <strong>Linked Policy:</strong><br>
+  <a class="button-link" href="https://example.org/policy/445" target="_blank">
+    Policy Brief #445 <span class="external-icon">↗</span>
+  </a>
+</div>
+
+</body>
+</html>
